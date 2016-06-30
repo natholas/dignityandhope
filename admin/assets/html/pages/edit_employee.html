@@ -69,6 +69,10 @@
 
     <flex>
         <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.view_admin_users" id="permissions_view_admin_user" ng-disabled="!user.permissions.view_admin_users">
+            <label for="permissions_view_admin_user">View admin user</label>
+        </inputContainer>
+        <inputContainer>
             <input type="checkbox" ng-model="employee.permissions.add_admin_user" id="permissions_add_admin_user" ng-disabled="!user.permissions.add_admin_user">
             <label for="permissions_add_admin_user">Add admin user</label>
         </inputContainer>
@@ -80,6 +84,8 @@
             <input type="checkbox" ng-model="employee.permissions.change_admin_password" id="permissions_change_admin_user_password" ng-disabled="!user.permissions.change_admin_password">
             <label for="permissions_change_admin_user_password">Change admin user password</label>
         </inputContainer>
+    </flex>
+    <flex>
         <inputContainer>
             <input type="checkbox" ng-model="employee.permissions.remove_admin_user" id="permissions_remove_admin_user" ng-disabled="!user.permissions.remove_admin_user">
             <label for="permissions_remove_admin_user">Remove admin user</label>
