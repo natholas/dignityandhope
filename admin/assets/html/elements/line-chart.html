@@ -1,0 +1,51 @@
+
+<div>
+    <form name="line-chart-form" ng-submit="get_data()" novalidate="">
+        <flex>
+            <inputcontainer>
+                <input type="text" ng-model="from.d" class="filled" maxlength="2" required>
+                <label>From (DD)</label>
+            </inputcontainer>
+            <inputcontainer>
+                <input type="text" ng-model="from.m" class="filled" maxlength="2" required>
+                <label>From (MM)</label>
+            </inputcontainer>
+            <inputcontainer>
+                <input type="text" ng-model="from.y" class="filled" maxlength="4" minlength="4" required>
+                <label>From (YYYY)</label>
+            </inputcontainer>
+        </flex>
+        <flex>
+            <inputcontainer>
+                <input type="text" ng-model="to.d" class="filled" maxlength="2" required>
+                <label>To (DD)</label>
+            </inputcontainer>
+            <inputcontainer>
+                <input type="text" ng-model="to.m" class="filled" maxlength="2" required>
+                <label>To (MM)</label>
+            </inputcontainer>
+            <inputcontainer>
+                <input type="text" ng-model="to.y" class="filled" maxlength="4" minlength="4" required>
+                <label>To (YYYY)</label>
+            </inputcontainer>
+        </flex>
+        <button>Apply</button>
+        <clearfix></clearfix>
+    </form>
+    <chart>
+        <div>
+            <column ng-repeat="point in points track by $index">
+                <div>
+                    <tooltip ng-style="{'bottom': data[$index] / max * 100 + '%'}">{{data[$index]}}</tooltip>
+                </div>
+                <column-name>{{point}}</column-name>
+            </column>
+        </div>
+        <side-markers>
+            <marker ng-repeat="marker in markers track by $index"><b>{{marker}}</b><span></span></marker>
+        </side-markers>
+        <svg height="100" width="300" viewBox="0 0 300 100" preserveAspectRatio="none">
+            <path ng-d="path"/>
+        </svg>
+    </chart>
+</div>

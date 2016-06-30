@@ -1,0 +1,26 @@
+<h1>New Organization</h1>
+<form name="add_organization" ng-submit="add_organization.$valid && saveOrganization()" ng-show="user.permissions.add_org" novalidate>
+    <flex>
+        <inputContainer>
+            <input type="text" ng-model="organization.name" ng-class="{filled: organization.name}" id="first_input" required>
+            <label>Name</label>
+        </inputContainer>
+    </flex>
+    <flex>
+        <inputContainer>
+            <input type="text" ng-model="organization.website_link" ng-class="{filled: organization.website_link}" required>
+            <label>Website</label>
+        </inputContainer>
+    </flex>
+
+
+    <h2 class="section-title">Description</h2>
+
+    <flex>
+        <inputContainer>
+            <textarea ng-model="organization.description" ng-class="{filled: organization.description}" required></textarea>
+            <label>Description</label>
+        </inputContainer>
+    </flex>
+    <input type="submit" value="Save">
+</form>

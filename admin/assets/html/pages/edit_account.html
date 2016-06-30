@@ -1,0 +1,70 @@
+<h1>Edit profile</h1>
+<investment>
+    <br>
+    <flex>
+        <div>
+            <div>
+                Username<br>
+                <h2>{{profile.username}}</h2>
+            </div>
+        </div>
+        <div>
+            <div>
+                Email<br>
+                <h2>{{profile.email}}</h2>
+            </div>
+        </div>
+        <div>
+            <div>
+                Organization<br>
+                <h2>{{profile.organization}}</h2>
+            </div>
+        </div>
+    </flex>
+    <br><br>
+</investment>
+
+<br><br>
+
+<form name="edit_profile" ng-submit="edit_profile.$valid && updateAccount()" novalidate>
+    <flex>
+        <inputContainer>
+            <input type="text" ng-model="profile.username" ng-class="{filled: profile.username}" required>
+            <label>Username</label>
+        </inputContainer>
+    </flex>
+    <flex>
+        <inputContainer>
+            <input type="text" ng-model="profile.email" ng-class="{filled: profile.email}" required>
+            <label>Email address</label>
+        </inputContainer>
+    </flex>
+
+    <hr>
+    <br>
+
+    <div>
+        <h2 class="section-title">Change your Password</h2>
+        <flex>
+            <inputContainer>
+                <input type="password" ng-model="profile.newpassword" ng-class="{filled: profile.newpassword}">
+                <label>New password</label>
+            </inputContainer>
+            <inputContainer>
+                <input type="password" ng-model="profile.repeat_newpassword" ng-class="{filled: profile.repeat_newpassword}" ng-required="profile.newpassword">
+                <label>Repeat new password</label>
+            </inputContainer>
+        </flex>
+    </div>
+    <input type="submit" value="Update">
+    <clearfix></clearfix>
+</form>
+
+
+<button ng-show="user.permissions.remove_admin_user && !removing_user" ng-click="removing_user = true;" class="red floatleft">Delete this profile</button>
+
+<form name="remove_user" ng-submit="remove_user.$valid && removeEmployee()" ng-show="removing_user">
+    <input type="password" ng-model="confirm_password" class="small autowidth floatleft filled">
+    <label>Confirm your Password</label>
+    <input type="submit" class="big floatleft" value="Confirm removal">
+</form>

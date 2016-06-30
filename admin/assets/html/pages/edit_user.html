@@ -1,0 +1,64 @@
+<h1>Edit user</h1>
+<investment>
+    <br>
+    <flex>
+        <div>
+            <div>
+                Username<br>
+                <h2>{{user.first_name}} {{user.last_name}}</h2>
+            </div>
+        </div>
+        <div>
+            <div>
+                Email<br>
+                <h2>{{user.email}}</h2>
+            </div>
+        </div>
+    </flex>
+    <br><br>
+</investment>
+
+<br><br>
+
+<form name="edit_user" ng-submit="edit_user.$valid && updateUser()" ng-show="me.permissions.edit_user" novalidate>
+    <flex>
+        <inputContainer>
+            <input type="text" ng-model="user.first_name" ng-class="{filled: user.first_name}" required>
+            <label>Firstname</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="text" ng-model="user.last_name" ng-class="{filled: user.last_name}" required>
+            <label>Lastname</label>
+        </inputContainer>
+    </flex>
+    <flex>
+        <inputContainer>
+            <input type="text" ng-model="user.email" ng-class="{filled: user.email}" required>
+            <label>Email address</label>
+        </inputContainer>
+    </flex>
+
+    <div ng-show="me.permissions.change_user_password">
+        <h2 class="section-title">Change {{user.first_name}}'s Password</h2>
+        <flex>
+            <inputContainer>
+                <input type="text" ng-model="user.newpassword" ng-class="{filled: user.newpassword}">
+                <label>New password</label>
+                <br><br>
+                <input type="checkbox" ng-model="user.send_mail" id="send_new_password_via_email">
+                <label for="send_new_password_via_email">Send to user</label>
+            </inputContainer>
+        </flex>
+    </div>
+    <input type="submit" value="Update">
+    <clearfix></clearfix>
+</form>
+
+
+<button ng-show="me.permissions.remove_user && !removing_user" ng-click="removing_user = true;" class="red floatleft">Delete this user</button>
+
+<form name="remove_user" ng-submit="remove_user.$valid && removeUser()" ng-show="removing_user">
+    <input type="password" ng-model="confirm_password" class="small autowidth floatleft filled">
+    <label>Confirm your Password</label>
+    <input type="submit" class="big floatleft" value="Confirm removal">
+</form>

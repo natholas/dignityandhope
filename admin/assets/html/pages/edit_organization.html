@@ -1,0 +1,62 @@
+<h1>Edit organization</h1>
+<investment>
+    <br>
+    <flex>
+        <div>
+            <div>
+                Name<br>
+                <h2>{{organization.name}}</h2>
+            </div>
+        </div>
+        <div>
+            <div>
+                Website<br>
+                <h2>{{organization.website_link}}</h2>
+            </div>
+        </div>
+        <div>
+            <div>
+                Status<br>
+                <h2>{{organization.active}}</h2>
+            </div>
+        </div>
+    </flex>
+    <br><br>
+</investment>
+
+<br><br>
+
+<form name="edit_organization" ng-submit="edit_organization.$valid && updateOrganization()" ng-show="user.permissions.edit_org" novalidate>
+    <flex>
+        <inputContainer>
+            <input type="text" ng-model="organization.name" ng-class="{filled: organization.name}" required>
+            <label>Name</label>
+        </inputContainer>
+    </flex>
+    <flex>
+        <inputContainer>
+            <input type="text" ng-model="organization.website_link" ng-class="{filled: organization.website_link}" required>
+            <label>Website</label>
+        </inputContainer>
+    </flex>
+
+
+    <h2 class="section-title">Description</h2>
+
+    <flex>
+        <inputContainer>
+            <textarea ng-model="organization.description" ng-class="{filled: organization.description}" required></textarea>
+            <label>Description</label>
+        </inputContainer>
+    </flex>
+    <input type="submit" value="Update">
+</form>
+
+
+<button ng-show="user.permissions.remove_org && !removing_org" ng-click="removing_org = true;" class="red floatleft">Delete this organization</button>
+
+<form name="remove_org" ng-submit="remove_org.$valid && removeOrganization()" ng-show="removing_org">
+    <input type="password" ng-model="confirm_password" class="small autowidth floatleft filled">
+    <label>Confirm your Password</label>
+    <input type="submit" class="big floatleft" value="Confirm removal">
+</form>

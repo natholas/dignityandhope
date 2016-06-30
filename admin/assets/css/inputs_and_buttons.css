@@ -1,0 +1,461 @@
+/*
+
+Background: #ebf0f0
+Main: #3597d3
+Accent: #2880b8
+Copy: #2c3e50
+Red: #e84c3d
+
+*/
+
+
+/*Links and buttons*/
+
+a {
+    color: #3597d3;
+    text-decoration: none;
+    transition: all .2s ease;
+}
+
+button,
+.button,
+input[type="submit"]
+{
+    padding: 0.5em 1em;
+    background: #3597d3;
+    color: #ebf0f0!important;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 2px solid #3597d3;
+    outline: none;
+    cursor: pointer;
+    transition: all .2s ease;
+    float: right;
+    width: auto;
+    font-size: 1em;
+}
+
+button.centerbutton,
+.button.centerbutton,
+input[type="submit"].centerbutton
+{
+    display: table;
+    margin: 0 auto;
+    float: none;
+}
+
+button.red,
+.button.red,
+input[type="submit"].red
+{
+    background: #e84c3d;
+    color: #ebf0f0;
+    border-color: #e84c3d;
+}
+
+button.secondary,
+.button.secondary,
+input[type="submit"].secondary
+{
+    background: transparent;
+    border-color: #3597d3;
+    color: #3597d3!important;
+}
+
+.negative button,
+.negative .button,
+.negative input[type="submit"]
+{
+    background: #ebf0f0;
+    color: #3597d3!important;
+}
+
+button.big,
+.button.big,
+input[type="submit"].big
+{
+    padding:0.75em  1em;
+    margin-left: 1em;
+}
+
+input[type="submit"]
+{
+    transform: translate(0,0)!important;
+    padding: 0.5em 1em!important;
+}
+
+
+/*Links and buttons hover states*/
+
+a:hover
+{
+    color: #2880b8;
+}
+
+button:hover,
+.button:hover,
+input[type="submit"]:hover
+{
+    background: #2880b8;
+}
+
+.negative button:hover,
+.negative .button:hover,
+.negative input[type="submit"]:hover
+{
+    background: #ebf0f0;
+    color: #3597d3!important;
+    opacity: 0.8;
+}
+
+button.secondary:hover,
+.button.secondary:hover,
+input[type="submit"].secondary:hover
+{
+    border-color: #2880b8;
+    background: transparent;
+    color: #2880b8;
+}
+
+button.red:hover,
+.button.red:hover,
+input[type="submit"].red:hover
+{
+    background: #e84c3d;
+    color: #ebf0f0;
+    border-color: #e84c3d;
+}
+
+
+/*Links and buttons active states*/
+
+a:active,
+button.secondary:active,
+.button.secondary:active,
+input[type="submit"].secondary:active
+{
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+button:active,
+.button:active,
+input[type="submit"]:active
+{
+    box-shadow: 1px 1px 8px 0px rgba(0,0,0,0.25);
+}
+
+/*Button group*/
+
+.button_group > *
+{
+    margin-right: 1em;
+}
+
+.button_group > *:first-child
+{
+    margin-right: 0;
+}
+
+/*Input container*/
+
+inputContainer
+{
+    display: block;
+    padding: 2em 0 2em 0;
+    position: relative;
+}
+
+/*Input and label*/
+
+input,
+select,
+textarea
+{
+    padding: 0.25em 0.5em;
+    background: rgba(44,62,80, 0.1);
+    border-color: #2c3e50;
+    border-width: 4px 0 4px 0;
+    outline: none;
+    transform: translate(0,0);
+    transition: all .4s ease;
+    font-size: 1.5em;
+    width: 100%;
+    font-weight: bold;
+    box-sizing: border-box;
+    position: relative;
+    border-style: solid;
+    z-index: 2;
+}
+
+select option
+{
+    color: #2c3e50;
+    background: #ebf0f0;
+}
+
+input.autowidth,
+select.autowidth,
+textarea.autowidth
+{
+    width: auto;
+}
+
+input.small,
+select.small,
+textarea.small
+{
+    font-size: 1em;
+    transform: translate(0,0)!important;
+}
+
+textarea
+{
+    height: 10em;
+    resize: vertical;
+    line-height: 1.5em;
+}
+
+.negative input,
+.negative select,
+.negative textarea
+{
+    border-color: #ebf0f0;
+    color: #ebf0f0;
+    background-color: rgba(235, 240, 240, 0.1);
+}
+
+.negative label
+{
+    color: #ebf0f0;
+}
+
+textarea::-webkit-scrollbar {
+    display: none;
+}
+
+input + label,
+select + label,
+textarea + label
+{
+    display: block;
+    padding: 0 0.5em;
+    transform: translate(0,-2.125em);
+    position: absolute;
+    transition: all .4s ease;
+    z-index: 0;
+}
+
+textarea + label
+{
+    top: 0;
+    transform: translate(0,0.5em);
+}
+
+
+/*Input and label hover*/
+
+input:hover,
+select:hover
+{
+    padding:0.35em 0.5em;
+    transform: translate(0,-0.05em);
+}
+
+input:hover + label,
+select:hover + label
+{
+    transform: translate(0,-3em);
+}
+
+
+/*Input and label invalid*/
+
+input.ng-invalid.ng-dirty,
+select.ng-invalid.ng-dirty,
+textarea.ng-invalid.ng-dirty,
+.ng-submitted input.ng-invalid,
+.ng-submitted select.ng-invalid,
+.ng-submitted textarea.ng-invalid
+{
+    border-color: #e84c3d;
+    background: rgba(232, 61, 1, 0.1);
+}
+
+input.ng-invalid.ng-dirty + label,
+select.ng-invalid.ng-dirty + label,
+textarea.ng-invalid.ng-dirty + label,
+.ng-submitted input.ng-invalid + label,
+.ng-submitted select.ng-invalid + label,
+.ng-submitted textarea.ng-invalid + label
+{
+    color: #e84c3d;
+}
+
+
+/*Input and label focus*/
+
+input:focus,
+input.filled,
+select:focus,
+select.filled
+{
+    padding:0.5em 0.5em;
+    transform: translate(0,-0.125em);
+}
+
+input:focus + label,
+input.filled + label,
+select:focus + label,
+select.filled + label
+{
+    transform: translate(-0.5em,-5.3em);
+}
+
+input.small:focus + label,
+input.small.filled + label,
+select.small:focus + label,
+select.small.filled + label
+{
+    transform: translate(-0.5em, -1.4em);
+}
+
+/*Checkbox*/
+
+input[type="checkbox"]
+{
+    width: auto;
+    float: left;
+    width:0;
+    height: 0;
+    opacity: 0;
+    margin: 0;
+}
+
+input[type="checkbox"] + label
+{
+    position: relative;
+    transform: translate(0,0);
+    z-index: 0;
+    padding-left: 2.5em;
+    padding-top: 0.3em;
+    cursor: pointer;
+    float:left;
+    display: block;
+}
+
+input[type="checkbox"] + label::before,
+input[type="checkbox"] + label::after
+{
+    position: absolute;
+    content: "";
+    width: 1.5em;
+    height: 1.5em;
+    left:0;
+    border: 0.2em solid #2c3e50;
+    transition: all .2s ease;
+    left:0;
+    top:0;
+    cursor: pointer;
+}
+
+.negative input[type="checkbox"] + label
+{
+    color: #ebf0f0;
+}
+
+.negative input[type="checkbox"] + label::before
+{
+    border-color: #ebf0f0;
+}
+
+.negative input[type="checkbox"] + label::after
+{
+    background-color: transparent;
+    border-color: #ebf0f0;
+}
+
+/*Checkbox checked*/
+
+input[type="checkbox"]:checked + label::after
+{
+    background-color:#2c3e50;
+    left: 0.375em;
+    top: 0.375em;
+    width: 0.75em;
+    height: 0.75em;
+}
+
+.negative input[type="checkbox"]:checked + label::after
+{
+    background-color: #ebf0f0;
+}
+
+/*Checkbox disabled*/
+
+input[type="checkbox"]:disabled + label
+{
+    opacity: 0.35;
+}
+
+/*File upload*/
+
+input[type="file"]
+{
+    width: auto;
+    float: left;
+    width: 25vw;
+    height: 25vw;
+    max-width: 16em;
+    max-height: 16em;
+    box-sizing: border-box;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+}
+
+input[type="file"] + label
+{
+    position: absolute;
+    transform: translate(0,0);
+    left: 0; top: 2em; right: 0;bottom: 2em;
+    z-index: 0;
+    padding: 7.5em 0;
+    text-align: center;
+    cursor: pointer;
+    float:left;
+    display: block;
+    border-width: 0;
+}
+
+/*Delete*/
+
+delete,
+rotate,
+pos
+{
+    display: block;
+    flex-basis: 4em;
+    cursor: pointer;
+    background: url("/assets/images/icons/delete.svg") no-repeat center;
+    background-size: contain;
+    position: absolute;
+    top: 0.5em;
+    right: 0;
+    height: 1em;
+    width: 1em;
+    z-index: 5;
+}
+
+rotate
+{
+    background: url("/assets/images/icons/rotate.svg") no-repeat center;
+    right: auto;
+    left: 0;
+}
+
+pos
+{
+    background: url("/assets/images/icons/move.svg") no-repeat center;
+    right: auto;
+    left: 2em;
+}

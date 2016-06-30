@@ -1,0 +1,243 @@
+<prompt ng-show="prompts.login">
+    <h2>Login</h2>
+    <form name="login_form" ng-submit="login_form.$valid && login()" novalidate>
+        <flex>
+            <inputContainer>
+                <input type="text" ng-model="login_info.username" ng-class="{filled: login_info.username}" required>
+                <label>Username</label>
+            </inputContainer>
+            <inputContainer class="no-animate-children">
+                <input type="password" ng-model="login_info.password" ng-class="{filled: login_info.password}" ng-required="!show_password" ng-show="!show_password">
+                <label ng-show="!show_password">Password</label>
+                <input type="text" ng-model="login_info.password" ng-class="{filled: login_info.password}" ng-required="show_password" ng-show="show_password">
+                <label ng-show="show_password">Password</label>
+            </inputContainer>
+        </flex>
+        <input type="submit" value="Login">
+        <input type="checkbox" ng-model="show_password" id="check">
+        <label for="check"><span ng-show="!show_password" class="no-animate">Show</span><span ng-show="show_password" class="no-animate">Hide</span> password</label>
+    </form>
+    <clearfix></clearfix>
+    <a href="" ng-click="sendresetemail = true">Forgot your password?</a>
+</prompt>
+
+
+<prompt ng-show="sendresetemail">
+    <h2>Send reset code</h2>
+    <a href="" ng-click="sendresetemail = false">Back to login</a>
+    <form name="send_reset_form" ng-submit="send_reset_form.$valid && sendreset()" novalidate>
+        <flex>
+            <inputContainer>
+                <input type="email" ng-model="login_info.email" ng-class="{filled: login_info.email}" autocomplete="off" required>
+                <label>Email address</label>
+            </inputContainer>
+        </flex>
+        <input type="submit" value="Send Reset Code">
+    </form>
+</prompt>
+
+<prompt ng-show="sent_reset_email">
+    <h2>Enter reset code</h2>
+    <a href="" ng-click="sent_reset_email = false">Back to login</a>
+    <form name="confirm_code" ng-submit="confirm_code.$valid && check_code()" novalidate>
+        <p>We have sent a reset code to {{login_info.email}}. Please enter it below</p>
+        <flex>
+            <inputContainer>
+                <input type="text" ng-model="login_info.code" ng-class="{filled: login_info.code}" autocomplete="off" required>
+                <label>Reset code</label>
+            </inputContainer>
+        </flex>
+        <flex>
+            <inputContainer>
+                <input type="password" ng-model="login_info.newpassword" ng-class="{filled: login_info.newpassword}" autocomplete="off" required>
+                <label>New password</label>
+            </inputContainer>
+            <inputContainer>
+                <input type="password" ng-model="login_info.repeat_newpassword" ng-class="{filled: login_info.repeat_newpassword}" autocomplete="off" required>
+                <label>Repeat new password</label>
+            </inputContainer>
+        </flex>
+        <input type="submit" value="Continue">
+    </form>
+</prompt>
+
+
+<prompt ng-show="prompts.investment_filter">
+    <close ng-click="hide_prompts('investment_filter')"></close>
+    <h2>Filter investments</h2>
+    <flex>
+        <inputContainer>
+            <select ng-model="investments.settings.order_by" class="filled" required>
+                <option value="investment_id DESC">Newest to oldest</option>
+                <option value="investment_id ASC">Oldest to newest</option>
+                <option value="name ASC">Name (A-Z)</option>
+                <option value="name DESC">Name (Z-A)</option>
+                <option value="amount_needed DESC">Needed (Highest first)</option>
+                <option value="amount_needed ASC">Needed (Lowest first)</option>
+                <option value="amount_invested DESC">Invested (Highest first)</option>
+                <option value="amount_invested ASC">Invested (Lowest first)</option>
+            </select>
+            <label>Order by</label>
+        </inputContainer>
+        <inputContainer>
+            <select ng-model="investments.settings.filter.organization_id" class="filled" required>
+                <option value="any">Any</option>
+                <option ng-repeat="organization in organizations.organizations" value="{{organization.organization_id}}">{{organization.name}}</option>
+            </select>
+            <label>Organization</label>
+        </inputContainer>
+    </flex>
+    <flex>
+        <inputContainer>
+            <input type="text" ng-model="investments.settings.filter.search" ng-class="{filled: investments.settings.filter.search}">
+            <label>Search for name</label>
+        </inputContainer>
+    </flex>
+    <inputContainer>
+        <input type="checkbox" ng-model="investments.settings.filter.drafts" id="show_drafts">
+        <label for="show_drafts">Drafts</label>
+        <input type="checkbox" ng-model="investments.settings.filter.pending" id="show_pending">
+        <label for="show_pending">Pending</label>
+        <input type="checkbox" ng-model="investments.settings.filter.live" id="show_live">
+        <label for="show_live">Live</label>
+        <input type="checkbox" ng-model="investments.settings.filter.ended" id="show_ended">
+        <label for="show_ended">Ended</label>
+
+        <div ng-show="user.permissions.view_removed_investments">
+            <input type="checkbox" ng-model="investments.settings.filter.removed" id="show_removed">
+            <label for="show_removed">Removed</label>
+        </div>
+    </inputContaineriv>
+
+    <clearfix></clearfix>
+    <br>
+
+    <button ng-click="load_investments()" class="big">Apply</button>
+</prompt>
+
+<prompt ng-show="prompts.product_filter">
+    <close ng-click="hide_prompts('product_filter')"></close>
+    <h2>Filter products</h2>
+    <flex>
+        <inputContainer>
+            <select ng-model="products.settings.order_by" class="filled" required>
+                <option value="product_id DESC">Newest to oldest</option>
+                <option value="product_id ASC">Oldest to newest</option>
+                <option value="name ASC">Name (A-Z)</option>
+                <option value="name DESC">Name (Z-A)</option>
+                <option value="amount_needed DESC">Needed (Highest first)</option>
+                <option value="amount_needed ASC">Needed (Lowest first)</option>
+                <option value="amount_invested DESC">Invested (Highest first)</option>
+                <option value="amount_invested ASC">Invested (Lowest first)</option>
+            </select>
+            <label>Order by</label>
+        </inputContainer>
+        <inputContainer>
+            <select ng-model="products.settings.filter.organization_id" class="filled" required>
+                <option value="any">Any</option>
+                <option ng-repeat="organization in organizations.organizations" value="{{organization.organization_id}}">{{organization.name}}</option>
+            </select>
+            <label>Organization</label>
+        </inputContainer>
+    </flex>
+    <flex>
+        <inputContainer>
+            <input type="text" ng-model="products.settings.filter.search" ng-class="{filled: products.settings.filter.search}">
+            <label>Search for name</label>
+        </inputContainer>
+    </flex>
+    <inputContainer>
+        <input type="checkbox" ng-model="products.settings.filter.drafts" id="products_show_drafts">
+        <label for="products_show_drafts">Drafts</label>
+        <input type="checkbox" ng-model="products.settings.filter.pending" id="products_show_pending">
+        <label for="products_show_pending">Pending</label>
+        <input type="checkbox" ng-model="products.settings.filter.live" id="products_show_live">
+        <label for="products_show_live">Live</label>
+
+        <div ng-show="user.permissions.view_removed_products">
+            <input type="checkbox" ng-model="products.settings.filter.removed" id="products_show_removed">
+            <label for="products_show_removed">Removed</label>
+        </div>
+    </inputContaineriv>
+
+    <clearfix></clearfix>
+    <br>
+
+    <button ng-click="load_products()" class="big">Apply</button>
+</prompt>
+
+
+<prompt ng-show="prompts.email_filter">
+    <close ng-click="hide_prompts('email_filter')"></close>
+    <h2>Filter emails</h2>
+    <flex>
+        <inputContainer>
+            <select ng-model="emails.settings.order_by" class="filled" required>
+                <option value="email_id DESC">Newest to oldest</option>
+                <option value="email_id ASC">Oldest to newest</option>
+                <option value="subject ASC">Subject (A-Z)</option>
+                <option value="subject DESC">Subject (Z-A)</option>
+            </select>
+            <label>Order by</label>
+        </inputContainer>
+        <inputContainer>
+            <select ng-model="emails.settings.filter.organization_id" class="filled" required>
+                <option value="any">Any</option>
+                <option ng-repeat="organization in organizations.organizations" value="{{organization.organization_id}}">{{organization.name}}</option>
+            </select>
+            <label>Organization</label>
+        </inputContainer>
+    </flex>
+    <flex>
+        <inputContainer>
+            <input type="text" ng-model="emails.settings.filter.search" ng-class="{filled: emails.settings.filter.search}">
+            <label>Search for name</label>
+        </inputContainer>
+    </flex>
+    <inputContainer>
+        <input type="checkbox" ng-model="emails.settings.filter.drafts" id="emails_show_drafts">
+        <label for="emails_show_drafts">Drafts</label>
+        <input type="checkbox" ng-model="emails.settings.filter.pending" id="emails_show_pending">
+        <label for="emails_show_pending">Pending</label>
+        <input type="checkbox" ng-model="emails.settings.filter.sent" id="emails_show_sent">
+        <label for="emails_show_sent">Sent</label>
+    </inputContaineriv>
+
+    <clearfix></clearfix>
+    <br>
+
+    <button ng-click="load_emails()" class="big">Apply</button>
+</prompt>
+
+<prompt ng-show="prompts.users_filter">
+    <close ng-click="hide_prompts('users_filter')"></close>
+    <h2>Filter users</h2>
+    <flex>
+        <inputContainer>
+            <select ng-model="users.settings.order_by" class="filled" required>
+                <option value="user_id DESC">Newest to oldest</option>
+                <option value="user_id ASC">Oldest to newest</option>
+            </select>
+            <label>Order by</label>
+        </inputContainer>
+        <inputContainer>
+
+        </inputContainer>
+    </flex>
+    <flex>
+        <inputContainer>
+            <input type="text" ng-model="users.settings.filter.search" ng-class="{filled: users.settings.filter.search}">
+            <label>Search for name</label>
+        </inputContainer>
+    </flex>
+
+    <button ng-click="load_users()" class="big">Apply</button>
+</prompt>
+
+
+<loading ng-show="waitingForServer"><h1>Loading...</h1></loading>
+
+<prompt-bg ng-show="prompt_info.count > 0"></prompt-bg>
+
+<message class="error" ng-class="{show: errorandmessages.error}">{{errorandmessages.error}}</message>
+<message class="message" ng-class="{show: errorandmessages.message}">{{errorandmessages.message}}</message>

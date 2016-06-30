@@ -1,0 +1,39 @@
+<toggle-sidebar ng-click="settings.sidebaropen = !settings.sidebaropen"></toggle-sidebar>
+<logo></logo>
+<category>
+    <h2>Dashboard</h2>
+    <a href="#/" class="icon_home" ng-class="{active: page_info.controller == 'dashboardCtrl'}"><span>Dashboard</span></a>
+</category>
+<category>
+    <h2>Investments</h2>
+    <a href="#/investments" class="icon_investments" ng-class="{active: page_info.controller == 'investmentsCtrl'}"><span>View investments<badge ng-show="unprocessed.investments > 0" data-badge="{{unprocessed.investments}}"></badge></span></a>
+    <a href="#/add_investment" class="icon_add_investment" ng-class="{active: page_info.controller == 'add_investmentCtrl'}" ng-show="user.permissions.add_investment"><span>New investment</span></a>
+</category>
+<category>
+    <h2>Products</h2>
+    <a href="#/products" class="icon_products" ng-class="{active: page_info.controller == 'productsCtrl'}"><span>View products<badge ng-show="unprocessed.products > 0" data-badge="{{unprocessed.products}}"></badge></span></a>
+    <a href="#/add_product" class="icon_add_product" ng-class="{active: page_info.controller == 'add_productCtrl'}" ng-show="user.permissions.add_product"><span>New product</span></a>
+</category>
+<category ng-show="user.permissions.view_admin_users || user.permissions.add_admin_user">
+    <h2>Employees</h2>
+    <a href="#/employees" class="icon_employees" ng-class="{active: page_info.controller == 'employeesCtrl'}" ng-show="user.permissions.view_admin_users"><span>View employees</span></a>
+    <a href="#/add_employee" class="icon_add_employee" ng-class="{active: page_info.controller == 'add_employeeCtrl'}" ng-show="user.permissions.add_admin_user"><span>New employee</span></a>
+</category>
+<category>
+    <h2>Organization</h2>
+    <a href="#/organizations" class="icon_organizations" ng-class="{active: page_info.controller == 'organizationCtrl'}"><span>View organizations</span></a>
+    <a href="#/add_organization" class="icon_add_organization" ng-class="{active: page_info.controller == 'add_orgznizationCtrl'}" ng-show="user.permissions.add_org"><span>New organization</span></a>
+</category>
+<category ng-show="user.permissions.draft_email || user.permissions.view_emails">
+    <h2>Emails</h2>
+    <a href="#/emails" class="icon_emails" ng-class="{active: page_info.controller == 'emailCtrl'}" ng-show-"user.permissions.view_emails"><span>View Emails<badge ng-show="unprocessed.emails > 0" data-badge="{{unprocessed.emails}}"></badge></span></a>
+    <a href="#/add_email" class="icon_add_email" ng-class="{active: page_info.controller == 'add_emailCtrl'}" ng-show="user.permissions.draft_email"><span>Send an email</span></a>
+</category>
+<category>
+    <h2>Users</h2>
+    <a href="#/users" class="icon_users" ng-class="{active: page_info.controller == 'usersCtrl'}"><span>View Users</span></a>
+</category>
+<category ng-show="user.permissions.get_totals">
+    <h2>Reporting</h2>
+    <a href="#/reporting" class="icon_reporting" ng-class="{active: page_info.controller == 'reportingCtrl'}"><span>Reporting</span></a>
+</category>

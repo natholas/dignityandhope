@@ -1,0 +1,88 @@
+<h1>New Email</h1>
+
+<form name="add_email" ng-submit="add_email.$valid && save_email()" novalidate>
+    <flex>
+        <inputContainer>
+            <input type="text" ng-model="email.subject" ng-class="{filled: email.subject}" required>
+            <label>Subject</label>
+        </inputContainer>
+        <inputContainer>
+            <select ng-model="type" ng-class="{filled: type}">
+                <option value="single">To one user</option>
+                <option value="investment">To investors</option>
+                <option value="product">To buyers</option>
+            </select>
+            <label>Email type</label>
+        </inputContainer>
+    </flex>
+
+    <flex ng-show="type == 'single'">
+        <inputContainer>
+            <input type="text" name="user_search_term" ng-model="user_search_term" ng-class="{filled: user_search_term}" ng-change="find_users()" ng-blur="pick_user(null, 100)" ng-required="type == 'single'">
+            <label>Send to</label>
+            <suggestions>
+                <suggestion ng-repeat="user in suggested_users track by $index" ng-click="pick_user(user.user_id, 0)">{{user.first_name}} {{user.last_name}} ({{user.email}})</suggestion>
+            </suggestions>
+        </inputContainer>
+    </flex>
+    <flex ng-show="type == 'investment'">
+        <inputContainer>
+            <input type="text" ng-model="investment_search_term" ng-class="{filled: investment_search_term}" ng-change="find_investments()" ng-blur="pick_investment(null, 100)" ng-required="type == 'investment'">
+            <label>Send to investors of</label>
+            <suggestions>
+                <suggestion ng-repeat="investment in suggested_investments track by $index" ng-click="pick_investment(investment.investment_id, 0)" class="hasImage">
+                    <suggestion-image ng-style="{'background-image':
+                        'url(/assets/images/investments/inv_' + investment.investment_id + '/img_' + investment.image.name + '_small.jpg',
+                        'transform': 'rotate(' +  investment.image.settings.rotation + 'deg)', 'background-position': investment.image.settings.position}">
+                    </suggestion-image>
+                    <span>{{investment.name}}</span>
+                    <clearfix></clearfix>
+                </suggestion>
+            </suggestions>
+        </inputContainer>
+    </flex>
+    <flex ng-show="type == 'product'">
+        <inputContainer>
+            <input type="text" ng-model="product_search_term" ng-class="{filled: product_search_term}" ng-change="find_products()" ng-blur="pick_product(null, 100)" ng-required="type == 'product'">
+            <label>Send to buyers of</label>
+            <suggestions>
+                <suggestion ng-repeat="product in suggested_products track by $index" ng-click="pick_product(product.product_id, 0)" class="hasImage">
+                    <suggestion-image ng-style="{'background-image':
+                        'url(/assets/images/products/prod_' + product.product_id + '/img_' + product.image.name + '_small.jpg',
+                        'transform': 'rotate(' +  product.image.settings.rotation + 'deg)', 'background-position': product.image.settings.position}">
+                    </suggestion-image>
+                    <span>{{product.name}}</span>
+                    <clearfix></clearfix>
+                </suggestion>
+            </suggestions>
+        </inputContainer>
+    </flex>
+
+    <flex>
+        <inputContainer>
+            <textarea ng-model="email.message" ng-class="{filled: email.message}" required></textarea>
+            <label>Message</label>
+        </inputContainer>
+    </flex>
+    <span>Use <strong>[FIRSTNAME]</strong> and <strong>[LASTNAME]</strong> to personalize the email.</span>
+    <br><br>
+    
+    <h2 class="section-title">Status</h2>
+    <flex>
+        <inputContainer>
+            <select ng-model="email.status" ng-class="{filled: email.status}">
+                <option ng-if="email.status != 'SENT'" value="DRAFT">Draft</option>
+                <option ng-if="email.status != 'SENT'" value="PENDING">Pending</option>
+                <option value="SENT" ng-if="user.permissions.send_email">Sent</option>
+                <option value="REMOVED" ng-if="email.status == 'REMOVED'">Removed</option>
+            </select>
+            <label>Status</label>
+        </inputContainer>
+        <inputContainer>
+
+        </inputContainer>
+    </flex>
+
+    <input type="submit" value="Save">
+    <clearfix></clearfix>
+</form>

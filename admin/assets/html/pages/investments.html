@@ -1,0 +1,54 @@
+<investments>
+    <h1 class="floatleft">Investments <span>({{investments.count}})</span></h1>
+    <br>
+    <div class="button_group">
+        <button ng-click="showFilter()">Filter</button>
+        <button ng-click="clearFilter()" class="secondary">Clear filter</button>
+    </div>
+
+    <clearfix></clearfix>
+
+    <investment ng-repeat="investment in investments.investments track by $index">
+        <a ng-href="#/edit_investment/{{investment.investment_id}}">
+            <div ng-if="investment.images.length" class="image" ng-style="{'background-image': 'url(/assets/images/investments/inv_' + investment.investment_id + '/img_' + investment.images[0].name + '_small.jpg)', 'transform': 'rotate(' +  investment.images[0].settings.rotation + 'deg)', 'background-position': investment.images[0].settings.position}"></div>
+            <div ng-if="!investment.images.length" class="image"></div>
+            <flex>
+                <div>
+                    <div>
+                        Name<br>
+                        <h2>{{investment.name}}</h2>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        Needed<br>
+                        <h2>{{investment.amount_needed | currency: "$"}}</h2>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        Raised<br>
+                        <h2>{{investment.amount_invested | currency: "$"}}</h2>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        Status<br>
+                        <h2>{{investment.status | capitalize}}</h2>
+                    </div>
+                </div>
+            </flex>
+        </a>
+    </investment>
+
+    <div class="end_of_results" ng-show="investments.investments.length >= investments.count">
+        <p>End of results</p>
+        <button ng-click="scroll_to_top()" class="centerbutton" ng-show="investments.count > 10">Back to top</button>
+    </div>
+
+    <investment ng-hide="investments.investments.length">
+        <a href="#/add_investment" class="button floatleft">Add an investment</a>
+        <clearfix></clearfix>
+        <br><br>
+    </investment>
+</investments>

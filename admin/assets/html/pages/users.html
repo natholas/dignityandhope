@@ -1,0 +1,41 @@
+<users>
+    <h1 class="floatleft">Users <span>({{users.count}})</span></h1>
+    <br>
+    <div class="button_group">
+        <button ng-click="showFilter()">Filter</button>
+        <button ng-click="clearFilter()" class="secondary">Clear filter</button>
+    </div>
+
+    <clearfix></clearfix>
+
+    <investment ng-repeat="user in users.users track by $index">
+        <a ng-href="#/edit_user/{{user.user_id}}">
+            <div class="image" ng-style="{'background-image': 'url(/assets/images/users/user_' + user.user_id + '.jpg)'}"></div>
+            <flex>
+                <div>
+                    <div>
+                        Name<br>
+                        <h2>{{user.first_name}} {{user.last_name}}</h2>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        Email address<br>
+                        <h2>{{user.email}}</h2>
+                    </div>
+                </div>
+            </flex>
+        </a>
+    </investment>
+
+    <div class="end_of_results" ng-show="users.users.length >= users.count">
+        <p>End of results</p>
+        <button ng-click="scroll_to_top()" class="centerbutton" ng-show="users.count > 10">Back to top</button>
+    </div>
+
+    <user ng-hide="users.users.length">
+        <a href="#/add_user" class="button floatleft">Add an user</a>
+        <clearfix></clearfix>
+        <br><br>
+    </user>
+</users>

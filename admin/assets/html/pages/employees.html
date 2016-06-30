@@ -1,0 +1,31 @@
+<investments>
+    <h1 class="floatleft">Employees</h1>
+    <br>
+    <clearfix></clearfix>
+    <investment ng-repeat="employee in employees track by $index" ng-if="employee.username != user.username">
+        <a ng-href="#/edit_employee/{{employee.user_id}}">
+            <flex>
+                <div>
+                    <div>
+                        Username<br>
+                        <h2>{{employee.username}}</h2>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        Email<br>
+                        <h2>{{employee.email}}</h2>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        Organization<br>
+                        <h2>{{employee.organization}}</h2>
+                    </div>
+                </div>
+            </flex>
+        </a>
+    </investment>
+    <br><br>
+    <a href="#/add_employee" class="button floatleft">Add a new employee</a>
+</investments>

@@ -1,0 +1,47 @@
+<h1>Edit Email</h1>
+<form name="edit_email" ng-submit="edit_email.$valid && updateEmail()" novalidate>
+    <flex>
+        <inputContainer>
+            <input type="text" ng-model="email.subject" ng-class="{filled: email.subject}" required>
+            <label>Subject</label>
+        </inputContainer>
+    </flex>
+    <flex>
+        <inputContainer>
+            <input type="text" name="user_search_term" ng-model="user_search_term" ng-class="{filled: user_search_term}" ng-change="find_users()" ng-blur="pick_user(null, 100)" ng-required="type == 'single'">
+            <label>To</label>
+            <suggestions>
+                <suggestion ng-repeat="user in suggested_users track by $index" ng-click="pick_user(user.user_id, 0)">{{user.first_name}} {{user.last_name}} ({{user.email}})</suggestion>
+            </suggestions>
+        </inputContainer>
+    </flex>
+
+    <flex>
+        <inputContainer>
+            <textarea ng-model="email.message" ng-class="{filled: email.message}" required></textarea>
+            <label>Message</label>
+        </inputContainer>
+    </flex>
+    <span>Use <strong>[FIRSTNAME]</strong> and <strong>[LASTNAME]</strong> to personalize the email.</span>
+    <br><br>
+
+    <h2 class="section-title">Status</h2>
+    <flex>
+        <inputContainer>
+            <select ng-model="email.status" ng-class="{filled: email.status}">
+                <option ng-if="email.status != 'SENT'" value="DRAFT">Draft</option>
+                <option ng-if="email.status != 'SENT'" value="PENDING">Pending</option>
+                <option value="SENT" ng-if="user.permissions.send_email">Sent</option>
+                <option value="REMOVED" ng-if="email.status == 'REMOVED'">Removed</option>
+            </select>
+            <label>Status</label>
+        </inputContainer>
+        <inputContainer>
+
+        </inputContainer>
+    </flex>
+
+    <input type="submit" value="Update">
+    <clearfix></clearfix>
+</form>
+<button ng-click="removeEmail()" class="red floatleft">Delete this email</button>

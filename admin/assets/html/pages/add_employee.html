@@ -1,0 +1,196 @@
+<h1>New employee</h1>
+<form name="add_empolyee" ng-submit="add_empolyee.$valid && saveEmployee()" novalidate>
+    <flex>
+        <inputContainer>
+            <input type="text" ng-model="employee.username" ng-class="{filled: employee.username}" required>
+            <label>Username</label>
+        </inputContainer>
+        <inputContainer>
+            <select ng-model="employee.organization_id" ng-class="{filled: employee.organization_id}" ng-change="changeOrg()" required>
+                <option ng-repeat="organization in organizations" value="{{organization.organization_id}}">{{organization.name}}</option>
+            </select>
+            <label>Organization</label>
+        </inputContainer>
+    </flex>
+    <flex>
+        <inputContainer>
+            <input type="text" ng-model="employee.email" ng-class="{filled: employee.email}" required>
+            <label>Email address</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="number" ng-model="employee.permissions.rank" ng-class="{filled: employee.permissions.rank}" ng-min="0" ng-max="user.permissions.rank" required>
+            <label>Employee rank</label>
+        </inputContainer>
+    </flex>
+
+
+    <h2 class="section-title">Permissions</h2>
+
+    <flex>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.login" id="permissions_login" ng-disabled="!user.permissions.login">
+            <label for="permissions_login">Login</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.reset_password" id="permissions_reset_password" ng-disabled="!user.permissions.reset_password">
+            <label for="permissions_reset_password">Reset password</label>
+        </inputContainer>
+        <div></div><div></div>
+    </flex>
+
+    <hr>
+
+    <flex>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.add_admin_user" id="permissions_add_admin_user" ng-disabled="!user.permissions.add_admin_user">
+            <label for="permissions_add_admin_user">Add admin user</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.edit_admin_user" id="permissions_edit_admin_user" ng-disabled="!user.permissions.edit_admin_user">
+            <label for="permissions_edit_admin_user">Edit admin user</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.change_admin_password" id="permissions_change_admin_user_password" ng-disabled="!user.permissions.change_admin_password">
+            <label for="permissions_change_admin_user_password">Change admin user password</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.remove_admin_user" id="permissions_remove_admin_user" ng-disabled="!user.permissions.remove_admin_user">
+            <label for="permissions_remove_admin_user">Remove admin user</label>
+        </inputContainer>
+    </flex>
+
+    <hr>
+
+    <flex>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.add_org" id="permissions_add_organizations" ng-disabled="!user.permissions.add_org">
+            <label for="permissions_add_organizations">Add organizations</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.edit_org" id="permissions_edit_organizations" ng-disabled="!user.permissions.edit_org">
+            <label for="permissions_edit_organizations">Edit organizations</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.remove_org" id="permissions_remove_organizations" ng-disabled="!user.permissions.remove_org">
+            <label for="permissions_remove_organizations">Remove organizations</label>
+        </inputContainer>
+        <div></div>
+    </flex>
+
+    <hr>
+
+    <flex>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.add_product" id="permissions_add_product" ng-disabled="!user.permissions.add_product">
+            <label for="permissions_add_product">Add product</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.edit_product" id="permissions_edit_product" ng-disabled="!user.permissions.edit_product">
+            <label for="permissions_edit_product">Edit product</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.publish_product" id="permissions_publish_product" ng-disabled="!user.permissions.publish_product">
+            <label for="permissions_publish_product">Publish product</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.edit_live_product" id="permissions_edit_live_product" ng-disabled="!user.permissions.edit_live_product">
+            <label for="permissions_edit_live_product">Edit live product</label>
+        </inputContainer>
+    </flex>
+    <flex>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.remove_product" id="permissions_remove_product" ng-disabled="!user.permissions.remove_product">
+            <label for="permissions_remove_product">Remove product</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.view_removed_products" id="permissions_view_removed_products" ng-disabled="!user.permissions.view_removed_products">
+            <label for="permissions_view_removed_products">View removed products</label>
+        </inputContainer>
+        <div></div><div></div>
+    </flex>
+
+    <hr>
+
+    <flex>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.add_investment" id="permissions_add_investment" ng-disabled="!user.permissions.add_investment">
+            <label for="permissions_add_investment">Add investment</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.edit_investment" id="permissions_edit_investment" ng-disabled="!user.permissions.edit_investment">
+            <label for="permissions_edit_investment">Edit investment</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.publish_investment" id="permissions_publish_investment" ng-disabled="!user.permissions.publish_investment">
+            <label for="permissions_publish_investment">Publish investment</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.edit_live_investment" id="permissions_edit_live_investment" ng-disabled="!user.permissions.edit_live_investment">
+            <label for="permissions_edit_live_investment">Edit live investment</label>
+        </inputContainer>
+    </flex>
+    <flex>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.remove_investment" id="permissions_remove_investment" ng-disabled="!user.permissions.remove_investment">
+            <label for="permissions_remove_investment">Remove investment</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.view_removed_investments" id="permissions_view_removed_investments" ng-disabled="!user.permissions.view_removed_investments">
+            <label for="permissions_view_removed_investments">View removed investments</label>
+        </inputContainer>
+        <div></div><div></div>
+    </flex>
+
+    <hr>
+
+    <flex>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.draft_email" id="permissions_draft_email" ng-disabled="!user.permissions.draft_email">
+            <label for="permissions_draft_email">Draft emails</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.send_email" id="permissions_send_email" ng-disabled="!user.permissions.send_email">
+            <label for="permissions_send_email">Send emails</label>
+        </inputContainer>
+        <div></div><div></div>
+    </flex>
+
+    <hr>
+
+    <flex>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.get_orders" id="permissions_get_orders" ng-disabled="!user.permissions.get_orders">
+            <label for="permissions_get_orders">View orders</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.get_order_details" id="permissions_get_order_details" ng-disabled="!user.permissions.get_order_details">
+            <label for="permissions_get_order_details">View order details</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.get_totals" id="permissions_get_totals" ng-disabled="!user.permissions.get_totals">
+            <label for="permissions_get_totals">View reporting</label>
+        </inputContainer>
+        <div></div>
+    </flex>
+
+    <hr>
+    <br>
+
+    <div>
+        <h2 class="section-title">Employee's Password</h2>
+        <flex>
+            <inputContainer>
+                <input type="text" ng-model="employee.password" ng-class="{filled: employee.password}">
+                <label>Password</label>
+            </inputContainer>
+        </flex>
+        <flex>
+            <inputContainer>
+                <input type="checkbox" ng-model="employee.send_mail" id="send_password_via_email">
+                <label for="send_password_via_email">Send to employee</label>
+            </inputContainer>
+        </flex>
+    </div>
+    <input type="submit" value="Save">
+    <clearfix></clearfix>
+</form>

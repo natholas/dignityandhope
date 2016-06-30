@@ -1,0 +1,783 @@
+/*
+
+Background: #ebf0f0
+Main: #3597d3
+Accent: #2880b8
+Copy: #2c3e50
+Red: #e84c3d
+
+*/
+
+
+/*Resets*/
+
+body
+{
+    margin: 0;
+}
+
+html,
+body,
+input,
+select,
+textarea,
+button
+{
+    font-size: 1em;
+    color: #2c3e50;
+    font-family: "Ubuntu", sans-serif;
+}
+
+
+/*Background*/
+
+body
+{
+    background: #ebf0f0;
+    color: #2c3e50;
+}
+
+
+/*Flex boxes*/
+
+flex
+{
+    display: flex;
+    width: 100%;
+    transition: opacity .5s ease;
+    position: relative;
+}
+
+.toDelete
+{
+    opacity: 0.3;
+}
+
+flex > *
+{
+    flex-basis: 100%;
+    margin-left: 1em;
+
+}
+
+flex > *:first-child
+{
+    margin-left: 0;
+}
+
+flex > *:only-child
+{
+    margin-left: 0;
+}
+
+
+/*Prompts*/
+
+prompt-bg
+{
+    position: fixed;
+    top: 0; right: 0; bottom: 0; left: 0;
+    z-index: 28;
+    background-color: rgba(44, 62, 80, 0.8);
+}
+
+prompt
+{
+    position: fixed;
+    z-index: 29;
+    background-color: #fff;
+    top: 10vh;
+    min-height: 10em;
+    width: 50%;
+    left: 25%;
+    padding: 1em;
+}
+
+prompt close
+{
+    position: absolute;
+    top: -0.5em;
+    right: -0.5em;
+    width: 2em;
+    height: 2em;
+    background-color:#3597d3;
+    cursor: pointer;
+}
+
+prompt close::before,
+prompt close::after
+{
+    position: absolute;
+    content: "";
+    background: #ebf0f0;
+    width: 0.1em;
+    height: 1.5em;
+    top: 0.25em;
+    transform: rotate(45deg);
+    left: 0.95em;
+}
+
+prompt close::after
+{
+    transform: rotate(-45deg);
+}
+
+prompt > h2:first-of-type
+{
+    margin: 0;
+}
+
+
+/*prompts hover*/
+
+prompt close:hover
+{
+    background-color: #2880b8;
+}
+
+
+/*Wrapper*/
+
+wrapper
+{
+    display: block;
+    box-sizing: border-box;
+    min-height: 100%;
+}
+
+.matchWrapper
+{
+    display: block;
+    box-sizing: border-box;
+}
+
+
+/*Container*/
+
+container
+{
+    display: block;
+    flex-grow: 1;
+    float:right;
+    width: calc(100% - 4em);
+    transition: width .5s ease;
+    overflow: hidden;
+}
+
+.open + container
+{
+
+    width: calc(100% - 20em);
+}
+
+
+/*Content*/
+
+content
+{
+    display: block;
+    padding: 1em 1em 3em 1em;
+    margin: 0 auto;
+    width: 70em;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+
+/*Sidebar*/
+
+sidebar
+{
+    display: block;
+    background-color: #2c3e50;
+    color: #ebf0f0;
+    box-sizing: border-box;
+    position: fixed;
+    transition: all .5s ease;
+    width:4em;
+    flex-shrink: 0;
+    float: left;
+    height: 100vh;
+    overflow-y: scroll;
+    padding-bottom: 5em;
+    z-index: 20;
+}
+
+sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+toggle-sidebar
+{
+    display: block;
+    position: fixed;
+    bottom:0; left:0; right:0;
+    height: 4em;
+    background: #3597d3;
+    cursor: pointer;
+    z-index: 4;
+    width: 4em;
+    box-sizing: border-box;
+    transition: all .5s ease;
+}
+
+toggle-sidebar::after
+{
+    background: url("/assets/images/icons/arrow.svg") no-repeat center;
+    background-size: auto 45%;
+    position: absolute;
+    right: 0.5em; top: 0.5em; bottom: 0.5em;
+    width: 3em;
+    content: "";
+    transform: rotate(0deg);
+    transition: all .5s ease;
+}
+
+sidebar category
+{
+    display: block;
+    border-bottom: 1px solid rgba(235, 240, 240, 0.2);
+    padding-bottom: 0;
+}
+
+sidebar category:first-of-type
+{
+    border-top: 1px solid rgba(235, 240, 240, 0.2);
+}
+
+sidebar h2
+{
+    margin: 0;
+    color: rgba(235, 240, 240, 0.5);
+    font-weight: normal;
+    transition: all .5s ease;
+    font-size: 1em;
+    text-indent: -20em;
+    height: 0;
+    margin: 0;
+}
+
+sidebar a
+{
+    display: block;
+    color: #ebf0f0;
+    position: relative;
+    width: 3.75em;
+    width: 100%;
+}
+
+sidebar a span
+{
+    display: block;
+    padding: 1.25em 1em 1.25em 3.75em;
+    text-transform: uppercase;
+    background-repeat: no-repeat;
+    background-size: auto 45%;
+    background-position: left 1em center;
+    position: relative;
+    z-index: 2;
+    text-indent: -40em;
+    transition: all .5s ease;
+}
+
+sidebar a::before
+{
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #3597d3;
+    width:0;
+    content: "";
+    z-index: 0;
+    transition: width .2s ease;
+}
+
+sidebar a.icon_home span
+{
+    background-image: url("/assets/images/icons/home.svg");
+}
+
+sidebar a.icon_investments span
+{
+    background-image: url("/assets/images/icons/investments.svg");
+}
+
+sidebar a.icon_add_investment span
+{
+    background-image: url("/assets/images/icons/add_investment.svg");
+}
+
+sidebar a.icon_products span
+{
+    background-image: url("/assets/images/icons/products.svg");
+}
+
+sidebar a.icon_add_product span
+{
+    background-image: url("/assets/images/icons/add_product.svg");
+}
+
+sidebar a.icon_employees span
+{
+    background-image: url("/assets/images/icons/employees.svg");
+}
+
+sidebar a.icon_add_employee span
+{
+    background-image: url("/assets/images/icons/add_employee.svg");
+}
+
+sidebar a.icon_organizations span
+{
+    background-image: url("/assets/images/icons/orgs.svg");
+}
+
+sidebar a.icon_add_organization span
+{
+    background-image: url("/assets/images/icons/add_org.svg");
+}
+
+sidebar a.icon_emails span
+{
+    background-image: url("/assets/images/icons/email.svg");
+}
+
+sidebar a.icon_add_email span
+{
+    background-image: url("/assets/images/icons/new_email.svg");
+}
+
+sidebar a.icon_reporting span
+{
+    background-image: url("/assets/images/icons/reporting.svg");
+}
+
+sidebar a.icon_users span
+{
+    background-image: url("/assets/images/icons/users.svg");
+}
+
+
+/*Sidebar open*/
+
+sidebar.open
+{
+    width: 20em;
+}
+
+.open toggle-sidebar
+{
+    width: 20em;
+}
+
+.open toggle-sidebar::after
+{
+    transform: rotate(180deg);
+}
+
+sidebar.open category
+{
+    padding-bottom: 1em;
+}
+
+sidebar.open h2
+{
+    text-indent: 0;
+    height: 1.2em;
+    margin: 1em 0 0.5em 1em;
+}
+
+sidebar.open a span
+{
+    text-indent: 0em;
+}
+
+
+/*Sidebar hover*/
+
+sidebar a:hover
+{
+    color: currentColor;
+    background-color: rgba(235, 240, 240, 0.2);
+}
+
+sidebar a:hover::before
+{
+    width: 2%;
+}
+
+sidebar a.active:hover
+{
+    background-color: #3597d3;
+}
+
+sidebar a.active::before
+{
+    width: 100%;
+}
+
+
+/*Logo*/
+
+logo
+{
+    display: block;
+    height: 3em;
+    font-size: 1.3em;
+    background: url("/assets/images/logo.svg") no-repeat center top;
+    background-size: contain;
+    text-align: center;
+    margin: 1em 0 1em 0;
+    transition: all .5s ease;
+}
+
+.open logo
+{
+    height: 10em;
+    margin: 1em 0 1.5em 0;
+}
+
+/*Meta*/
+
+page-meta
+{
+    border-bottom: 3px solid rgba(44, 62 ,80 , 0.1);
+    display: block;
+    padding: 1em;
+}
+
+page-meta h3
+{
+    margin: 0;
+    float: left;
+}
+
+.logout-button
+{
+    padding-top: 0.15em;
+    display: block;
+    float: right;
+    text-transform: uppercase;
+}
+
+stats
+{
+    display: block;
+    border-bottom: 1px solid rgba(44, 62, 80, 0.2);
+    padding: 3em 0;
+}
+
+stat-container h3
+{
+    font-weight: normal;
+    margin: 0;
+}
+
+stat
+{
+    font-weight: bold;
+    font-size: 3em;
+}
+
+
+/*Investments*/
+
+investments
+{
+    display: block;
+}
+
+investment
+{
+    display: block;
+    border-bottom: 1px solid rgba(44, 62 ,80 , 0.1);
+}
+
+investment flex > div
+{
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    padding-left: 2em;
+}
+
+investment flex > div:first-of-type
+{
+    border-width: 0;
+    padding-left: 0;
+}
+
+investment > a,
+investment > inv
+{
+    display: flex;
+    padding: 2em;
+}
+
+investment > inv.not-linked
+{
+    padding: 2em 0;
+}
+
+investment > a > div:first-child,
+investment > inv > div:first-child
+{
+    flex-shrink: 0;
+    margin-right: 3em;
+}
+
+investment > a:hover
+{
+    background-color:rgba(44, 62, 80, 0.1);
+}
+
+investment h2,
+investment p
+{
+    margin: 0;
+}
+
+investment .image
+{
+    width: 7em;
+    height: 7em;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    flex-grow: 0;
+    background-color: #2c3e50;
+    box-sizing: border-box;
+    border: 3px solid #2c3e50;
+}
+
+investment:hover .image
+{
+    border: 3px solid #3597d3;
+}
+
+
+/*Highlight-box*/
+
+highlight-box
+{
+    display: block;
+    padding: 2em;
+    background-color:#2c3e50;
+    color: #fff;
+}
+
+h2.section-title
+{
+    color: #3597d3;
+    margin-bottom: 0;
+}
+
+/*Images*/
+
+imagesContainer
+{
+    display: block;
+}
+
+.imageContainer
+{
+    position: relative;
+    transition: opacity .5s ease;
+    width: 25vw;
+    max-width: 16em;
+    float: left;
+    margin-right: 2em;
+}
+
+.imageContainer .image
+{
+    height: 25vw;
+    max-height: 16em;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+
+/*Errors and messages*/
+
+message
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color:#fff;
+    background-color: #3597d3;
+    font-weight: bold;
+    padding:1em 0;
+    display: block;
+    z-index: 99;
+    transform: translate(0,-3.5em);
+    transition: transform .2s ease;
+}
+
+message.show
+{
+    transform: translate(0,0);
+}
+
+message.error
+{
+    background-color: #e84c3d;
+}
+
+
+/*General*/
+
+.floatleft
+{
+    float: left!important;
+}
+
+.floatright
+{
+    float: right!important;
+}
+
+.floatnone
+{
+    float: none!important;
+}
+
+/*End of results*/
+
+.end_of_results
+{
+    margin: 2em 0;
+    text-align: center;
+}
+
+/*no-animate*/
+
+.no-animate,
+.no-animate-children *
+{
+   -webkit-transition: none !important;
+   transition: none !important;
+}
+
+/*Clearfix*/
+
+clearfix,
+.clearfix
+{
+    display: block;
+    clear: both;
+}
+
+/*Notification badge*/
+
+badge
+{
+    display: block;
+    position: absolute;
+    display: block;
+    left: 1em;
+    text-indent: 0;
+    top: 0.85em;
+    animation: badge .5s ease;
+}
+
+@keyframes badge
+{
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1)
+    }
+}
+
+badge[data-badge]:after
+{
+   content:attr(data-badge);
+   position:absolute;
+   top:-10px;
+   right:-10px;
+   font-size:.7em;
+   background:#e84c3d;
+   color:#ebf0f0;
+   width:18px;height:18px;
+   text-align:center;
+   line-height:18px;
+   border-radius:50%;
+}
+
+/*Suggestions*/
+
+suggestions
+{
+    position: absolute;
+    top:5em;
+    background-color: #ebf0f0;
+    z-index: 5;
+    display: block;
+    width: 100%;
+}
+
+suggestion
+{
+    display: flex;
+    padding: 1em;
+    cursor: pointer;
+    border: solid #2c3e50;
+    border-width: 0px 1px 1px 1px;
+    box-sizing: border-box;
+    align-items: center;
+    flex-direction: row;
+}
+
+suggestion.hasImage
+{
+    padding:0.5em;
+    width: 100%;
+}
+
+suggestion:hover
+{
+    background-color: rgba(44, 62, 80, 0.1);
+}
+
+suggestion:first-child
+{
+    border-top-width: 1px;
+}
+
+suggestion-image
+{
+    width: 4em;
+    height: 4em;
+    display: block;
+    background-size: cover;
+    border-radius: 50%;
+    float:left;
+    margin-right: 1em;
+}
+
+suggestion span
+{
+    display: block;
+    float: left;
+    font-size: 1.5em;
+}
+
+/*Loading screen*/
+
+route-loading-indicator h1,
+loading h1
+{
+    display: block;
+    position: fixed;
+    top: 50%;
+    width:100%;
+    text-align: center;
+    margin-top: -0.5em;
+}

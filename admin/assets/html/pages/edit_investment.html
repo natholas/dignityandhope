@@ -1,0 +1,154 @@
+<h1>Edit investment</h1>
+<investment>
+    <inv class="not-linked">
+        <div ng-if="investment.images.length" class="image" ng-style="{'background-image': 'url(/assets/images/investments/inv_' + investment.investment_id + '/img_' + investment.images[0].name + '.jpg)', 'transform': 'rotate(' +  investment.images[0].settings.rotation + 'deg)', 'background-position': investment.images[0].settings.position}"></div>
+        <div ng-if="!investment.images.length" class="image"></div>
+        <flex>
+            <div>
+                <div>
+                    Name<br>
+                    <h2>{{investment.name}}</h2>
+                </div>
+            </div>
+            <div>
+                <div>
+                    Needed<br>
+                    <h2>{{investment.amount_needed | currency: "$"}}</h2>
+                </div>
+            </div>
+            <div>
+                <div>
+                    Raised<br>
+                    <h2>{{investment.amount_invested | currency: "$"}}</h2>
+                </div>
+            </div>
+            <div>
+                <div>
+                    Status<br>
+                    <h2>{{investment.status | capitalize}}</h2>
+                </div>
+            </div>
+        </flex>
+    </inv>
+    <flex>
+        <p>Added on: {{investment.creation_time * 1000 | date}}</p>
+        <p ng-if="investment.completion_time">Completed on: {{investment.completion_time * 1000 | date}}</p>
+        <p>Organization: <a ng-href="#/organizations/{{investment.organization_id}}">{{investment.organization}}</a></p>
+    </flex>
+    <br>
+</investment>
+
+<form name="edit_investment" ng-submit="edit_investment.$valid && updateInvestment()" novalidate>
+    <flex>
+        <inputContainer>
+            <input type="text" ng-model="investment.name" ng-class="{filled: investment.name}" required>
+            <label>Name</label>
+        </inputContainer>
+        <inputContainer>
+            <select ng-model="investment.organization_id" ng-class="{filled: investment.organization_id}" ng-change="changeOrg()" required>
+                <option ng-repeat="organization in organizations" value="{{organization.organization_id}}">{{organization.name}}</option>
+            </select>
+            <label>Organization</label>
+        </inputContainer>
+    </flex>
+    <flex>
+        <inputContainer>
+            <textarea ng-model="investment.description" ng-class="{filled: investment.description}" required></textarea>
+            <label>Description</label>
+        </inputContainer>
+    </flex>
+    <h2 class="section-title">Date of birth</h2>
+    <flex>
+        <inputContainer>
+            <input type="text" pattern="[0-9]*" maxlength="2" ng-model="investment.dob.d" ng-class="{filled: investment.dob.d}" required>
+            <label>Date of birth: DD</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="text" pattern="[0-9]*" maxlength="2" ng-model="investment.dob.m" ng-class="{filled: investment.dob.m}" required>
+            <label>Date of birth: MM</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="text" pattern="[0-9]*" minlengt="4" maxlength="4" ng-model="investment.dob.y" ng-class="{filled: investment.dob.y}" required>
+            <label>Date of birth: YYYY</label>
+        </inputContainer>
+    </flex>
+    <h2 class="section-title">Location</h2>
+    <flex>
+        <inputContainer>
+            <input type="text" ng-model="investment.address" ng-class="{filled: investment.address}" required>
+            <label>Location: Address</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="text" ng-model="investment.city" ng-class="{filled: investment.city}" required>
+            <label>Location: City</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="text" ng-model="investment.country" ng-class="{filled: investment.country}" required>
+            <label>Location: Country</label>
+        </inputContainer>
+    </flex>
+
+    <h2 class="section-title">Money needed</h2>
+    <flex ng-repeat="split in investment.money_split track by $index" ng-class="{toDelete: deletehover}">
+        <inputContainer>
+            <input type="text" pattern="[0-9]*" ng-model="split.amount" class="filled" ng-change="calcAmount()" ng-disabled="live_investment" required>
+            <label>Amount (USD)</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="text" ng-model="split.name" ng-class="{filled: split.name}" required>
+            <label>For</label>
+        </inputContainer>
+        <delete ng-click="removeSplit($index)" ng-mouseover="deletehover = true" ng-mouseleave="deletehover = false" ng-hide="live_investment"></delete>
+    </flex>
+    <button type="button" ng-hide="live_investment" ng-click="addSplit()">Add Split</button>
+    <clearfix></clearfix>
+
+    <h2 class="section-title">Images</h2>
+    <imagesContainer>
+        <div ng-repeat="image in investment.images track by $index" ng-class="{toDelete: deletehover}" class="imageContainer">
+            <inputContainer>
+                <div class="image" ng-style="{'background-image': 'url(/assets/images/investments/inv_' + investment.investment_id + '/img_' + image.name + '.jpg)', 'transform': 'rotate(' + image.settings.rotation + 'deg)', 'background-position': image.settings.position}"></div>
+            </inputContainer>
+            <rotate ng-click="rotateImage($index, 'old')"></rotate>
+            <pos ng-click="changeImageAlignment($index, 'old')"></pos>
+            <delete ng-click="removeImage($index)" ng-show="investment.images.length + investment.new_images.length > 2" ng-mouseover="deletehover = true" ng-mouseleave="deletehover = false"></delete>
+        </div>
+
+        <div ng-repeat="image in investment.new_images track by $index" ng-class="{toDelete: deletehover}" class="imageContainer">
+            <inputContainer ng-show="!image.length">
+                <input ng-hide="image" type='file' accept="image/*" ng-change="applyImage($index, image.base64)" ng-model='image' class="button" base-sixty-four-input>
+                <label class="button" ng-hide="image">ADD IMAGE</label>
+                <div ng-show="image" class="image" ng-style="{'background-image': 'url(' + image.data +')', 'transform': 'rotate(' + image.settings.rotation + 'deg)', 'background-position': image.settings.position}"></div>
+                <clearfix></clearfix>
+            </inputContainer>
+            <div ng-show="investment.images.length + investment.new_images.length > 1 && image">
+                <rotate ng-click="rotateImage($index, 'new')"></rotate>
+                <pos ng-click="changeImageAlignment($index, 'new')"></pos>
+                <delete ng-click="removeNewImage($index)" ng-mouseover="deletehover = true" ng-mouseleave="deletehover = false"></delete>
+            </div>
+        </div>
+    </imagesContainer>
+    <clearfix></clearfix>
+
+    <h2 class="section-title">Status</h2>
+    <flex>
+        <inputContainer>
+            <select ng-model="investment.status" ng-class="{filled: investment.status}">
+                <option ng-if="!live_investment && investment.status != 'ENDED'" value="DRAFT">Draft</option>
+                <option ng-if="!live_investment && investment.status != 'ENDED'" value="PENDING">Pending</option>
+                <option value="LIVE" ng-if="user.permissions.publish_investment && investment.status != 'ENDED'">Live</option>
+                <option value="ENDED" ng-if="investment.status == 'ENDED'">Ended</option>
+                <option ng-hide="live_investment" value="REMOVED" ng-if="investment.status == 'REMOVED'">Removed</option>
+            </select>
+            <label>Status</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="text" pattern="[0-9]*" ng-model="investment.amount_needed" class="filled" disabled required>
+            <label>Total needed (USD)</label>
+        </inputContainer>
+    </flex>
+
+    <input type="submit" value="Update">
+    <clearfix></clearfix>
+</form>
+<button ng-hide="live_investment" ng-click="removeInvestment()" class="red floatleft">Delete this investment</button>

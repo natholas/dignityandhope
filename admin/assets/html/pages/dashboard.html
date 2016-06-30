@@ -1,0 +1,63 @@
+<stats>
+    <flex>
+        <h1>Hello {{user.username}}</h1>
+    </flex>
+</stats>
+<stats class="investment_stats">
+
+    <flex>
+
+        <h2>Investments</h2>
+
+        <stat-container>
+            <h3>Drafts</h3>
+            <stat>{{statistics.investments.draft}}</stat>
+        </stat-container>
+
+        <stat-container>
+            <h3>Pending</h3>
+            <stat>{{statistics.investments.pending}}</stat>
+        </stat-container>
+
+        <stat-container>
+            <h3>Live</h3>
+            <stat>{{statistics.investments.live}}</stat>
+        </stat-container>
+
+        <stat-container>
+            <h3>Funded</h3>
+            <stat>{{statistics.investments.ended}}</stat>
+        </stat-container>
+
+    </flex>
+
+</stats>
+
+<stats class="product_stats">
+
+    <flex>
+
+        <h2>Products</h2>
+
+        <stat-container>
+            <h3>Drafts</h3>
+            <stat>{{statistics.products.draft}}</stat>
+        </stat-container>
+
+        <stat-container>
+            <h3>Pending</h3>
+            <stat>{{statistics.products.pending}}</stat>
+        </stat-container>
+
+        <stat-container>
+            <h3>Live</h3>
+            <stat>{{statistics.products.live}}</stat>
+        </stat-container>
+
+        <stat-container>
+
+        </stat-container>
+
+    </flex>
+
+</stats>
