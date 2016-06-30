@@ -204,12 +204,22 @@
         <div></div>
     </flex>
 
+    <hr>
+
     <flex>
         <inputContainer>
             <input type="checkbox" ng-model="employee.permissions.edit_user" id="permissions_edit_users" ng-disabled="!user.permissions.edit_user">
             <label for="permissions_edit_users">Edit users</label>
         </inputContainer>
-        <div></div><div></div><div></div>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.change_user_password" id="permissions_user_password_change" ng-disabled="!user.permissions.change_user_password">
+            <label for="permissions_user_password_change">Change user password</label>
+        </inputContainer>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.remove_user" id="permissions_remove_users" ng-disabled="!user.permissions.remove_user">
+            <label for="permissions_remove_users">Remove user</label>
+        </inputContainer>
+        <div></div>
     </flex>
 
     <hr>
