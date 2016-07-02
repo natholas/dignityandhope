@@ -52,6 +52,7 @@ dah.controller('headerCtrl', function($scope, Account, AccountData, Prompts, EaM
                 if (response.status == "success") {
 
                     $scope.sent_reset_email = false;
+                    $scope.sendresetemail = false;
                     EaM.showMessage("success");
 
                 } else {

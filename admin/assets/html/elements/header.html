@@ -35,6 +35,10 @@
     <h2>Send reset code</h2>
     <a href="" ng-click="sendresetemail = false">Back to login</a>
     <form name="send_reset_form" ng-submit="send_reset_form.$valid && sendreset()" novalidate>
+
+        <input style="display:none" type="text" name="fakeusernameremembered"/>
+        <input style="display:none" type="password" name="fakepasswordremembered"/>
+
         <flex>
             <inputContainer>
                 <input type="email" ng-model="login_info.email" ng-class="{filled: login_info.email}" autocomplete="off" required>
@@ -47,7 +51,7 @@
 
 <prompt ng-show="sent_reset_email">
     <h2>Enter reset code</h2>
-    <a href="" ng-click="sent_reset_email = false">Back to login</a>
+    <a href="" ng-click="sent_reset_email = false; sendresetemail = false">Back to login</a>
     <form name="confirm_code" ng-submit="confirm_code.$valid && check_code()" novalidate>
         <p>We have sent a reset code to {{login_info.email}}. Please enter it below</p>
         <flex>
