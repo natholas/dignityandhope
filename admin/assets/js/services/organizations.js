@@ -22,7 +22,7 @@ dah.service('Organizations', function($http, Storage, $q, AccountData) {
                     data.organizations = response.organizations;
 
                     // Saving organizations for the next day
-                    Storage.save("organizations", data, 24);
+                    //Storage.save("organizations", data, 24);
 
                 }
             });
@@ -64,7 +64,7 @@ dah.service('Organizations', function($http, Storage, $q, AccountData) {
             if (new_data.organization_id == data.organizations[i].organization_id) {
                 // Updating organization
                 data.organizations[i] = new_data;
-                Storage.update("organizations", data);
+                //Storage.update("organizations", data);
                 break;
             }
         }
@@ -82,7 +82,7 @@ dah.service('Organizations', function($http, Storage, $q, AccountData) {
         // Adding organization
         data.organizations.push(new_data);
         // Updating the localstorage
-        Storage.update("organizations", data);
+        //Storage.update("organizations", data);
     }
 
     this.new_organization = function() {
@@ -122,7 +122,7 @@ dah.service('Organizations', function($http, Storage, $q, AccountData) {
                 } else {
                     data.organizations.splice(i,1);
                 }
-                Storage.update("organizations", data);
+                //Storage.update("organizations", data);
             }
         }
     }

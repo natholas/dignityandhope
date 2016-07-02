@@ -1,4 +1,4 @@
-dah.controller('edit_emailCtrl', function($scope, $http, AccountData, Emails, $routeParams, EaM, Account, Users, $timeout, Loading) {
+dah.controller('edit_emailCtrl', function($scope, $http, AccountData, Emails, $routeParams, EaM, Account, Users, $timeout, Loading, Confirm) {
 
     $scope.user = AccountData;
     $scope.emails = Emails.data;
@@ -64,20 +64,26 @@ dah.controller('edit_emailCtrl', function($scope, $http, AccountData, Emails, $r
     }
 
     $scope.removeEmail = function() {
-        var data = {
-            "email_id": $scope.email.email_id
-        }
 
-        $http.post("/admin/api/emails/remove_email.php", data).success(function(response, status) {
+        Confirm.get_confirmation("Remove email").then(function(response) {
             console.log(response);
-            if (response.status && response.status == "success") {
-                EaM.showMessage("deleted");
-                Emails.load_emails();
-                window.location.href="#/emails";
-            } else {
-                EaM.showError("error");
+            if (response) {
+
+                var data = {
+                    "email_id": $scope.email.email_id
+                }
+
+                $http.post("/admin/api/emails/remove_email.php", data).success(function(response, status) {
+                    console.log(response);
+                    if (response.status && response.status == "success") {
+                        EaM.showMessage("deleted");
+                        Emails.load_emails();
+                        window.location.href="#/emails";
+                    } else {
+                        EaM.showError("error");
+                    }
+                });
             }
         });
     }
-
 });

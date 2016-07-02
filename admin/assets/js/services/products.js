@@ -164,7 +164,7 @@ dah.service('Products', function($http, Storage, $q, AccountData) {
                 // Updating product
                 data.products[i] = new_data;
                 // Updating the localstorage
-                Storage.update("products", data);
+                //Storage.update("products", data);
                 break;
             }
         }
@@ -174,7 +174,7 @@ dah.service('Products', function($http, Storage, $q, AccountData) {
         // Adding product
         data.products.push(new_data);
         // Updating the localstorage
-        Storage.update("products", data);
+        //Storage.update("products", data);
     }
 
     this.new_product = function() {
@@ -212,7 +212,7 @@ dah.service('Products', function($http, Storage, $q, AccountData) {
                 } else {
                     data.products.splice(i,1);
                 }
-                Storage.update("products", data);
+                //Storage.update("products", data);
             }
         }
     }

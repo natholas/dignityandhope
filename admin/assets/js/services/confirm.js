@@ -11,7 +11,6 @@ dah.service('Confirm', function($q) {
         data.text = text;
 
         var loop = setInterval(function () {
-            console.log("loop");
             if (data.confirmed) {
                 deferred.resolve(true);
                 data.confirmed = false;

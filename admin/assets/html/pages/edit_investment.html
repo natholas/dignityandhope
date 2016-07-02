@@ -137,7 +137,7 @@
                 <option ng-if="!live_investment && investment.status != 'ENDED'" value="DRAFT">Draft</option>
                 <option ng-if="!live_investment && investment.status != 'ENDED'" value="PENDING">Pending</option>
                 <option value="LIVE" ng-if="user.permissions.publish_investment && investment.status != 'ENDED'">Live</option>
-                <option value="ENDED" ng-if="investment.status == 'ENDED'">Ended</option>
+                <option value="ENDED" ng-if="investment.status == 'ENDED' || investment.completion_time">Ended</option>
                 <option ng-hide="live_investment" value="REMOVED" ng-if="investment.status == 'REMOVED'">Removed</option>
             </select>
             <label>Status</label>
@@ -151,4 +151,4 @@
     <input type="submit" value="Update">
     <clearfix></clearfix>
 </form>
-<button ng-show="!live_investment && user.permissions.remove_investment" ng-click="removeInvestment()" class="red floatleft">Delete this investment</button>
+<button ng-show="!live_investment && user.permissions.remove_investment && investment.status != 'REMOVED'" ng-click="removeInvestment()" class="red floatleft">Delete this investment</button>

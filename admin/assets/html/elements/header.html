@@ -20,10 +20,11 @@
     <clearfix></clearfix>
     <a href="" ng-click="sendresetemail = true">Forgot your password?</a>
 </prompt>
-{{confirm}}adsds
-<prompt ng-show="confirm.text">
+
+
+<prompt ng-show="confirmData.text">
     <close ng-click="cancel()"></close>
-    <h2>Are you sure you want to {{confirm.text}}?</h2>
+    <h2>Are you sure you want to {{confirmData.text}}?</h2>
     <p>You will not be able to undo this.</p><br><br>
     <button ng-click="confirm()" class="red wide">Yes</button>
     <button ng-click="cancel()" class="wide floatleft">No</button>
@@ -245,7 +246,7 @@
 
 <loading ng-show="waitingForServer"><h1>Loading...</h1></loading>
 
-<prompt-bg ng-show="prompt_info.count > 0"></prompt-bg>
+<prompt-bg ng-show="prompt_info.count > 0 || confirmData.text"></prompt-bg>
 
 <message class="error" ng-class="{show: errorandmessages.error}">{{errorandmessages.error}}</message>
 <message class="message" ng-class="{show: errorandmessages.message}">{{errorandmessages.message}}</message>

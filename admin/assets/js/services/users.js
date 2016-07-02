@@ -79,7 +79,7 @@ dah.service('Users', function($http, Storage, $q) {
                 // Updating user
                 console.log(1);
                 data.users[i] = new_data;
-                Storage.update("users", data);
+                //Storage.update("users", data);
                 break;
             }
         }
@@ -91,7 +91,7 @@ dah.service('Users', function($http, Storage, $q) {
                 if (AccountData.permissions.remove_user) {
                     data.users.splice(i,1);
                 }
-                Storage.update("users", data);
+                //Storage.update("users", data);
                 break;
             }
         }

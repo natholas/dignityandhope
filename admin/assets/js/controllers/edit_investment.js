@@ -5,7 +5,6 @@ dah.controller('edit_investmentCtrl', function($scope, $http, AccountData, Inves
     $scope.organizations = organizations;
     $scope.user = AccountData;
 
-
     // Getting the index for this investment
     if ($routeParams.investment_id) {
 
@@ -215,7 +214,7 @@ dah.controller('edit_investmentCtrl', function($scope, $http, AccountData, Inves
                     }
                 });
             }
-        })
+        });
     }
 
 

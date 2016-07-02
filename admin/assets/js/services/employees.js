@@ -75,7 +75,7 @@ dah.service('Employees', function($http, Storage, $q, AccountData) {
             if (new_data.user_id == data.employees[i].user_id) {
                 // Updating user
                 data.employees[i] = new_data;
-                Storage.update("employees", data);
+                //Storage.update("employees", data);
                 break;
             }
         }
@@ -87,7 +87,7 @@ dah.service('Employees', function($http, Storage, $q, AccountData) {
                 if (AccountData.permissions.remove_admin_user) {
                     data.employees.splice(i,1);
                 }
-                Storage.update("employees", data);
+                //Storage.update("employees", data);
                 break;
             }
         }

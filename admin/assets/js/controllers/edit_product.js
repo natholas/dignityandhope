@@ -1,4 +1,4 @@
-dah.controller('edit_productCtrl', function($scope, $http, AccountData, Products, investments, Investments, $routeParams, EaM, Loading, $timeout) {
+dah.controller('edit_productCtrl', function($scope, $http, AccountData, Products, investments, Investments, $routeParams, EaM, Loading, $timeout, Confirm) {
 
     $scope.products = Products.data.products;
     $scope.investments = investments;
@@ -197,21 +197,27 @@ dah.controller('edit_productCtrl', function($scope, $http, AccountData, Products
     }
 
     $scope.removeProduct = function() {
-        var data = {
-            "product_id": $scope.product.product_id
-        }
 
-        Loading.startLoading();
-        $http.post("/admin/api/products/remove_product.php", data).success(function(response, status) {
-            Loading.stopLoading();
-            if (response.status && response.status == "success") {
-                EaM.showMessage("deleted");
-                Products.remove($scope.product.product_id);
-                window.location.href="#/products";
-            } else {
-                EaM.showError("error");
+        Confirm.get_confirmation("Remove product").then(function(response) {
+            console.log(response);
+            if (response) {
+                var data = {
+                    "product_id": $scope.product.product_id
+                }
+
+                Loading.startLoading();
+                $http.post("/admin/api/products/remove_product.php", data).success(function(response, status) {
+                    Loading.stopLoading();
+                    if (response.status && response.status == "success") {
+                        EaM.showMessage("deleted");
+                        Products.remove($scope.product.product_id);
+                        window.location.href="#/products";
+                    } else {
+                        EaM.showError("error");
+                    }
+                });
             }
-        });
+        })
     }
 
 

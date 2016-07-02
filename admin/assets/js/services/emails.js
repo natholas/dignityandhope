@@ -32,11 +32,12 @@ dah.service('Emails', function($http, Storage, $q, AccountData) {
     this.get = function() {
         var deferred = $q.defer();
 
-        if (data.emails.length) {
+        if (data.emails) {
             deferred.resolve(data.emails);
         } else {
             var loop = setInterval(function () {
-                if (data.emails.length) {
+
+                if (data.emails) {
                     deferred.resolve(data);
                     clearInterval(loop);
                 }
@@ -78,6 +79,7 @@ dah.service('Emails', function($http, Storage, $q, AccountData) {
     }
 
     this.load_email = function(email_id) {
+
         var deferred = $q.defer();
         // We are looking for a specific email
         for (var i = 0; i < data.emails.length; i++) {
@@ -91,7 +93,7 @@ dah.service('Emails', function($http, Storage, $q, AccountData) {
         // Didn't find it. Lets get it from the API
         var settings = {"email_id": email_id};
         $http.post("/admin/api/emails/get_email.php", settings).success(function(response, status) {
-            console.log(response);
+            
             if (response.status == "success") {
                 deferred.resolve(response.email);
             } else {

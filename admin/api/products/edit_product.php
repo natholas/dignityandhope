@@ -21,7 +21,7 @@ if (check_user($permissions_needed, false)) {
 
             // The client has provided the correct data.
             // Lets select the old product
-            $stmt = $mysqli->prepare("SELECT * FROM products WHERE product_id = ? AND status != 'REMOVED'");
+            $stmt = $mysqli->prepare("SELECT * FROM products WHERE product_id = ?");
             $stmt->bind_param("i", $_POST['product_id']);
             $stmt->execute();
             $old_product = $stmt->get_result()->fetch_object();
@@ -31,7 +31,7 @@ if (check_user($permissions_needed, false)) {
                 // The product does exist.
                 // We need to make sure that the user is allowed to edit live products if this product is already live
                 if ($old_product->status != "LIVE" || check_permission("edit_live_product")) {
-
+                    
                     // If the client wants to change the creator_id of the product
                     $failed = false;
                     if ($old_product->creator_id != $_POST['creator_id']) {

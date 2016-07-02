@@ -102,7 +102,6 @@
         </div>
     </imagesContainer>
 
-
     <h2 class="section-title">Status</h2>
     <flex>
         <inputContainer>
@@ -123,4 +122,4 @@
     <input type="submit" value="Update">
     <clearfix></clearfix>
 </form>
-<button ng-click="removeProduct()" ng-show="user.permissions.remove_product" class="red floatleft">Delete this product</button>
+<button ng-click="removeProduct()" ng-show="user.permissions.remove_product && product.status != 'REMOVED'" class="red floatleft">Delete this product</button>

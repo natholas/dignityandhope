@@ -165,7 +165,7 @@ dah.service('Investments', function($http, Storage, $q, AccountData) {
                 // Updating investment
                 data.investments[i] = new_data;
                 // Updating the localstorage
-                Storage.update("investments", data);
+                //Storage.update("investments", data);
                 break;
             }
         }
@@ -175,7 +175,7 @@ dah.service('Investments', function($http, Storage, $q, AccountData) {
         // Adding investment
         data.investments.push(new_data);
         // Updating the localstorage
-        Storage.update("investments", data);
+        //Storage.update("investments", data);
     }
 
     this.new_investment = function() {
@@ -215,7 +215,7 @@ dah.service('Investments', function($http, Storage, $q, AccountData) {
                 } else {
                     data.investments.splice(i,1);
                 }
-                Storage.update("investments", data);
+                //Storage.update("investments", data);
                 break;
             }
         }

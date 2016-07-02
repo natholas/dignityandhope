@@ -21,7 +21,7 @@ dah.controller('headerCtrl', function($scope, Account, AccountData, Prompts, EaM
 
     $scope.hide_prompts = Prompts.close_prompt;
 
-    $scope.confirm = Confirm.data;
+    $scope.confirmData = Confirm.data;
 
     // Lets get the status of our account
     Account.info();
@@ -64,12 +64,12 @@ dah.controller('headerCtrl', function($scope, Account, AccountData, Prompts, EaM
     }
 
     $scope.confirm = function() {
-        $scope.confirm.confirmed = true;
+        $scope.confirmData.confirmed = true;
         $scope.hide_prompts("confirm");
     }
 
     $scope.cancel = function() {
-        $scope.confirm.cancelled = true;
+        $scope.confirmData.cancelled = true;
         $scope.hide_prompts("confirm");
     }
 
