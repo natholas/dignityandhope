@@ -61,7 +61,7 @@ if (check_user($permissions_needed, false)) {
     }
 
     // Lets check if they wanted to order and limit the results
-    if (isset($_POST['limit']) && isset($_POST['order_by'])) {
+    if (isset($_POST['limit']) && isset($_POST['order_by']) && isset($_POST['offset']) ) {
 
         // The customer wants to limit and order the results.
         // There are only a few things that we should allow them to order by.
@@ -71,10 +71,10 @@ if (check_user($permissions_needed, false)) {
 
             // The order_by is allowed.
             // Lets check if the limit that they set is ok
-            if (is_numeric($_POST['limit']) && $_POST['limit'] > 0) {
+            if (is_numeric($_POST['limit']) && $_POST['limit'] > 0 && is_numeric($_POST['offset']) && $_POST['offset'] >= 0) {
 
                 // Everything looks valid. Lets add it to the SQL
-                $sql.= " ORDER BY ".$order_by." LIMIT ".$_POST['limit'];
+                $sql.= " ORDER BY ".$order_by." LIMIT ".$_POST['limit']." OFFSET ".$_POST['offset'];
 
             }
         }

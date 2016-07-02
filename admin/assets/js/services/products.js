@@ -39,7 +39,7 @@ dah.service('Products', function($http, Storage, $q, AccountData) {
         }
 
         $http.post("/api/products/find_products.php", settings).success(function(response, status) {
-            console.log(response);
+
             if (response.status == "success") {
                 for (var i = 0; i < response.products.length; i++) {
                     response.products[i].image = JSON.parse(response.products[i].images)[0];
@@ -121,7 +121,7 @@ dah.service('Products', function($http, Storage, $q, AccountData) {
                     }
 
                     // Saving products for the next hour
-                    Storage.save("products", data, 2);
+                    //Storage.save("products", data, 2);
 
                 }
             });

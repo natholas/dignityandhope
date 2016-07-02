@@ -122,7 +122,7 @@ dah.service('Investments', function($http, Storage, $q, AccountData) {
                     }
 
                     // Saving investments for the next hour
-                    Storage.save("investments", data, 2);
+                    //Storage.save("investments", data, 2);
 
                 }
             });

@@ -21,7 +21,7 @@ dah.service('Employees', function($http, Storage, $q, AccountData) {
 
                     data.employees = response.users;
                     // Saving employees for the next 4 hours
-                    Storage.save("employees", data, 4);
+                    //Storage.save("employees", data, 4);
 
                 }
             });

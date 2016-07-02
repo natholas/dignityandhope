@@ -38,7 +38,7 @@
     <br>
 </investment>
 
-<form name="edit_investment" ng-submit="edit_investment.$valid && updateInvestment()" novalidate>
+<form name="edit_investment" ng-submit="edit_investment.$valid && updateInvestment()" ng-show="user.permissions.edit_investment" novalidate>
     <flex>
         <inputContainer>
             <input type="text" ng-model="investment.name" ng-class="{filled: investment.name}" required>
@@ -151,4 +151,4 @@
     <input type="submit" value="Update">
     <clearfix></clearfix>
 </form>
-<button ng-hide="live_investment" ng-click="removeInvestment()" class="red floatleft">Delete this investment</button>
+<button ng-show="!live_investment && user.permissions.remove_investment" ng-click="removeInvestment()" class="red floatleft">Delete this investment</button>

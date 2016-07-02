@@ -11,7 +11,7 @@ $data->status = "failed";
 if (isset($_POST['user_id']) && isset($_POST['email']) && isset($_POST['permissions']) && isset($_POST['organization_id'])) {
 
     // And if the user is allowed to do this
-    $permissions_needed = array("edit_admin_user");
+    $permissions_needed = array();
     if (check_user($permissions_needed, false)) {
 
         // Lets see if the email address that the client provided is not used for another account
@@ -29,7 +29,7 @@ if (isset($_POST['user_id']) && isset($_POST['email']) && isset($_POST['permissi
 
             $result = $stmt->get_result()->fetch_object();
 
-            if ($result) {
+            if ($result && ($_POST['user_id'] == $_SESSION['admin_user_id']) || check_permission("edit_admin_user")) {
 
                 // We found the user.
                 // Now lets check that the organization_id that the client sent actually exists
@@ -133,16 +133,16 @@ if (isset($_POST['user_id']) && isset($_POST['email']) && isset($_POST['permissi
                             $data->status = "success";
 
                         } else {
-                            $data->status = "permission denied";
+                            $data->status = "permission denied3";
                         }
                     } else {
-                        $data->status = "permission denied";
+                        $data->status = "permission denied2";
                     }
                 }
             }
         }
     } else {
-        $data->status = "permission denied";
+        $data->status = "permission denied1";
     }
 }
 

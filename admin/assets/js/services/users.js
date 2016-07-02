@@ -60,7 +60,7 @@ dah.service('Users', function($http, Storage, $q) {
                     }
 
                     // Saving investments for the next 2 hours
-                    Storage.save("users", data, 2);
+                    //Storage.save("users", data, 2);
                 }
             });
         }

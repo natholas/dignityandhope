@@ -1,4 +1,4 @@
-dah.controller('headerCtrl', function($scope, Account, AccountData, Prompts, EaM, Investments, Products, Organizations, $location, Emails, Users) {
+dah.controller('headerCtrl', function($scope, Account, AccountData, Prompts, EaM, Investments, Products, Organizations, $location, Emails, Users, Confirm) {
 
     $scope.login_info = {};
     $scope.prompt_info = {};
@@ -20,6 +20,8 @@ dah.controller('headerCtrl', function($scope, Account, AccountData, Prompts, EaM
     $scope.errorandmessages = EaM.data;
 
     $scope.hide_prompts = Prompts.close_prompt;
+
+    $scope.confirm = Confirm.data;
 
     // Lets get the status of our account
     Account.info();
@@ -61,6 +63,16 @@ dah.controller('headerCtrl', function($scope, Account, AccountData, Prompts, EaM
         }
     }
 
+    $scope.confirm = function() {
+        $scope.confirm.confirmed = true;
+        $scope.hide_prompts("confirm");
+    }
+
+    $scope.cancel = function() {
+        $scope.confirm.cancelled = true;
+        $scope.hide_prompts("confirm");
+    }
+
     $scope.$on('$routeChangeStart', function() {
         $scope.current_page = $location.path().split("/")[1];
     });
@@ -98,7 +110,6 @@ dah.controller('headerCtrl', function($scope, Account, AccountData, Prompts, EaM
             $scope.$apply();
         }
     };
-
 
     $scope.load_investments = function() {
         $scope.investments.settings.pages_loaded = 0;

@@ -1,5 +1,5 @@
 <h1>Edit employee</h1>
-<investment>
+<investment ng-show="user.permissions.rank > employee.permissions.rank">
     <br>
     <flex>
         <div>
@@ -26,7 +26,7 @@
 
 <br><br>
 
-<form name="edit_empolyee" ng-submit="edit_empolyee.$valid && updateEmployee()" ng-show="user.permissions.edit_admin_user" novalidate>
+<form name="edit_empolyee" ng-submit="edit_empolyee.$valid && updateEmployee()" ng-show="user.permissions.edit_admin_user && user.permissions.rank > employee.permissions.rank" novalidate>
     <flex>
         <inputContainer>
             <input type="text" ng-model="employee.username" ng-class="{filled: employee.username}" required>
@@ -248,10 +248,14 @@
 </form>
 
 
-<button ng-show="user.permissions.remove_admin_user && !removing_user" ng-click="removing_user = true;" class="red floatleft">Delete this employee</button>
+<button ng-show="user.permissions.remove_admin_user && !removing_user && user.permissions.rank > employee.permissions.rank" ng-click="removing_user = true;" class="red floatleft">Delete this employee</button>
 
 <form name="remove_user" ng-submit="remove_user.$valid && removeEmployee()" ng-show="removing_user">
     <input type="password" ng-model="confirm_password" class="small autowidth floatleft filled">
     <label>Confirm your Password</label>
     <input type="submit" class="big floatleft" value="Confirm removal">
 </form>
+
+<div ng-hide="user.permissions.rank > employee.permissions.rank">
+    <h2>You are not allowed to edit this user.</h2>
+</div>

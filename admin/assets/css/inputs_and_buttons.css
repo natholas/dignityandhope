@@ -35,6 +35,13 @@ input[type="submit"]
     font-size: 1em;
 }
 
+button.wide,
+.button.wide,
+input[type="submit"].wide
+{
+    min-width: calc(50% - 1em);
+}
+
 button.centerbutton,
 .button.centerbutton,
 input[type="submit"].centerbutton

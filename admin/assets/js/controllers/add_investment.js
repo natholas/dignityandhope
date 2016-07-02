@@ -4,7 +4,6 @@ dah.controller('add_investmentCtrl', function($scope, $http, organizations, Acco
     $scope.investment = new_investment;
     $scope.organizations = organizations;
 
-
     $scope.calcAmount = function() {
 
         // Calculating the total from all of the money splits

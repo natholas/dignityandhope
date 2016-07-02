@@ -1,4 +1,4 @@
-dah.controller('edit_investmentCtrl', function($scope, $http, AccountData, Investments, organizations, $routeParams, EaM, Loading) {
+dah.controller('edit_investmentCtrl', function($scope, $http, AccountData, Investments, organizations, $routeParams, EaM, Loading, Prompts, Confirm) {
 
 
     $scope.investments = Investments.data.investments;
@@ -196,21 +196,26 @@ dah.controller('edit_investmentCtrl', function($scope, $http, AccountData, Inves
     }
 
     $scope.removeInvestment = function() {
-        var data = {
-            "investment_id": $scope.investment.investment_id
-        }
+        Confirm.get_confirmation("Remove investment").then(function(response) {
+            console.log(response);
+            if (response) {
+                var data = {
+                    "investment_id": $scope.investment.investment_id
+                }
 
-        Loading.startLoading();
-        $http.post("/admin/api/investments/remove_investment.php", data).success(function(response, status) {
-            Loading.stopLoading();
-            if (response.status && response.status == "success") {
-                EaM.showMessage("deleted");
-                Investments.remove($scope.investment.investment_id);
-                window.location.href="#/investments";
-            } else {
-                EaM.showError("error");
+                Loading.startLoading();
+                $http.post("/admin/api/investments/remove_investment.php", data).success(function(response, status) {
+                    Loading.stopLoading();
+                    if (response.status && response.status == "success") {
+                        EaM.showMessage("deleted");
+                        Investments.remove($scope.investment.investment_id);
+                        window.location.href="#/investments";
+                    } else {
+                        EaM.showError("error");
+                    }
+                });
             }
-        });
+        })
     }
 
 

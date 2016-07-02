@@ -32,7 +32,7 @@ dah.factory('Account', function($http, Storage, AccountData, Prompts, EaM, $q) {
                         delete data.status;
 
                         // Saving our account details in localstorage for the next 15 minutes
-                        Storage.save("account_data", data, 0.25);
+                        //Storage.save("account_data", data, 0.25);
 
                         // Setting the user details for all controllers
                         user.username = data.username;
@@ -67,7 +67,7 @@ dah.factory('Account', function($http, Storage, AccountData, Prompts, EaM, $q) {
                 if (data.status == "success") {
 
                     // Saving our account details in localstorage for the next two hours
-                    Storage.save("account_data", data, 2);
+                    //Storage.save("account_data", data, 2);
                     // Setting the user details for all controllers
                     user.username = data.username;
                     user.organization_id = data.organization_id;
