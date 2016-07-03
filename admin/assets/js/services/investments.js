@@ -66,6 +66,12 @@ dah.service('Investments', function($http, Storage, $q, AccountData) {
 
         $http.post("/admin/api/investments/get_investment.php", settings).success(function(response, status) {
             if (response.status == "success") {
+                var dob = new Date(response.investment.dob * 1000);
+                response.investment.dob = {
+                    "d": dob.getDate(),
+                    "m": dob.getMonth() + 1,
+                    "y": dob.getFullYear(),
+                }
                 deferred.resolve(response.investment);
             } else {
                 return {};

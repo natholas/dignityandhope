@@ -4,6 +4,7 @@ dah.controller('edit_userCtrl', function($scope, $http, Users, $routeParams, Acc
 
     if ($routeParams.user_id) {
         Users.findUserFromUserId($routeParams.user_id).then(function(response) {
+            console.log(response);
             $scope.user = response;
         });
     }

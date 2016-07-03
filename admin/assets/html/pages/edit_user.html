@@ -15,8 +15,80 @@
                     <h2>{{user.email}}</h2>
                 </div>
             </div>
+            <div>
+                <div>
+                    Membership<br>
+                    <h2>{{user.membership_name}}</h2>
+                </div>
+            </div>
         </flex>
     </inv>
+    <p ng-show="user.membership_expiry > 0">Membership expires on: <b>{{user.membership_expiry * 1000 | date}}</b></p>
+    <br><br>
+
+    <h2>Emails to {{user.first_name}}</h2>
+    <div ng-repeat="email in user.emails track by $index" class="small_li">
+        <a ng-href="#/edit_email/{{email.email_id}}" class="blocklink">
+            <flex>
+                <div>
+                    <p>
+                        <span><b>Subject</b></span><br>
+                        {{email.subject}}
+                    </p>
+                </div>
+                <div>
+                    <p>
+                        <label><b>Message</b></label><br>
+                        {{email.message | limitTo: 40}}...
+                    </p>
+                </div>
+                <div>
+                    <p>
+                        <label><b>Sent on</b></label><br>
+                        {{email.sent_time * 1000 | date: 'd MMM yy - hh:mm'}}
+                    </p>
+                </div>
+            </flex>
+        </a>
+    </div>
+
+    <br><br>
+    <a ng-href="#/add_email/single/{{user.user_id}}" class="button">New email</a>
+    <br><br>
+    <br><br>
+
+    <h2>Orders by {{user.first_name}}</h2>
+    <div ng-repeat="order in user.orders track by $index" class="small_li">
+        <a ng-href="#/view_order/{{order.order_id}}" class="blocklink">
+            <flex>
+                <div>
+                    <p>
+                        <span><b>Order ID</b></span><br>
+                        {{order.order_id}}
+                    </p>
+                </div>
+                <div>
+                    <p>
+                        <label><b>Order total</b></label><br>
+                        {{order.order_total | currency}}
+                    </p>
+                </div>
+                <div>
+                    <p>
+                        <label><b>Order date</b></label><br>
+                        {{order.order_time * 1000 | date}}
+                    </p>
+                </div>
+                <div>
+                    <p>
+                        <label><b>Status</b></label><br>
+                        {{order.status | capitalize}}
+                    </p>
+                </div>
+            </flex>
+        </a>
+    </div>
+
     <br><br>
 </investment>
 
@@ -55,7 +127,6 @@
     <input type="submit" value="Update">
     <clearfix></clearfix>
 </form>
-
 
 <button ng-show="me.permissions.remove_user && !removing_user" ng-click="removing_user = true;" class="red floatleft">Delete this user</button>
 

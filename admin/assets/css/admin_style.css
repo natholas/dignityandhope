@@ -787,10 +787,15 @@ loading h1
     margin-top: -0.5em;
 }
 
-/*Order*/
+/*List*/
 
-.order_li
+.small_li
 {
     border-bottom: 1px solid rgba(44, 62 ,80 , 0.1);
     padding: 0.5em 0;
+}
+
+.blocklink
+{
+    display: block;
 }

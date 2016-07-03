@@ -107,9 +107,9 @@ dah.service('Users', function($http, Storage, $q) {
             "user_id": user_id
         }
 
-        $http.post("/api/users/get_user.php", settings).success(function(response, status) {
+        $http.post("/admin/api/users/get_user.php", settings).success(function(response, status) {
+            
             if (response.status == "success") {
-                console.log();
                 deferred.resolve(response.user);
             } else {
                 deferred.resolve({});

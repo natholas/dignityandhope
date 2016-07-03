@@ -18,7 +18,7 @@
             <div>
                 <div>
                     Order date<br>
-                    <h2>{{order.order_time | date: "d MMM yy - hh:mm"}}</h2>
+                    <h2>{{order.order_time * 1000 | date: "d MMM yy - hh:mm"}}</h2>
                 </div>
             </div>
             <div>
@@ -32,7 +32,7 @@
     <br>
 </investment>
 
-<flex ng-repeat="item in order.products" class="order_li">
+<flex ng-repeat="item in order.products" class="small_li">
     <div>
         <a ng-href='#/edit_product/{{item.product_id}}'>
             <span>Name:</span>
@@ -50,7 +50,7 @@
 
 </flex>
 
-<flex ng-repeat="item in order.investments" class="order_li">
+<flex ng-repeat="item in order.investments" class="small_li">
     <div>
         <a ng-href='#/edit_investment/{{item.investment_id}}'>
             <span>Name:</span>
