@@ -62,7 +62,11 @@
             <input type="checkbox" ng-model="employee.permissions.reset_password" id="permissions_reset_password" ng-disabled="!user.permissions.reset_password">
             <label for="permissions_reset_password">Reset password</label>
         </inputContainer>
-        <div></div><div></div>
+        <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.add_admin_message" id="permissions_add_admin_message" ng-disabled="!user.permissions.add_admin_message">
+            <label for="permissions_add_admin_message">Add admin message</label>
+        </inputContainer>
+        <div></div>
     </flex>
 
     <hr>

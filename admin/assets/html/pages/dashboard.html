@@ -2,62 +2,30 @@
     <flex>
         <h1>Hello {{user.username}}</h1>
     </flex>
-</stats>
-<stats class="investment_stats">
+    
+    <admin-message ng-repeat="message in messages.messages">
+        <h3>{{message.title}}</h3>
+        <p>
+            {{message.message}}
+            <span class="floatright"><br><br> - <b>Posted by {{message.username}} on {{message.post_time * 1000 | date}}</b></span>
+            <clearfix></clearfix>
+        </p>
+    </admin-message>
+    <br><br><br>
+    <form name="add_admin_message" ng-submit="add_admin_message.$valid && submit_admin_message()" ng-show="user.permissions.add_admin_message" novalidate>
+        <h2>Add a new message</h2>
+        <inputContainer>
+            <input type="text" ng-model="new_message.title" ng-class="{filled: new_message.title}" required>
+            <label>Title</label>
+        </inputContainer>
+        <inputContainer>
+            <textarea ng-model="new_message.message" ng-class="{filled: new_message.message}" required></textarea>
+            <label>Message</label>
+        </inputContainer>
 
-    <flex>
+        <input type="submit" value="Add message">
 
-        <h2>Investments</h2>
+    </form>
 
-        <stat-container>
-            <h3>Drafts</h3>
-            <stat>{{statistics.investments.draft}}</stat>
-        </stat-container>
-
-        <stat-container>
-            <h3>Pending</h3>
-            <stat>{{statistics.investments.pending}}</stat>
-        </stat-container>
-
-        <stat-container>
-            <h3>Live</h3>
-            <stat>{{statistics.investments.live}}</stat>
-        </stat-container>
-
-        <stat-container>
-            <h3>Funded</h3>
-            <stat>{{statistics.investments.ended}}</stat>
-        </stat-container>
-
-    </flex>
-
-</stats>
-
-<stats class="product_stats">
-
-    <flex>
-
-        <h2>Products</h2>
-
-        <stat-container>
-            <h3>Drafts</h3>
-            <stat>{{statistics.products.draft}}</stat>
-        </stat-container>
-
-        <stat-container>
-            <h3>Pending</h3>
-            <stat>{{statistics.products.pending}}</stat>
-        </stat-container>
-
-        <stat-container>
-            <h3>Live</h3>
-            <stat>{{statistics.products.live}}</stat>
-        </stat-container>
-
-        <stat-container>
-
-        </stat-container>
-
-    </flex>
 
 </stats>

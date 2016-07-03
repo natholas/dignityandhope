@@ -33,5 +33,6 @@
    "get_order_details": false,
    "update_order": false,
    "get_totals": false,
+   "add_admin_message": false,
    "rank":1
 }

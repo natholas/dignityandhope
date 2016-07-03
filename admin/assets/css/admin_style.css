@@ -799,3 +799,26 @@ loading h1
 {
     display: block;
 }
+
+/*Admin messages*/
+
+admin-message
+{
+    display: block;
+    padding: 1em 0;
+}
+
+admin-message h3
+{
+    background-color: #3597d3;
+    color: #ebf0f0;
+    padding: 1em;
+    margin:0;
+}
+
+admin-message p
+{
+    border: 1px solid #3597d3;
+    padding: 1em;
+    margin:0;
+}

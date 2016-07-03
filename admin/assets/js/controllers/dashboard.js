@@ -1,11 +1,17 @@
-dah.controller('dashboardCtrl', function($scope, AccountData, Statistics) {
+dah.controller('dashboardCtrl', function($scope, $http, AccountData, Admin_messages) {
 
     // Lets first get the account status
     $scope.user = AccountData;
-    $scope.statistics = Statistics.data;
+    $scope.messages = Admin_messages.data;
 
-    $scope.points = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
-
-    $scope.data = [9,21,1,2,5,1,9,5,1,2,5,1];
+    $scope.submit_admin_message = function() {
+        $http.post("/admin/api/messages/add_message.php", $scope.new_message).then(function(response) {
+            if (response.status = "success") {
+                $scope.new_message.post_time = new Date().getTime() / 1000;
+                $scope.new_message.username = $scope.user.username;
+                Admin_messages.add_message($scope.new_message);
+            }
+        });
+    }
 
 });
