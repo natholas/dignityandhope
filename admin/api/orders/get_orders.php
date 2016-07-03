@@ -15,24 +15,66 @@ if (check_user($permissions_needed, false)) {
     // The user is logged in and is allowed to get the orders
     // Lets see if the client wants to filter the results
 
-    $sql = "SELECT * FROM orders";
+    $sql = "SELECT DISTINCT orders.*, users.first_name, users.last_name FROM organizations";
+
+    $sql .= " INNER JOIN investments
+    ON organizations.organization_id = investments.organization_id
+
+    INNER JOIN products
+    ON investments.investment_id = products.creator_id
+
+    INNER JOIN order_items
+    ON products.product_id = order_items.the_id
+
+    INNER JOIN orders
+    ON order_items.order_id = orders.order_id
+
+    INNER JOIN users
+    ON orders.user_id = users.user_id WHERE 1=1";
 
     if (isset($_POST['filter'])) {
 
         // The client wants to filter the results.
         // Lets see if the filter that they entered matches one of the allowed filters
-        if ($_POST['filter'] == "done") {
-            $sql.= " WHERE status = 'DONE'";
-        } else if ($_POST['filter'] == "cancelled") {
-            $sql.= " WHERE status = 'CANCELLED'";
-        } else if (is_numeric($_POST['filter'])) {
-            $sql.= " WHERE user_id = ".$_POST['filter'];
+
+        $filter = json_decode($_POST['filter']);
+
+        // The client wants to filter the results.
+        // Lets see if the filter that they entered matches one of the allowed filters
+        if (isset($filter->canceled) && !$filter->canceled) {
+            $sql.= " AND orders.status != 'CANCELED'";
+        }
+        if (isset($filter->pending) && !$filter->pending) {
+            $sql.= " AND orders.status != 'PENDING'";
+        }
+        if (isset($filter->completed) && !$filter->completed) {
+            $sql.= " AND orders.status != 'COMPLETED'";
+        }
+        if (isset($filter->processed) && !$filter->processed) {
+            $sql.= " AND orders.status != 'PROCESSED'";
+        }
+        if (isset($filter->organization_id) && is_numeric($filter->organization_id)) {
+            $sql.= " AND organizations.organization_id = ".$filter->organization_id;
         }
     }
 
+    // If the user is not in dignity and hope then we should only get the results for that organization
+    if ($_SESSION['organization_id'] != 0) {
+        $sql.= " AND organizations.organization_id = ".$_SESSION['organization_id'];
+    }
+
+
+    // Before we apply any limits. Lets get a quick count of the amount of rows that there are.
+    // If the client asked for it
+    if (isset($_POST['getcount'])) {
+        $result = $mysqli->query($sql);
+        if ($result) {
+            $data->count = $result->num_rows;
+        }
+    }
 
     // Lets check if they wanted to order and limit the results
-    if (isset($_POST['limit']) && isset($_POST['order_by'])) {
+    if (isset($_POST['limit']) && isset($_POST['order_by']) && isset($_POST['offset'])) {
 
         // The customer wants to limit and order the results.
         // There are only a few things that we should allow them to order by.
@@ -42,10 +84,10 @@ if (check_user($permissions_needed, false)) {
 
             // The order_by is allowed.
             // Lets check if the limit that they set is ok
-            if (is_numeric($_POST['limit']) && $_POST['limit'] > 0) {
+            if (is_numeric($_POST['limit']) && $_POST['limit'] > 0 && is_numeric($_POST['offset'])) {
 
                 // Everything looks valid. Lets add it to the SQL
-                $sql.= " ORDER BY ".$order_by." LIMIT ".$_POST['limit'];
+                $sql.= " ORDER BY ".$order_by." LIMIT ".$_POST['limit']." OFFSET ".$_POST['offset'];
 
             }
         }

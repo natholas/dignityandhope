@@ -17,14 +17,14 @@ if (check_user($permissions_needed, false)) {
 
         // There are no special permissions needed to view investments
         // However there is for viewing investments that were previously removed so lets check for that first
-        if (check_permission("view_removed_products")) {
+        if (check_permission("view_removed_investments")) {
 
             // The user has the needed permissions to view removed investments
             $sql = "SELECT * FROM investments WHERE investment_id = ".$_POST['investment_id'];
 
         } else {
 
-            // The user doesn't have permission to view removed products
+            // The user doesn't have permission to view removed investments
             $sql = "SELECT * FROM investments WHERE status != 'REMOVED' AND investment_id = ".$_POST['investment_id'];
 
         }

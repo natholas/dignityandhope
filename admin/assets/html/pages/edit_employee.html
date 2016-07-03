@@ -200,6 +200,10 @@
             <label for="permissions_get_orders">View orders</label>
         </inputContainer>
         <inputContainer>
+            <input type="checkbox" ng-model="employee.permissions.update_order" id="permissions_update_orders" ng-disabled="!user.permissions.update_order">
+            <label for="permissions_update_orders">Update order status</label>
+        </inputContainer>
+        <inputContainer>
             <input type="checkbox" ng-model="employee.permissions.get_order_details" id="permissions_get_order_details" ng-disabled="!user.permissions.get_order_details">
             <label for="permissions_get_order_details">View order details</label>
         </inputContainer>
@@ -207,7 +211,6 @@
             <input type="checkbox" ng-model="employee.permissions.get_totals" id="permissions_get_totals" ng-disabled="!user.permissions.get_totals">
             <label for="permissions_get_totals">View reporting</label>
         </inputContainer>
-        <div></div>
     </flex>
 
     <hr>

@@ -1,4 +1,4 @@
-dah.controller('headerCtrl', function($scope, Account, AccountData, Prompts, EaM, Investments, Products, Organizations, $location, Emails, Users, Confirm) {
+dah.controller('headerCtrl', function($scope, Account, AccountData, Prompts, EaM, Investments, Products, Orders, Organizations, $location, Emails, Users, Confirm) {
 
     $scope.login_info = {};
     $scope.prompt_info = {};
@@ -8,6 +8,7 @@ dah.controller('headerCtrl', function($scope, Account, AccountData, Prompts, EaM
     $scope.investments = Investments.data;
     $scope.emails = Emails.data;
     $scope.products = Products.data;
+    $scope.orders = Orders.data;
     $scope.users = Users.data;
     $scope.organizations = Organizations.data;
 
@@ -110,6 +111,14 @@ dah.controller('headerCtrl', function($scope, Account, AccountData, Prompts, EaM
             Users.load_users(true, true);
             $scope.$apply();
         }
+
+        else if ($scope.current_page == "orders" && !$scope.orders.autoLoading && (window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            $scope.orders.settings.pages_loaded += 1;
+            $scope.orders.autoLoading = true;
+            $scope.orders.settings.offset = $scope.orders.settings.pages_loaded * $scope.orders.settings.limit;
+            Users.load_orders(true, true);
+            $scope.$apply();
+        }
     };
 
     $scope.load_investments = function() {
@@ -124,6 +133,13 @@ dah.controller('headerCtrl', function($scope, Account, AccountData, Prompts, EaM
         $scope.products.settings.offset = 0;
         Products.load_products(true, false);
         $scope.hide_prompts('product_filter');
+    }
+
+    $scope.load_orders = function() {
+        $scope.orders.settings.pages_loaded = 0;
+        $scope.orders.settings.offset = 0;
+        Orders.load_orders(true, false);
+        $scope.hide_prompts('orders_filter');
     }
 
     $scope.load_emails = function() {

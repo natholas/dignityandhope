@@ -5,6 +5,7 @@ dah.service('Unprocessed', function($http, AccountData, $timeout) {
     this.data.investments = 0;
     this.data.products = 0;
     this.data.email = 0;
+    this.data.order = 0;
 
     var data = this.data;
     var refresher = null;
@@ -16,6 +17,7 @@ dah.service('Unprocessed', function($http, AccountData, $timeout) {
                 data.investments = response.investments;
                 data.products = response.products;
                 data.emails = response.emails;
+                data.orders = response.orders;
             }
             refresher = $timeout(get_unprocessed, 30000);
         });

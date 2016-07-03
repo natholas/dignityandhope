@@ -1,18 +1,19 @@
 dah.controller('edit_investmentCtrl', function($scope, $http, AccountData, Investments, organizations, $routeParams, EaM, Loading, Prompts, Confirm) {
 
-
     $scope.investments = Investments.data.investments;
     $scope.organizations = organizations;
     $scope.user = AccountData;
 
     // Getting the index for this investment
     if ($routeParams.investment_id) {
+        Investments.findInvestmentFromInvestmentId($routeParams.investment_id).then(function(response) {
+            $scope.investment = response;
+            $scope.investment.remove_images = [];
+            $scope.investment.new_images = [];
+            $scope.live_investment = $scope.investment.status == "LIVE";
+            $scope.investment.new_images.push("");
+        });
 
-        $scope.investment = $scope.investments[Investments.getInvestmentIndex($routeParams.investment_id)];
-        $scope.investment.remove_images = [];
-        $scope.investment.new_images = [];
-
-        $scope.live_investment = $scope.investment.status == "LIVE";
     }
 
     $scope.calcAmount = function() {
@@ -216,8 +217,5 @@ dah.controller('edit_investmentCtrl', function($scope, $http, AccountData, Inves
             }
         });
     }
-
-
-    $scope.investment.new_images.push("");
 
 });

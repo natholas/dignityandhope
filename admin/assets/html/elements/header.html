@@ -179,7 +179,6 @@
     <button ng-click="load_products()" class="big">Apply</button>
 </prompt>
 
-
 <prompt ng-show="prompts.email_filter">
     <close ng-click="hide_prompts('email_filter')"></close>
     <h2>Filter emails</h2>
@@ -204,7 +203,7 @@
     <flex>
         <inputContainer>
             <input type="text" ng-model="emails.settings.filter.search" ng-class="{filled: emails.settings.filter.search}">
-            <label>Search for name</label>
+            <label>Search for subject</label>
         </inputContainer>
     </flex>
     <inputContainer>
@@ -245,6 +244,45 @@
     </flex>
 
     <button ng-click="load_users()" class="big">Apply</button>
+</prompt>
+
+
+<prompt ng-show="prompts.orders_filter">
+    <close ng-click="hide_prompts('orders_filter')"></close>
+    <h2>Filter orders</h2>
+    <flex>
+        <inputContainer>
+            <select ng-model="orders.settings.order_by" class="filled" required>
+                <option value="order_id DESC">Newest to oldest</option>
+                <option value="order_id ASC">Oldest to newest</option>
+                <option value="order_total ASC">Order total (low-high)</option>
+                <option value="order_total DESC">Order total (high-low)</option>
+            </select>
+            <label>Order by</label>
+        </inputContainer>
+        <inputContainer>
+            <select ng-model="orders.settings.filter.organization_id" class="filled" required>
+                <option value="any">Any</option>
+                <option ng-repeat="organization in organizations.organizations" value="{{organization.organization_id}}">{{organization.name}}</option>
+            </select>
+            <label>Organization</label>
+        </inputContainer>
+    </flex>
+    <inputContainer>
+        <input type="checkbox" ng-model="orders.settings.filter.pending" id="orders_show_pending">
+        <label for="orders_show_pending">Pending</label>
+        <input type="checkbox" ng-model="orders.settings.filter.completed" id="orders_show_completed">
+        <label for="orders_show_completed">Completed</label>
+        <input type="checkbox" ng-model="orders.settings.filter.processed" id="orders_show_processed">
+        <label for="orders_show_processed">Processed</label>
+        <input type="checkbox" ng-model="orders.settings.filter.canceled" id="orders_show_canceled">
+        <label for="orders_show_canceled">Canceled</label>
+    </inputContaineriv>
+
+    <clearfix></clearfix>
+    <br>
+
+    <button ng-click="load_orders()" class="big">Apply</button>
 </prompt>
 
 

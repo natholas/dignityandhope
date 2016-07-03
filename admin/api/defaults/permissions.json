@@ -31,6 +31,7 @@
    "get_unprocessed_overview": true,
    "get_orders": false,
    "get_order_details": false,
+   "update_order": false,
    "get_totals": false,
    "rank":1
 }

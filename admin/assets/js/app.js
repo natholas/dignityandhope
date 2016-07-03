@@ -189,6 +189,17 @@ var dah = angular.module('dah', ['ngRoute', 'naif.base64'])
         templateUrl: '/admin/assets/html/pages/edit_user.html',
         controller: "edit_userCtrl"
     })
+    .when('/orders',
+    {
+        templateUrl: '/admin/assets/html/pages/orders.html',
+        controller: "ordersCtrl"
+    })
+
+    .when('/view_order/:order_id',
+    {
+        templateUrl: '/admin/assets/html/pages/view_order.html',
+        controller: "orderCtrl"
+    })
 
     .otherwise(
     {

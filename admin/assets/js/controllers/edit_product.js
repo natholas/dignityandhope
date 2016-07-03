@@ -9,9 +9,13 @@ dah.controller('edit_productCtrl', function($scope, $http, AccountData, Products
     // Getting the index for this product
     if ($routeParams.product_id) {
 
-        $scope.product = $scope.products[Products.getProductIndex($routeParams.product_id)];
-        $scope.product.remove_images = [];
-        $scope.product.new_images = [];
+        Products.findProductFromProductId($routeParams.product_id).then(function(response) {
+            $scope.product = response;
+            $scope.product.remove_images = [];
+            $scope.product.new_images = [];
+            $scope.product.new_images.push("");
+            $scope.pick_investment($scope.product.creator_id, 0, true);
+        });
     }
 
     $scope.removeImage = function(id) {
@@ -219,10 +223,5 @@ dah.controller('edit_productCtrl', function($scope, $http, AccountData, Products
             }
         })
     }
-
-
-    $scope.product.new_images.push("");
-    //$scope.changeInvestment();
-    $scope.pick_investment($scope.product.creator_id, 0, true);
 
 });

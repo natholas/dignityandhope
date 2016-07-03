@@ -1,0 +1,83 @@
+<h1>Order #{{order.order_id}}</h1>
+<investment>
+    <inv class="not-linked">
+        <div class="image" ng-if="order.user_id" ng-style="{'background-image': 'url(/assets/images/users/user_' + order.user_id + '.jpg)'}"></div>
+        <flex>
+            <div>
+                <div>
+                    Order by<br>
+                    <h2><a ng-href="#/edit_user/{{order.user_id}}">{{order.first_name}} {{order.last_name}}</a></h2>
+                </div>
+            </div>
+            <div>
+                <div>
+                    Order total<br>
+                    <h2>{{order.order_total | currency: "$"}}</h2>
+                </div>
+            </div>
+            <div>
+                <div>
+                    Order date<br>
+                    <h2>{{order.order_time | date: "d MMM yy - hh:mm"}}</h2>
+                </div>
+            </div>
+            <div>
+                <div>
+                    Status<br>
+                    <h2>{{order.status | capitalize}}</h2>
+                </div>
+            </div>
+        </flex>
+    </inv>
+    <br>
+</investment>
+
+<flex ng-repeat="item in order.products" class="order_li">
+    <div>
+        <a ng-href='#/edit_product/{{item.product_id}}'>
+            <span>Name:</span>
+            <b>{{item.name}}</b>
+        </a>
+    </div>
+    <div>
+        <span>Quantity:</span>
+        <b>{{item.quantity}}</b>
+    </div>
+    <div>
+        <span>Paid:</span>
+        <b>{{item.amount_paid | currency}} (each)</b>
+    </div>
+
+</flex>
+
+<flex ng-repeat="item in order.investments" class="order_li">
+    <div>
+        <a ng-href='#/edit_investment/{{item.investment_id}}'>
+            <span>Name:</span>
+            <b>{{item.name}}</b>
+        </a>
+    </div>
+    <div>
+
+    </div>
+    <div>
+        <span>Invested:</span>
+        <b>{{item.amount_paid | currency}}</b>
+    </div>
+</flex>
+
+<br><br>
+<flex>
+    <inputContainer>
+        <select ng-model="order.status" ng-class="{filled: order.status}">
+            <option value="PENDING" ng-if="order.status == 'PENDING'">Pending</option>
+            <option value="COMPLETED" ng-if="order.status == 'COMPLETED' || order.status == 'PROCESSED'">Completed</option>
+            <option value="PROCESSED" ng-if="order.status == 'COMPLETED' || order.status == 'PROCESSED'">Processed</option>
+            <option value="CANCELED" ng-if="order.status == 'CANCELED'">Canceled</option>
+        </select>
+        <label>Status</label>
+    </inputContainer>
+    <inputContainer>
+        <button ng-click="updateOrder()" class="big">Update</button>
+    </inputContainer>
+</flex>

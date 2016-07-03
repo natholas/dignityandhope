@@ -1,20 +1,22 @@
 <h1>Edit user</h1>
 <investment>
-    <br>
-    <flex>
-        <div>
+    <inv class="not-linked">
+        <div class="image" ng-if="user.user_id" ng-style="{'background-image': 'url(/assets/images/users/user_' + user.user_id + '.jpg)'}"></div>
+        <flex>
             <div>
-                Username<br>
-                <h2>{{user.first_name}} {{user.last_name}}</h2>
+                <div>
+                    Username<br>
+                    <h2>{{user.first_name}} {{user.last_name}}</h2>
+                </div>
             </div>
-        </div>
-        <div>
             <div>
-                Email<br>
-                <h2>{{user.email}}</h2>
+                <div>
+                    Email<br>
+                    <h2>{{user.email}}</h2>
+                </div>
             </div>
-        </div>
-    </flex>
+        </flex>
+    </inv>
     <br><br>
 </investment>
 

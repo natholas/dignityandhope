@@ -358,6 +358,11 @@ sidebar a.icon_users span
     background-image: url("/assets/images/icons/users.svg");
 }
 
+sidebar a.icon_orders span
+{
+    background-image: url("/assets/images/icons/orders.svg");
+}
+
 
 /*Sidebar open*/
 
@@ -780,4 +785,12 @@ loading h1
     width:100%;
     text-align: center;
     margin-top: -0.5em;
+}
+
+/*Order*/
+
+.order_li
+{
+    border-bottom: 1px solid rgba(44, 62 ,80 , 0.1);
+    padding: 0.5em 0;
 }
