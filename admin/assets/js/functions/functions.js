@@ -32,6 +32,7 @@ function uniqueString(length)
     return text;
 }
 
+
 function imageToDataUri(img, width, height) {
 
     // create an off-screen canvas

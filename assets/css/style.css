@@ -1,0 +1,609 @@
+/*
+
+Background: #ebf0f0
+Main: #3597d3
+Accent: #2880b8
+Copy: #2c3e50
+Red: #e84c3d
+
+*/
+
+
+/*Resets*/
+
+body
+{
+    margin: 0;
+}
+
+html,
+body,
+input,
+select,
+textarea,
+button
+{
+    font-size: 1em;
+    color: #2c3e50;
+    font-family: "Ubuntu", sans-serif;
+}
+
+
+/*Background*/
+
+body
+{
+    background: #ebf0f0;
+    color: #2c3e50;
+}
+
+
+/*Flex boxes*/
+
+flex
+{
+    display: flex;
+    width: 100%;
+    transition: opacity .5s ease;
+    position: relative;
+}
+
+flex > *
+{
+    flex-basis: 100%;
+    margin-left: 1em;
+
+}
+
+flex > *:first-child
+{
+    margin-left: 0;
+}
+
+flex > *:only-child
+{
+    margin-left: 0;
+}
+
+
+/*Prompts*/
+
+prompt-bg
+{
+    position: fixed;
+    top: 0; right: 0; bottom: 0; left: 0;
+    z-index: 28;
+    background-color: rgba(44, 62, 80, 0.8);
+}
+
+prompt
+{
+    position: fixed;
+    z-index: 29;
+    background-color: #fff;
+    top: 10vh;
+    min-height: 10em;
+    width: 50%;
+    left: 25%;
+    padding: 1em;
+}
+
+prompt close
+{
+    position: absolute;
+    top: -0.5em;
+    right: -0.5em;
+    width: 2em;
+    height: 2em;
+    background-color:#3597d3;
+    cursor: pointer;
+}
+
+prompt close::before,
+prompt close::after
+{
+    position: absolute;
+    content: "";
+    background: #ebf0f0;
+    width: 0.1em;
+    height: 1.5em;
+    top: 0.25em;
+    transform: rotate(45deg);
+    left: 0.95em;
+}
+
+prompt close::after
+{
+    transform: rotate(-45deg);
+}
+
+prompt > h2:first-of-type
+{
+    margin: 0;
+}
+
+
+/*prompts hover*/
+
+prompt close:hover
+{
+    background-color: #2880b8;
+}
+
+
+/*Wrapper*/
+
+wrapper
+{
+    display: block;
+    box-sizing: border-box;
+    min-height: 100%;
+}
+
+.matchWrapper
+{
+    display: block;
+    box-sizing: border-box;
+}
+
+
+/*Container*/
+
+container
+{
+    display: block;
+    transition: width .5s ease;
+    overflow: hidden;
+}
+
+.open + container
+{
+
+    width: calc(100% - 20em);
+}
+
+space-limiter
+{
+    display: block;
+    padding: 1em;
+    margin: 0 auto;
+    width: 70em;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+
+/*Hero banner*/
+
+hero-banner
+{
+    display: block;
+    color: #ebf0f0;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+hero-content
+{
+    padding: 7em 2em;
+    display: block;
+    background-color: rgba(44, 62, 80, 0.4);
+    text-align: center;
+}
+
+hero-content h1
+{
+    margin: 0;
+    font-weight: normal;
+    font-size: 3em;
+    line-height: 1.5;
+}
+
+/*header*/
+
+header
+{
+    position:
+}
+
+
+/*Logo*/
+
+logo
+{
+    display: block;
+    height: 3em;
+    width: 2.5em;
+    font-size: 1.3em;
+    background: url("/assets/images/logo.svg") no-repeat center top;
+    background-size: contain;
+    text-align: center;
+    transition: all .5s ease;
+}
+
+.open logo
+{
+    height: 10em;
+    margin: 1em 0 1.5em 0;
+}
+
+/*Meta*/
+
+page-meta
+{
+    border-bottom: 3px solid rgba(44, 62 ,80 , 0.1);
+    display: block;
+    padding: 1em;
+}
+
+page-meta h3
+{
+    margin: 0;
+    float: left;
+}
+
+.logout-button
+{
+    padding-top: 0.15em;
+    display: block;
+    float: right;
+    text-transform: uppercase;
+}
+
+stats
+{
+    display: block;
+    border-bottom: 1px solid rgba(44, 62, 80, 0.2);
+    padding: 3em 0;
+}
+
+stat-container h3
+{
+    font-weight: normal;
+    margin: 0;
+}
+
+stat
+{
+    font-weight: bold;
+    font-size: 3em;
+}
+
+
+/*Investments*/
+
+investments
+{
+    display: block;
+}
+
+investment
+{
+    display: block;
+    border-bottom: 1px solid rgba(44, 62 ,80 , 0.1);
+}
+
+investment flex > div
+{
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    padding-left: 2em;
+}
+
+investment flex > div:first-of-type
+{
+    border-width: 0;
+    padding-left: 0;
+}
+
+investment > a,
+investment > inv
+{
+    display: flex;
+    padding: 2em;
+}
+
+investment > inv.not-linked
+{
+    padding: 2em 0;
+}
+
+investment > a > div:first-child,
+investment > inv > div:first-child
+{
+    flex-shrink: 0;
+    margin-right: 3em;
+}
+
+investment > a:hover
+{
+    background-color:rgba(44, 62, 80, 0.1);
+}
+
+investment h2,
+investment p
+{
+    margin: 0;
+}
+
+investment .image
+{
+    width: 7em;
+    height: 7em;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    flex-grow: 0;
+    background-color: #2c3e50;
+    box-sizing: border-box;
+    border: 3px solid #2c3e50;
+}
+
+investment:hover .image
+{
+    border: 3px solid #3597d3;
+}
+
+
+/*Highlight-box*/
+
+highlight-box
+{
+    display: block;
+    padding: 2em;
+    background-color:#2c3e50;
+    color: #fff;
+}
+
+h2.section-title
+{
+    color: #3597d3;
+    margin-bottom: 0;
+}
+
+/*Images*/
+
+imagesContainer
+{
+    display: block;
+}
+
+.imageContainer
+{
+    position: relative;
+    transition: opacity .5s ease;
+    width: 25vw;
+    max-width: 16em;
+    float: left;
+    margin-right: 2em;
+}
+
+.imageContainer .image
+{
+    height: 25vw;
+    max-height: 16em;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+
+/*Errors and messages*/
+
+message
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color:#fff;
+    background-color: #3597d3;
+    font-weight: bold;
+    padding:1em 0;
+    display: block;
+    z-index: 99;
+    transform: translate(0,-3.5em);
+    transition: transform .2s ease;
+}
+
+message.show
+{
+    transform: translate(0,0);
+}
+
+message.error
+{
+    background-color: #e84c3d;
+}
+
+
+/*General*/
+
+.floatleft
+{
+    float: left!important;
+}
+
+.floatright
+{
+    float: right!important;
+}
+
+.floatnone
+{
+    float: none!important;
+}
+
+/*End of results*/
+
+.end_of_results
+{
+    margin: 2em 0;
+    text-align: center;
+}
+
+/*no-animate*/
+
+.no-animate,
+.no-animate-children *
+{
+   -webkit-transition: none !important;
+   transition: none !important;
+}
+
+/*Clearfix*/
+
+clearfix,
+.clearfix
+{
+    display: block;
+    clear: both;
+}
+
+/*Notification badge*/
+
+badge
+{
+    display: block;
+    position: absolute;
+    display: block;
+    left: 1em;
+    text-indent: 0;
+    top: 0.85em;
+    animation: badge .5s ease;
+}
+
+@keyframes badge
+{
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1)
+    }
+}
+
+badge[data-badge]:after
+{
+   content:attr(data-badge);
+   position:absolute;
+   top:-10px;
+   right:-10px;
+   font-size:.7em;
+   background:#e84c3d;
+   color:#ebf0f0;
+   width:18px;height:18px;
+   text-align:center;
+   line-height:18px;
+   border-radius:50%;
+}
+
+/*Suggestions*/
+
+suggestions
+{
+    position: absolute;
+    top:5em;
+    background-color: #ebf0f0;
+    z-index: 5;
+    display: block;
+    width: 100%;
+}
+
+suggestion
+{
+    display: flex;
+    padding: 1em;
+    cursor: pointer;
+    border: solid #2c3e50;
+    border-width: 0px 1px 1px 1px;
+    box-sizing: border-box;
+    align-items: center;
+    flex-direction: row;
+}
+
+suggestion.hasImage
+{
+    padding:0.5em;
+    width: 100%;
+}
+
+suggestion:hover
+{
+    background-color: rgba(44, 62, 80, 0.1);
+}
+
+suggestion:first-child
+{
+    border-top-width: 1px;
+}
+
+suggestion-image
+{
+    width: 4em;
+    height: 4em;
+    display: block;
+    background-size: cover;
+    border-radius: 50%;
+    float:left;
+    margin-right: 1em;
+}
+
+suggestion span
+{
+    display: block;
+    float: left;
+    font-size: 1.5em;
+}
+
+/*Loading screen*/
+
+route-loading-indicator h1,
+loading h1
+{
+    display: block;
+    position: fixed;
+    top: 50%;
+    width:100%;
+    text-align: center;
+    margin-top: -0.5em;
+}
+
+/*List*/
+
+.small_li
+{
+    border-bottom: 1px solid rgba(44, 62 ,80 , 0.1);
+    padding: 0.5em 0;
+}
+
+.blocklink
+{
+    display: block;
+}
+
+/*Admin messages*/
+
+admin-message
+{
+    display: block;
+    padding: 1em 0;
+}
+
+admin-message h3
+{
+    background-color: #3597d3;
+    color: #ebf0f0;
+    padding: 1em;
+    margin:0;
+}
+
+admin-message p
+{
+    border: 1px solid #3597d3;
+    padding: 1em;
+    margin:0;
+}

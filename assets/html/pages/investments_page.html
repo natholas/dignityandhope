@@ -1,0 +1,27 @@
+<space-limiter>
+    <investment ng-repeat="investment in investments.investments track by $index">
+        <a ng-href="#/edit_investment/{{investment.investment_id}}">
+            <div ng-if="investment.images.length" class="image" ng-style="{'background-image': 'url(/assets/images/investments/inv_' + investment.investment_id + '/img_' + investment.images[0].name + '_small.jpg)', 'transform': 'rotate(' +  investment.images[0].settings.rotation + 'deg)', 'background-position': investment.images[0].settings.position}"></div>
+            <div ng-if="!investment.images.length" class="image"></div>
+            <flex>
+                <div>
+                    <div>
+                        <h2>{{investment.name}} ({{investment.dob | dobToAge}})</h2>
+                        <p>{{investment.amount_invested | currency: "$"}} / {{investment.amount_needed | currency: "$"}}</p>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <h2>{{investment.city}}</h2>
+                        <p>{{investment.address}}, {{investment.city}}, {{investment.country}}</p>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        {{investment.description | limitTo: 80}}...
+                    </div>
+                </div>
+            </flex>
+        </a>
+    </investment>
+</space-limiter>
