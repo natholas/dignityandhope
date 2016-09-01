@@ -18,6 +18,16 @@ var dah = angular.module('dah', ['ngRoute'])
             }
         }
     })
+    .when('/investment/:investment_id',
+    {
+        templateUrl: '/assets/html/pages/investment_page.html',
+        controller: "investmentCtrl",
+        resolve: {
+            "investment": function(Investments, $route) {
+                return Investments.get_one($route.current.params.investment_id);
+            }
+        }
+    })
 
     .otherwise(
     {

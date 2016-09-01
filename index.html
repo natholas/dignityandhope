@@ -41,8 +41,10 @@
 
         <!-- Controller scripts -->
         <script src="/assets/js/controllers/header_ctrl.js"></script>
+        <script src="/assets/js/controllers/footer_ctrl.js"></script>
         <script src="/assets/js/controllers/home_ctrl.js"></script>
         <script src="/assets/js/controllers/investments_ctrl.js"></script>
+        <script src="/assets/js/controllers/investment_ctrl.js"></script>
 
         <!-- Services scripts -->
         <script src="/assets/js/services/investments_srvs.js"></script>
@@ -65,7 +67,7 @@
             </container>
             <clearfix></clearfix>
         </wrapper>
-        <footer ng-include="'/admin/assets/html/elements/footer.html'"></footer>
+        <footer ng-include="'/assets/html/elements/footer.html'" ng-controller="FooterCtrl"></footer>
 
     </body>
 </html>

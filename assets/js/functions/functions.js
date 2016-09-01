@@ -22,3 +22,9 @@ dah.filter("convert", function(Currency) {
         return amount / Currency.data.currentCurrency.value;
     }
 });
+
+dah.filter("upperCase", function () {
+    return function (input) {
+        return input.toUpperCase();
+    }
+})

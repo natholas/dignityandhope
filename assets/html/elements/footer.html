@@ -1,0 +1,11 @@
+<space-limiter>
+    <hr>
+
+    <div>
+        <select ng-model="currency" ng-change="curr.changeCurrency(currency)" class="small filled autowidth">
+            <option ng-repeat="curr in curr.data.currencies" value="{{curr.name}}">{{curr.name | upperCase}} ({{curr.sign}})</option>
+        </select>
+        <label>Currency</label>
+    </div>
+
+</space-limiter>

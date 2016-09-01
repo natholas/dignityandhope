@@ -1,27 +1,23 @@
 <space-limiter>
     <investments>
-        <investment ng-repeat="investment in investments.investments track by $index">
-            <a ng-href="#/edit_investment/{{investment.investment_id}}">
+        <investment ng-repeat="investment in investments.investments track by $index" class="clickable">
+            <a ng-href="#/investment/{{investment.investment_id}}" class="nolink">
                 <div ng-if="investment.images.length" class="image" ng-style="{'background-image': 'url(/assets/images/investments/inv_' + investment.investment_id + '/img_' + investment.images[0].name + '.jpg)', 'transform': 'rotate(' +  investment.images[0].settings.rotation + 'deg)', 'background-position': investment.images[0].settings.position}"></div>
                 <div ng-if="!investment.images.length" class="image"></div>
                 <investment-content>
-                    <div>
-                        <div>
-                            <h2>{{investment.name}} ({{investment.dob | dobToAge}})</h2>
-                            <p>{{investment.amount_invested | convert | currency: currency.sign}} / {{investment.amount_needed | convert | currency: currency.sign}}</p>
-                        </div>
-                    </div>
-                    <div>
-                        <div>
-                            <h2>{{investment.city}}</h2>
-                            <p>{{investment.address}}, {{investment.city}}, {{investment.country}}</p>
-                        </div>
-                    </div>
-                    <div>
-                        <div>
-                            {{investment.description | limitTo: 80}}...
-                        </div>
-                    </div>
+                    <h2 class="headless">{{investment.name}} ({{investment.dob | dobToAge}})</h2>
+                    <p>{{investment.address}}, {{investment.city}}, {{investment.country}}</p>
+                    <p>{{investment.description | limitTo: 80}}...</p>
+                    <hr class="small">
+                    <progress-box>
+                        <p>Progress: <b>{{investment.amount_invested | convert | currency: currency.sign}} / {{investment.amount_needed | convert | currency: currency.sign}}</b></p>
+                        <inv-progress>
+                            <progress-fill ng-style="{'width': investment.amount_needed / 100 * investment.amount_invested + '%'}"></progress-fill>
+                            <p>{{investment.amount_needed / 100 * investment.amount_invested + '%'}}</p>
+                        </inv-progress>
+                    </progress-box>
+                    <hr class="small">
+                    <button class="centerbutton">More info</button>
                 </investment-content>
             </a>
         </investment>
