@@ -22,7 +22,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         // We found the user
         $permissions = json_decode($result->permissions);
 
-        // Before we do the password change, lets check if this user has the correct permissions to logging
+        // Before we let the client login, lets check if this user has the correct permissions to login
         if ($permissions && $permissions->login) {
 
             // Now we check if the password entered is correct

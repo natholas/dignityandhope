@@ -1,4 +1,85 @@
+<prompt ng-show="prompts.login">
+    <close ng-click="hide_prompts('login')"></close>
+    <h2>Login</h2>
+    <form name="login_form" ng-submit="login_form.$valid && login()" novalidate>
+        <flex>
+            <inputContainer>
+                <input type="text" ng-model="login_info.email" ng-class="{filled: login_info.email}" required>
+                <label>Email</label>
+            </inputContainer>
+            <inputContainer>
+                <input type="password" ng-model="login_info.password" ng-class="{filled: login_info.password}" ng-required="!show_password" ng-show="!show_password">
+                <label ng-show="!show_password">Password</label>
+                <input type="text" ng-model="login_info.password" ng-class="{filled: login_info.password}" ng-required="show_password" ng-show="show_password">
+                <label ng-show="show_password">Password</label>
+            </inputContainer>
+        </flex>
+        <input type="submit" value="Login">
+        <input type="checkbox" ng-model="show_password" id="check">
+        <label for="check"><span ng-show="!show_password" class="no-animate">Show</span><span ng-show="show_password" class="no-animate">Hide</span> password</label>
+    </form>
+    <clearfix></clearfix>
+    <a href="" ng-click="sendresetemail = true">Forgot your password?</a>
+</prompt>
+
+<prompt ng-show="sendresetemail">
+    <close ng-click="sendresetemail = false;"></close>
+    <h2>Send reset code</h2>
+    <a href="" ng-click="sendresetemail = false">Back to login</a>
+    <form name="send_reset_form" ng-submit="send_reset_form.$valid && sendreset()" novalidate>
+
+        <input style="display:none" type="text" name="fakeusernameremembered"/>
+        <input style="display:none" type="password" name="fakepasswordremembered"/>
+
+        <flex>
+            <inputContainer>
+                <input type="email" ng-model="login_info.email" ng-class="{filled: login_info.email}" autocomplete="off" required>
+                <label>Email address</label>
+            </inputContainer>
+        </flex>
+        <input type="submit" value="Send Reset Code">
+    </form>
+</prompt>
+
+<prompt ng-show="sent_reset_email">
+    <close ng-click="sent_reset_email = false;"></close>
+    <h2>Enter reset code</h2>
+    <a href="" ng-click="sent_reset_email = false; sendresetemail = false">Back to login</a>
+    <form name="confirm_code" ng-submit="confirm_code.$valid && check_code()" novalidate>
+        <p>We have sent a reset code to {{login_info.email}}. Please enter it below</p>
+        <flex>
+            <inputContainer>
+                <input type="text" ng-model="login_info.code" ng-class="{filled: login_info.code}" autocomplete="off" required>
+                <label>Reset code</label>
+            </inputContainer>
+        </flex>
+        <flex>
+            <inputContainer>
+                <input type="password" ng-model="login_info.newpassword" ng-class="{filled: login_info.newpassword}" autocomplete="off" required>
+                <label>New password</label>
+            </inputContainer>
+            <inputContainer>
+                <input type="password" ng-model="login_info.repeat_newpassword" ng-class="{filled: login_info.repeat_newpassword}" autocomplete="off" required>
+                <label>Repeat new password</label>
+            </inputContainer>
+        </flex>
+        <input type="submit" value="Continue">
+    </form>
+</prompt>
+
+<prompt-bg ng-show="prompt_info.count > 0 || confirmData.text"></prompt-bg>
+
 <space-limiter>
-    <a href="#/"><logo></logo></a>
+    <a href="#/" class="floatleft"><logo></logo></a>
+    <menu ng-show="user.user_id" class="floatright">
+        <div ng-include="'/assets/html/elements/cart.html'" ng-show="cart.data.show"></div>
+        <button ng-click="cart.data.show = true" class="show-cart" ng-hide="cart.data.show">Cart</button>
+        <button ng-click="logout()">Logout</button>
+    </menu>
+    <menu ng-hide="user.user_id" class="floatright">
+        <button ng-click="show_login()">Login</button>
+    </menu>
+    <clearfix></clearfix>
+
     <hr>
 </space-limiter>

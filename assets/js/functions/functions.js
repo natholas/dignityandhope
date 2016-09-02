@@ -1,3 +1,16 @@
+Date.prototype.addDays = function(days)
+{
+    var dat = new Date(this.valueOf());
+    dat.setDate(dat.getDate() + days);
+    return dat;
+}
+
+Date.prototype.addHours = function(hours)
+{
+   this.setTime(this.getTime() + (hours*60*60*1000));
+   return this;
+}
+
 String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }

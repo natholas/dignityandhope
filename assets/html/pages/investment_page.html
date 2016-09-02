@@ -1,4 +1,5 @@
 <space-limiter>
+
     <investment class="borderless">
         <flex>
             <div class="small">
@@ -11,9 +12,8 @@
                 </div>
                 <div ng-if="!investment.images.length" class="image"></div>
 
-                <div class="map">
+                <div class="map"></div>
 
-                </div>
             </div>
             <div>
                 <h1 class="bottomless">{{investment.name}} ({{investment.dob | dobToAge}})</h1>
@@ -27,16 +27,16 @@
                         <h1>{{investment.amount_needed | convert | currency: currency.sign}}</h1>
                     </div>
                     <div class="small">
-                        <p>Invested so far</p>
-                        <h1>{{investment.amount_invested | convert | currency: currency.sign}}</h1>
+                        <p>Still needed</p>
+                        <h1>{{investment.amount_needed - investment.amount_invested | convert | currency: currency.sign}}</h1>
                     </div>
                     <div>
                         <div class="floatleft invest_amount_box">
-                            <input type="number" ng-model="invest_amount" ng-class="{filled: invest_amount}"/>
+                            <input type="number" ng-model="invest_amount" ng-change="change_invest_amount()" ng-class="{filled: invest_amount}"/>
                             <label>Amount</label>
                         </div>
                         <div class="floatright invest_amount_box">
-                            <button class="floatleft big fullwidth">Invest</button>
+                            <button class="floatleft big fullwidth" ng-click="addToCart()">Invest</button>
                         </div>
                     </div>
                 </flex>
@@ -44,7 +44,10 @@
                     <p>Progress:</p>
                     <inv-progress>
                         <progress-fill ng-style="{'width': investment.amount_needed / 100 * investment.amount_invested + '%'}"></progress-fill>
+                        <progress-fill class="inCart" ng-style="{'width': investment.amount_needed / 100 * cart_item_info.amount + '%'}"></progress-fill>
+                        <progress-fill class="toAdd" ng-style="{'width': investment.amount_needed / 100 * invest_amount + '%'}"></progress-fill>
                         <p>{{investment.amount_needed / 100 * investment.amount_invested + '%'}}</p>
+                        <clearfix></clearfix>
                     </inv-progress>
                 </progress-box>
 

@@ -6,7 +6,7 @@ require($_SERVER["DOCUMENT_ROOT"]."/admin/api/logging/log_activity.php");
 $data = new stdClass();
 $data->status = "failed";
 
-// The client forgot their password and would like us to send a reset eio_set_max_idle
+// The client forgot their password and would like us to send a reset it
 // We need to generate a code that they will have to confirm in reset_password.php
 // First though we have to check if the email address that they entered belongs to a real admin_user
 
@@ -26,7 +26,7 @@ if (isset($_POST['email'])) {
 
             // The user has the correct permissions
             // Now we neeed to generate a random code to send them
-            // We also save it in the session along with the
+            // We also save it in the session along with the email
             $_SESSION['admin_reset_code'] = generateRandomString(8);
             $_SESSION['admin_reset_email'] = $_POST['email'];
             $_SESSION['admin_reset_count'] = 0;

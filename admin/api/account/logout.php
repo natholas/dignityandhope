@@ -7,9 +7,8 @@ $data = new stdClass();
 $data->status = "failed";
 
 // The client wishes to logout.
-// All we need to do is destroy the session and remove the admin_login_key cookie
+// All we need to do is destroy the session
 session_destroy();
-setcookie("admin_login_key", "", 0, "/admin");
 
 
 // Logging

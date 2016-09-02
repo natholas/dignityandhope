@@ -28,19 +28,35 @@ dah.service("Investments", function($http, $q) {
         return deferred.promise;
     }
 
+    // This function finds a spesific investment
     this.get_one = function (investment_id) {
-        var deferred = $q.defer();
 
-        var params = {
-            "investment_id": investment_id
+        var found = false,
+            deferred = $q.defer();
+
+        // First lets check if we already have this investment
+        for (var i = 0; i < data.investments.length; i++) {
+            if (data.investments[i].investment_id == investment_id) {
+                deferred.resolve(this.data.investments[i]);
+                found = true;
+                break;
+            }
         }
 
-        $http.post("/api/investments/get_investment.php", params).then(function(response) {
-            if (response.data.status == "success") {
-                deferred.resolve(response.data.investment);
+        if (!found) {
+
+            var params = {
+                "investment_id": investment_id
             }
-        })
+
+            $http.post("/api/investments/get_investment.php", params).then(function(response) {
+                if (response.data.status == "success") {
+                    deferred.resolve(response.data.investment);
+                }
+            });
+        }
 
         return deferred.promise;
     }
+    
 });

@@ -1,0 +1,15 @@
+<cart class="cart">
+    <button ng-click="cart.data.show = false">X</button>
+    <cart-item ng-repeat="item in cart.data.items track by $index">
+        <div ng-show="item.type == 'investment'">
+            <a ng-href="#/investment/{{item.data.investment_id}}" class="nolink">
+                <div class="investment-image small inline"
+                ng-style="{'background-image': 'url(/assets/images/investments/inv_' + item.data.investment_id + '/img_' + item.data.images[shown_image].name + '.jpg)',
+                'transform': 'rotate(' +  item.data.images[shown_image].settings.rotation + 'deg)',
+                'background-position': item.data.images[shown_image].settings.position}" ng-init="shown_image = 0"></div>
+                <span class="item-name">{{item.data.name}}</span><span class="item-amount">{{item.amount | convert | currency: currency.sign}}</span>
+                <clearfix></clearfix>
+            </a>
+        </div>
+    </cart-item>
+</cart>
