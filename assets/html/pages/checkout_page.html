@@ -1,4 +1,54 @@
 <space-limiter>
 
-Checkout
+<h1>Checkout</h1>
+
+<form name="checkoutForm" ng-submit="checkoutForm.$valid && checkout()" novalidate>
+
+    <flex>
+        <inputcontainer>
+            <input type="text" ng-model="customerinfo.billing_info.first_name" required>
+            <label>First name</label>
+        </inputcontainer>
+        <inputcontainer>
+            <input type="text" ng-model="customerinfo.billing_info.last_name" required>
+            <label>Last name</label>
+        </inputcontainer>
+        <inputcontainer>
+            <input type="text" ng-model="customerinfo.billing_info.dob" required>
+            <label>Date of birth (DD/MM/YYYY)</label>
+        </inputcontainer>
+    </flex>
+
+    <flex>
+        <inputcontainer>
+            <input type="text" ng-model="customerinfo.billing_info.street_name" required>
+            <label>Street name</label>
+        </inputcontainer>
+        <inputcontainer class="small">
+            <input type="text" ng-model="customerinfo.billing_info.house_no" required>
+            <label>House number</label>
+        </inputcontainer>
+    </flex>
+
+    <flex>
+        <inputcontainer>
+            <input type="text" ng-model="customerinfo.billing_info.postcode" required>
+            <label>Postcode</label>
+        </inputcontainer>
+        <inputcontainer>
+            <input type="text" ng-model="customerinfo.billing_info.city" required>
+            <label>City</label>
+        </inputcontainer>
+        <inputcontainer>
+            <select ng-model="customerinfo.billing_info.country" required>
+                <option ng-repeat="country in countries track by $index">{{country}}</option>
+            </select>
+            <label>Country</label>
+        </inputcontainer>
+    </flex>
+    
+    <button>Confirm order</button>
+
+</form>
+
 </space-limiter>

@@ -4,13 +4,13 @@
     <form name="login_form" ng-submit="login_form.$valid && login()" novalidate>
         <flex>
             <inputContainer>
-                <input type="text" ng-model="login_info.email" ng-class="{filled: login_info.email}" required>
+                <input type="text" ng-model="login_info.email" required>
                 <label>Email</label>
             </inputContainer>
             <inputContainer>
-                <input type="password" ng-model="login_info.password" ng-class="{filled: login_info.password}" ng-required="!show_password" ng-show="!show_password">
+                <input type="password" ng-model="login_info.password" ng-required="!show_password" ng-show="!show_password">
                 <label ng-show="!show_password">Password</label>
-                <input type="text" ng-model="login_info.password" ng-class="{filled: login_info.password}" ng-required="show_password" ng-show="show_password">
+                <input type="text" ng-model="login_info.password" ng-required="show_password" ng-show="show_password">
                 <label ng-show="show_password">Password</label>
             </inputContainer>
         </flex>
@@ -33,7 +33,7 @@
 
         <flex>
             <inputContainer>
-                <input type="email" ng-model="login_info.email" ng-class="{filled: login_info.email}" autocomplete="off" required>
+                <input type="email" ng-model="login_info.email" autocomplete="off" required>
                 <label>Email address</label>
             </inputContainer>
         </flex>
@@ -49,17 +49,17 @@
         <p>We have sent a reset code to {{login_info.email}}. Please enter it below</p>
         <flex>
             <inputContainer>
-                <input type="text" ng-model="login_info.code" ng-class="{filled: login_info.code}" autocomplete="off" required>
+                <input type="text" ng-model="login_info.code" autocomplete="off" required>
                 <label>Reset code</label>
             </inputContainer>
         </flex>
         <flex>
             <inputContainer>
-                <input type="password" ng-model="login_info.newpassword" ng-class="{filled: login_info.newpassword}" autocomplete="off" required>
+                <input type="password" ng-model="login_info.newpassword" autocomplete="off" required>
                 <label>New password</label>
             </inputContainer>
             <inputContainer>
-                <input type="password" ng-model="login_info.repeat_newpassword" ng-class="{filled: login_info.repeat_newpassword}" autocomplete="off" required>
+                <input type="password" ng-model="login_info.repeat_newpassword" autocomplete="off" required>
                 <label>Repeat new password</label>
             </inputContainer>
         </flex>
