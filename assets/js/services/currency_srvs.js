@@ -1,4 +1,4 @@
-dah.service("Currency", function($http) {
+dah.service("Currency", function($http, Storage) {
 
     this.data = {
         "currencies": {
@@ -26,9 +26,13 @@ dah.service("Currency", function($http) {
     }
 
     this.changeCurrency = function (newCurrency) {
+        Storage.save("currency", newCurrency);
         this.data.currentCurrency.name = this.data.currencies[newCurrency].name;
         this.data.currentCurrency.sign = this.data.currencies[newCurrency].sign;
         this.data.currentCurrency.value = this.data.currencies[newCurrency].value;
     }
+
+    var old_currency = Storage.load("currency");
+    if (old_currency) this.changeCurrency(old_currency);
 
 })

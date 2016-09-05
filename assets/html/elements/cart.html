@@ -1,5 +1,5 @@
-<cart class="cart">
-    <button ng-click="cart.data.show = false">X</button>
+<cart class="cart" ng-show="cart.data.items.length">
+    <close ng-click="cart.data.show = false"></close>
     <cart-item ng-repeat="item in cart.data.items track by $index">
         <div ng-show="item.type == 'investment'">
             <a ng-href="#/investment/{{item.data.investment_id}}" class="nolink">
@@ -10,6 +10,9 @@
                 <span class="item-name">{{item.data.name}}</span><span class="item-amount">{{item.amount | convert | currency: currency.sign}}</span>
                 <clearfix></clearfix>
             </a>
+            <remove ng-click="cart.remove($index)"></remove>
         </div>
     </cart-item>
+    <br>
+    <a href class="fullwidth button" ng-show="cart.data.items.length">Checkout</a>
 </cart>

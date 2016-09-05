@@ -33,6 +33,7 @@ input[type="submit"]
     float: right;
     width: auto;
     font-size: 1em;
+    box-sizing: border-box;
 }
 
 button.fullwidth,
@@ -40,6 +41,7 @@ button.fullwidth,
 input[type="submit"].fullwidth
 {
     width: 100%;
+    text-align: center;
 }
 
 button.wide,

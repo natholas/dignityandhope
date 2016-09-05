@@ -1,5 +1,4 @@
 <space-limiter>
-
     <investment class="borderless">
         <flex>
             <div class="small">
@@ -32,25 +31,26 @@
                     </div>
                     <div>
                         <div class="floatleft invest_amount_box">
-                            <input type="number" ng-model="invest_amount" ng-change="change_invest_amount()" ng-class="{filled: invest_amount}"/>
+                            <input type="number" ng-model="invest_amount" ng-change="fixInvestmentAmount()" ng-class="{filled: invest_amount}"/>
                             <label>Amount</label>
                         </div>
                         <div class="floatright invest_amount_box">
-                            <button class="floatleft big fullwidth" ng-click="addToCart()">Invest</button>
+                            <button class="floatleft big fullwidth" ng-click="addToCart()">
+                                <span ng-show="cart_item_info.data">Update</span>
+                                <span ng-hide="cart_item_info.data">Invest</span>
+                            </button>
                         </div>
                     </div>
                 </flex>
                 <progress-box>
                     <p>Progress:</p>
                     <inv-progress>
-                        <progress-fill ng-style="{'width': investment.amount_needed / 100 * investment.amount_invested + '%'}"></progress-fill>
-                        <progress-fill class="inCart" ng-style="{'width': investment.amount_needed / 100 * cart_item_info.amount + '%'}"></progress-fill>
-                        <progress-fill class="toAdd" ng-style="{'width': investment.amount_needed / 100 * invest_amount + '%'}"></progress-fill>
+                        <progress-fill ng-style="{'width': investment.amount_invested / investment.amount_needed * 100 + '%'}"></progress-fill>
+                        <progress-fill class="toAdd" ng-style="{'width': (invest_amount * currency.value).toFixed(1) / investment.amount_needed * 100 + '%'}"></progress-fill>
                         <p>{{investment.amount_needed / 100 * investment.amount_invested + '%'}}</p>
                         <clearfix></clearfix>
                     </inv-progress>
                 </progress-box>
-
                 <hr>
 
                 <h2 class="bottomless">About {{investment.name}}</h2>

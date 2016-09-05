@@ -92,7 +92,7 @@ prompt
     padding: 1em;
 }
 
-prompt close
+close
 {
     position: absolute;
     top: -0.5em;
@@ -103,8 +103,8 @@ prompt close
     cursor: pointer;
 }
 
-prompt close::before,
-prompt close::after
+close::before,
+close::after
 {
     position: absolute;
     content: "";
@@ -116,7 +116,7 @@ prompt close::after
     left: 0.95em;
 }
 
-prompt close::after
+close::after
 {
     transform: rotate(-45deg);
 }
@@ -129,7 +129,7 @@ prompt > h2:first-of-type
 
 /*prompts hover*/
 
-prompt close:hover
+close:hover
 {
     background-color: #2880b8;
 }
@@ -737,6 +737,7 @@ cart-item
 {
     display: block;
     padding: 0.5em 0;
+    position: relative;
     border-bottom: 2px solid rgba(44, 62, 80, 0.2);
 }
 
@@ -755,4 +756,39 @@ cart-item span.item-amount
 {
     display: block;
     font-weight: bold;
+}
+
+remove
+{
+    float: right;
+    width: 2em;
+    height: 2em;
+    cursor: pointer;
+    position: absolute;
+    top: 1em;
+    right: 0;
+    text-align: center;
+    padding-top: 0.5em;
+    box-sizing: border-box;
+}
+
+
+remove::before,
+remove::after
+{
+    position: absolute;
+    content: "";
+    background: #2c3e50;
+    width: 0.1em;
+    height: 1.5em;
+    top: 0.25em;
+    transform: rotate(45deg);
+    left: 0.95em;
+}
+
+
+
+remove::after
+{
+    transform: rotate(-45deg);
 }

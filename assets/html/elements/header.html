@@ -73,7 +73,7 @@
     <a href="#/" class="floatleft"><logo></logo></a>
     <menu ng-show="user.user_id" class="floatright">
         <div ng-include="'/assets/html/elements/cart.html'" ng-show="cart.data.show"></div>
-        <button ng-click="cart.data.show = true" class="show-cart" ng-hide="cart.data.show">Cart</button>
+        <button ng-click="cart.data.show = true" class="show-cart" ng-hide="cart.data.show || !cart.data.items.length">Cart ({{cart.data.items.length}})</button>
         <button ng-click="logout()">Logout</button>
     </menu>
     <menu ng-hide="user.user_id" class="floatright">

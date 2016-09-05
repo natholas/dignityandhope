@@ -1,4 +1,4 @@
-dah.service("Cart", function(Currency, Storage, Investments) {
+dah.service("Cart", function(Currency, Storage, Investments, $q) {
 
     this.data = {
         "items": [],
@@ -41,31 +41,46 @@ dah.service("Cart", function(Currency, Storage, Investments) {
 
                 } else {
 
-                    // If this investment is already in the cart we add the value to the existing one
-                    // However we need to check if we are not adding more to the cart then is needed for this investment
-                    if (inv.amount_needed - inv.amount_invested > data.items[pos].amount + fix_amount(amount)) {
+                    // The investment is already in the cart so we just replace the amount
+                    data.items[pos].amount = fix_amount(amount);
 
-                        // The amount that we need to add is less than the investment needs so we just add the amount
-                        data.items[pos].amount += fix_amount(amount);
-
-                    } else {
-
-                        // The amount is too much. Lets just add what is needed and then let the client know with a warning message
-
-                        data.items[pos].amount = inv.amount_needed - inv.amount_invested;
-
-                        // EaM.add("error"); // i know..
-
-                    }
                 }
                 data.show = true;
             });
         }
     }
 
+    this.remove = function (index) {
+        if (data.items[index].count) {
+            data.items[index].count -= 1
+            if (data.items[index].count <= 0) {
+                data.items.splice(index,1);
+            }
+        } else {
+            data.items.splice(index,1);
+        }
+    }
+
     this.cart_item_info = function (type, id) {
 
-        return data.items[search(type, type + "_id", id)];
+        var deferred = $q.defer();
+
+        var found = false;
+
+        if (data.items.length) {
+            for (var i = 0; i < this.data.items.length; i++) {
+                if (this.data.items[i].type == type && this.data.items[i][type + "_id"] == id) {
+                    var found = true;
+                    deferred.resolve(data.items[i]);
+                }
+            }
+        }
+
+        if (!found) {
+            deferred.resolve({"amount": 0});
+        }
+
+        return deferred.promise;
 
     }
 

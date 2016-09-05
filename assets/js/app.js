@@ -28,6 +28,11 @@ var dah = angular.module('dah', ['ngRoute'])
             }
         }
     })
+    .when('/checkout/',
+    {
+        templateUrl: '/assets/html/pages/checkout_page.html',
+        controller: "CheckoutCtrl"
+    })
 
     .otherwise(
     {
