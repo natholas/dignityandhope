@@ -33,6 +33,11 @@ var dah = angular.module('dah', ['ngRoute'])
         templateUrl: '/assets/html/pages/checkout_page.html',
         controller: "CheckoutCtrl"
     })
+    .when('/confirmation/',
+    {
+        templateUrl: '/assets/html/pages/confirmation_page.html',
+        controller: "ConfirmationCtrl"
+    })
 
     .otherwise(
     {

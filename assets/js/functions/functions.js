@@ -40,4 +40,8 @@ dah.filter("upperCase", function () {
     return function (input) {
         return input.toUpperCase();
     }
-})
+});
+
+function dobToTimestamp(dob) {
+    return new Date(dob.substring(6,10), dob.substring(3,5), dob.substring(0,2)).getTime() / 1000;
+}
