@@ -8,23 +8,32 @@ dah.service("Investments", function($http, $q, Orders) {
     this.get = function (offset, limit) {
         var deferred = $q.defer();
 
-        var params = {
-            "offset": offset,
-            "limit": limit
-        }
+        if (data.investments.length) {
 
-        $http.post("/api/investments/get_investments.php", params).then(function(response) {
+            deferred.resolve(this.data);
 
-            if (response.data.status == "success") {
-                if (offset == 0) {
-                    data.investments = response.data.investments;
-                } else {
-                    data.investments.concat(response.data.investments);
-                }
-                find_my_investments();
-                deferred.resolve(this.data);
+        } else {
+
+            var params = {
+                "offset": offset,
+                "limit": limit
             }
-        });
+
+            $http.post("/api/investments/get_investments.php", params).then(function(response) {
+
+                if (response.data.status == "success") {
+                    if (offset == 0) {
+                        data.investments = response.data.investments;
+                    } else {
+                        data.investments.concat(response.data.investments);
+                    }
+                    find_my_investments();
+                    seperate_ended();
+                    deferred.resolve(this.data);
+                }
+            });
+
+        }
 
         return deferred.promise;
     }
@@ -78,6 +87,17 @@ dah.service("Investments", function($http, $q, Orders) {
             }
         }
         return false;
+    }
+
+    var seperate_ended = function () {
+
+        data.ended_investments = [];
+        for (var i = 0; i < data.investments.length; i++) {
+            if (data.investments[i].status == "ENDED") {
+                data.ended_investments.push(data.investments[i]);
+            }
+        }
+
     }
 
     var find_my_investments = this.find_my_investments;

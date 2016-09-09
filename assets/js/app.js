@@ -21,6 +21,32 @@ var dah = angular.module('dah', ['ngRoute'])
             }
         }
     })
+    .when('/all_investments',
+    {
+        templateUrl: '/assets/html/pages/all_investments_page.html',
+        controller: "investmentsCtrl",
+        resolve: {
+            orders: function(Orders) {
+                return Orders.get_order_history();
+            },
+            investments: function(Investments) {
+                return Investments.get(0,18);
+            }
+        }
+    })
+    .when('/success_stories',
+    {
+        templateUrl: '/assets/html/pages/ended_investments_page.html',
+        controller: "investmentsCtrl",
+        resolve: {
+            orders: function(Orders) {
+                return Orders.get_order_history();
+            },
+            investments: function(Investments) {
+                return Investments.get(0,18);
+            }
+        }
+    })
     .when('/investment/:investment_id',
     {
         templateUrl: '/assets/html/pages/investment_page.html',
@@ -57,6 +83,6 @@ var dah = angular.module('dah', ['ngRoute'])
 
     .otherwise(
     {
-        template: '<h2>Page not found!</h2>'
+        template: '<space-limiter><h2>Page not found!</h2></space-limiter>'
     });
 })

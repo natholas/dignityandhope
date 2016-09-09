@@ -1,0 +1,8 @@
+<space-limiter>
+    <h2 class="floatleft">Success stories</h2>
+    <clearfix></clearfix>
+    <br>
+    <investments>
+        <investment ng-repeat="investment in investments.ended_investments track by $index" class="clickable" ng-include="'/assets/html/elements/investment.html'"></investment>
+    </investments>
+</space-limiter>

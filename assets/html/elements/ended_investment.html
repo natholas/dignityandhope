@@ -1,0 +1,17 @@
+<a ng-href="#/investment/{{investment.investment_id}}" class="nolink">
+    <span ng-show="investment.invested" class="invested_tag">INVESTED</span>
+    <div ng-if="investment.images.length" class="image" ng-style="{'background-image': 'url(/assets/images/investments/inv_' + investment.investment_id + '/img_' + investment.images[0].name + '.jpg)', 'transform': 'rotate(' +  investment.images[0].settings.rotation + 'deg)', 'background-position': investment.images[0].settings.position}"></div>
+    <div ng-if="!investment.images.length" class="image"></div>
+    <investment-content>
+        <h2 class="headless">{{investment.name}} ({{investment.dob | dobToAge}})</h2>
+        <p>{{investment.address}}, {{investment.city}}, {{investment.country}}</p>
+        <p>{{investment.description | limitTo: 80}}...</p>
+        <hr class="small">
+        <progress-box>
+            <p>Total funded: <b>{{investment.amount_invested | convert | currency: currency.sign}}</b></p>
+            <p>Funded on: <b>{{investment.completion_time * 1000 | date}}</b></p>
+        </progress-box>
+        <hr class="small">
+        <button class="centerbutton">More info</button>
+    </investment-content>
+</a>

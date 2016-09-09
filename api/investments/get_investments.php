@@ -17,7 +17,7 @@ if (!isset($_POST['limit'])
     die();
 }
 
-$stmt = $mysqli->prepare("SELECT * FROM investments WHERE status = 'LIVE' LIMIT ? OFFSET ?");
+$stmt = $mysqli->prepare("SELECT * FROM investments WHERE status = 'LIVE' OR status = 'ENDED' ORDER BY -investment_id LIMIT ? OFFSET ?");
 $stmt->bind_param("ii", $_POST['limit'], $_POST['offset']);
 $stmt->execute();
 $result = $stmt->get_result();

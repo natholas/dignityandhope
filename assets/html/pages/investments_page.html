@@ -1,27 +1,18 @@
 <space-limiter>
+    <h2 class="floatleft">Featured</h2>
+    <a href="#/all_investments" class="button">All investments</a>
+    <clearfix></clearfix>
+    <br>
     <investments>
-        <investment ng-repeat="investment in investments.investments track by $index" class="clickable">
-            <a ng-href="#/investment/{{investment.investment_id}}" class="nolink">
-                <span ng-show="investment.invested" class="invested_tag">INVESTED</span>
-                <div ng-if="investment.images.length" class="image" ng-style="{'background-image': 'url(/assets/images/investments/inv_' + investment.investment_id + '/img_' + investment.images[0].name + '.jpg)', 'transform': 'rotate(' +  investment.images[0].settings.rotation + 'deg)', 'background-position': investment.images[0].settings.position}"></div>
-                <div ng-if="!investment.images.length" class="image"></div>
-                <investment-content>
-                    <h2 class="headless">{{investment.name}} ({{investment.dob | dobToAge}})</h2>
-                    <p>{{investment.address}}, {{investment.city}}, {{investment.country}}</p>
-                    <p>{{investment.description | limitTo: 80}}...</p>
-                    <hr class="small">
-                    <progress-box>
-                        <p>Progress: <b>{{investment.amount_invested | convert | currency: currency.sign}} / {{investment.amount_needed | convert | currency: currency.sign}}</b></p>
-                        <inv-progress>
-                            <progress-fill ng-style="{'width': investment.amount_invested / investment.amount_needed * 100 + '%'}"></progress-fill>
-                            <p>{{(investment.amount_invested / investment.amount_needed * 100).toFixed()  + '%'}}</p>
-                            <clearfix></clearfix>
-                        </inv-progress>
-                    </progress-box>
-                    <hr class="small">
-                    <button class="centerbutton">More info</button>
-                </investment-content>
-            </a>
-        </investment>
+        <investment ng-repeat="investment in investments.investments | limitTo: 3 track by $index" ng-if="investment.status == 'LIVE'" class="clickable" ng-include="'/assets/html/elements/investment.html'"></investment>
+    </investments>
+    <clearfix></clearfix>
+    <hr>
+    <h2 class="floatleft">Success stories</h2>
+    <a href="#/success_stories" class="button">All success stories</a>
+    <clearfix></clearfix>
+    <br>
+    <investments>
+        <investment ng-repeat="investment in investments.ended_investments | limitTo: 3 track by $index" class="clickable" ng-include="'/assets/html/elements/ended_investment.html'"></investment>
     </investments>
 </space-limiter>
