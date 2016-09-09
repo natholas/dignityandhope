@@ -1,9 +1,10 @@
 dah.service("Orders", function($http, $q, Storage) {
 
     this.data = {
-        "orders": []
+        "orders": [],
+				"investments": []
     }
-    
+
     var data = this.data;
 
     this.get_order_history = function () {
