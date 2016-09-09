@@ -2,6 +2,7 @@
     <investments>
         <investment ng-repeat="investment in investments.investments track by $index" class="clickable">
             <a ng-href="#/investment/{{investment.investment_id}}" class="nolink">
+                <span ng-show="investment.invested" class="invested_tag">INVESTED</span>
                 <div ng-if="investment.images.length" class="image" ng-style="{'background-image': 'url(/assets/images/investments/inv_' + investment.investment_id + '/img_' + investment.images[0].name + '.jpg)', 'transform': 'rotate(' +  investment.images[0].settings.rotation + 'deg)', 'background-position': investment.images[0].settings.position}"></div>
                 <div ng-if="!investment.images.length" class="image"></div>
                 <investment-content>

@@ -157,7 +157,6 @@ container
 {
     display: block;
     transition: width .5s ease;
-    overflow: hidden;
 }
 
 .open + container
@@ -292,7 +291,7 @@ investment
 {
     display: block;
     border: 1px solid rgba(44, 62 ,80 , 0.1);
-    overflow: hidden;
+    position: relative;
 }
 
 investment .image,
@@ -858,4 +857,17 @@ order-item p
 .center
 {
     text-align: center;
+}
+
+.invested_tag
+{
+    position: absolute;
+    left: -1em;
+    top: -0.3em;
+    font-size: 0.8em;
+    transform: rotate(-25deg);
+    background: #3597d3;
+    color: #ebf0f0;
+    padding: 0.5em;
+    font-weight: bold;
 }

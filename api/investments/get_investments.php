@@ -11,6 +11,7 @@ if (!isset($_POST['limit'])
 || !isset($_POST['offset'])
 || !is_numeric($_POST['limit'])
 || !is_numeric($_POST['offset'])
+|| $_POST['limit'] > 50
 ){
     echo json_encode($data);
     die();

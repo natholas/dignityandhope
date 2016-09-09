@@ -13,8 +13,11 @@ var dah = angular.module('dah', ['ngRoute'])
         templateUrl: '/assets/html/pages/investments_page.html',
         controller: "investmentsCtrl",
         resolve: {
+            orders: function(Orders) {
+                return Orders.get_order_history();
+            },
             investments: function(Investments) {
-                return Investments.get(0,20);
+                return Investments.get(0,18);
             }
         }
     })
@@ -23,6 +26,9 @@ var dah = angular.module('dah', ['ngRoute'])
         templateUrl: '/assets/html/pages/investment_page.html',
         controller: "investmentCtrl",
         resolve: {
+            orders: function(Orders) {
+                return Orders.get_order_history();
+            },
             investment: function(Investments, $route) {
                 return Investments.get_one($route.current.params.investment_id);
             }

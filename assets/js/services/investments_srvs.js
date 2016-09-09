@@ -1,4 +1,4 @@
-dah.service("Investments", function($http, $q) {
+dah.service("Investments", function($http, $q, Orders) {
 
     this.data = {
         "investments": []
@@ -21,9 +21,10 @@ dah.service("Investments", function($http, $q) {
                 } else {
                     data.investments.concat(response.data.investments);
                 }
+                find_my_investments();
                 deferred.resolve(this.data);
             }
-        })
+        });
 
         return deferred.promise;
     }
@@ -51,6 +52,7 @@ dah.service("Investments", function($http, $q) {
 
             $http.post("/api/investments/get_investment.php", params).then(function(response) {
                 if (response.data.status == "success") {
+                    response.data.investment.invested = find_my_investment(response.data.investment.investment_id);
                     deferred.resolve(response.data.investment);
                 }
             });
@@ -58,5 +60,28 @@ dah.service("Investments", function($http, $q) {
 
         return deferred.promise;
     }
-    
+
+    this.find_my_investments = function () {
+        for (var i = 0; i < data.investments.length; i++) {
+            for (var ii = 0; ii < Orders.data.investments.length; ii++) {
+                if (Orders.data.investments[ii].investment_id == data.investments[i].investment_id) {
+                    data.investments[i].invested = true;
+                }
+            }
+        }
+    }
+
+    this.find_my_investment = function (investment_id) {
+        for (var ii = 0; ii < Orders.data.investments.length; ii++) {
+            if (Orders.data.investments[ii].investment_id == investment_id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    var find_my_investments = this.find_my_investments;
+    var find_my_investment = this.find_my_investment;
+
+
 });

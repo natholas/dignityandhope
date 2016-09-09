@@ -1,5 +1,6 @@
 <space-limiter>
     <investment class="borderless">
+        <span ng-show="investment.invested" class="invested_tag">INVESTED</span>
         <flex>
             <div class="small">
                 <div class="image"
@@ -20,6 +21,22 @@
                 <p>Organization: <a ng-href="#/organization/{{investment.organization_id}}">{{investment.organization}}</a></p>
 
                 <hr>
+                <div ng-show="investment.status == 'ENDED'">
+                    <flex class="inv-money-box">
+                        <div class="small">
+                            <p>Total Funded</p>
+                            <h1>{{investment.amount_needed | convert | currency: currency.sign}}</h1>
+                        </div>
+                        <div class="small">
+                            <p>Funded on</p>
+                            <h1>{{investment.completion_time * 1000 | date}}</h1>
+                        </div>
+                    </flex>
+
+                    <hr>
+                </div>
+
+
                 <div ng-show="investment.status == 'LIVE'">
                     <flex class="inv-money-box">
                         <div class="small">

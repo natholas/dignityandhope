@@ -15,6 +15,7 @@
     <h2>You have invested in:</h2>
     <investments>
         <investment ng-repeat="investment in orders.investments | orderBy: '-amount_paid' track by $index" class="clickable">
+            <span class="invested_tag" ng-show="investment.status == 'ENDED'">FUNDED</span>
             <a ng-href="#/investment/{{investment.investment_id}}" class="nolink">
                 <div ng-if="investment.images.length" class="image" ng-style="{'background-image': 'url(/assets/images/investments/inv_' + investment.investment_id + '/img_' + investment.images[0].name + '.jpg)', 'transform': 'rotate(' +  investment.images[0].settings.rotation + 'deg)', 'background-position': investment.images[0].settings.position}"></div>
                 <div ng-if="!investment.images.length" class="image"></div>

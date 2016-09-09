@@ -1,4 +1,4 @@
-dah.controller("investmentCtrl", function($scope, investment, Currency, Cart, $timeout) {
+dah.controller("investmentCtrl", function($scope, investment, Currency, Cart, $timeout, Investments) {
     $scope.investment = investment;
     $scope.currency = Currency.data.currentCurrency;
     $scope.cart_item_info = {};
