@@ -1,0 +1,52 @@
+<space-limiter>
+
+    <h1 class="floatleft headless bottomless">Hello {{customerinfo.personal_info.first_name}}</h1>
+
+    <button ng-click="change_personal_details = true" ng-show="!change_personal_details">Change personal details</button>
+    <clearfix></clearfix>
+    <hr>
+    <form name="personal_details_form" ng-submit="personal_details_form.$valid && update_personal_details()" ng-show="change_personal_details">
+        <div ng-include="'/assets/html/elements/personal_details.html'"></div>
+        <button>Save</button>
+        <button type="button" class="secondary floatleft" ng-click="cancel_change_details(); change_personal_details = false">Cancel</button>
+        <clearfix></clearfix>
+    </form>
+
+    <h2>You have invested in:</h2>
+    <investments>
+        <investment ng-repeat="investment in orders.investments | orderBy: '-amount_paid' track by $index" class="clickable">
+            <a ng-href="#/investment/{{investment.investment_id}}" class="nolink">
+                <div ng-if="investment.images.length" class="image" ng-style="{'background-image': 'url(/assets/images/investments/inv_' + investment.investment_id + '/img_' + investment.images[0].name + '.jpg)', 'transform': 'rotate(' +  investment.images[0].settings.rotation + 'deg)', 'background-position': investment.images[0].settings.position}"></div>
+                <div ng-if="!investment.images.length" class="image"></div>
+                <investment-content>
+                    <h2 class="headless center bottomless">{{investment.name}} ({{investment.dob | dobToAge}})</h2>
+                    <h4 class="headless center bottomless">({{investment.amount_paid | convert | currency : currency.sign}})</h4>
+                </investment-content>
+            </a>
+        </investment>
+        <clearfix></clearfix>
+    </investments>
+
+    <clearfix></clearfix>
+    <hr>
+    <h2>Your order history:</h2>
+    <order ng-repeat="order in orders.orders track by $index" ng-if="order.order_status == 'COMPLETED'">
+        <order-head ng-click="order.toggled = !order.toggled">
+            <p><b>#{{order.order_id}}</b> - {{order.order_time * 1000 | date}} ({{order.order_total | convert | currency : currency.sign}})</p>
+        </order-head>
+        <order-content ng-show="order.toggled">
+            <order-item ng-repeat="item in order.order_items track by $index">
+                <div ng-if="item.type == 'investment'">
+                    <a ng-href="#/investment/{{item.investment_id}}">
+                        <div ng-if="item.images.length" class="image" ng-style="{'background-image': 'url(/assets/images/investments/inv_' + item.investment_id + '/img_' + item.images[0].name + '.jpg)', 'transform': 'rotate(' +  item.images[0].settings.rotation + 'deg)', 'background-position': item.images[0].settings.position}"></div>
+                        <div ng-if="!item.images.length" class="image"></div>
+                        <p>{{item.name}} ({{item.amount_paid | convert | currency : currency.sign}})</p>
+                        <clearfix></clearfix>
+                    </a>
+                </div>
+            </order-item>
+        </order-content>
+    </order>
+
+
+</space-limiter>

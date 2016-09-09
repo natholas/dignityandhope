@@ -8,44 +8,40 @@ dah.factory('Account', function($http, Storage, AccountData, Prompts, $q) {
     return {
         info: function(ignore) {
 
-            // This little function gets our login status and our permissions.
-            // It's possible that the info data is already there.
-            // Lets check
-            var data = Storage.load("account_data");
-            if (data && !ignore) {
+            // This little function gets our login status
+            $http.post("/api/account/check_login.php").then(function(response) {
 
-                // The account data is already there.
-                // Lets just use that instead of getting it from the server again
-                user.email = data.email;
-                user.user_id = data.user_id;
+                if (response.data && response.data.status == "success") {
 
-                // And we can close the login prompt incase it's open
-                Prompts.close_prompt("login");
+                    // Look at that! The server has told us that we are logged in!
 
-            } else {
+                    // Setting the user details for all controllers
+                    user.email = response.data.email;
+                    user.user_id = response.data.user_id;
 
-                // Nope, well it looks like we have to get it from the API.
-                $http.post("/api/account/check_login.php").success(function(data, status) {
+                    // Closing the login prompt incase its open
+                    Prompts.close_prompt("login");
 
-                    if (data && data.status == "success") {
+                    // We will also need our personal info
+                    // Lets first see if it is already in local Storage
+                    var old_personal_info = Storage.load("personal_info");
+                    if (old_personal_info && !ignore) {
+                        user.personal_info = old_personal_info;
+                    } else {
 
-                        // Look at that! The server has told us that we are logged in!
-                        // We can get rid of the stupid status..
-                        delete data.status;
+                        // Getting personal_info from the server
+                        $http.post("/api/account/get_account_details.php").then(function(response) {
 
-                        // Saving our account details in localstorage for the next 15 minutes
-                        //Storage.save("account_data", data, 0.25);
+                            if (response.data && response.data.status == "success") {
+                                response.data.personal_info.dob = timestampToDob(response.data.personal_info.dob);
+                                user.personal_info = response.data.personal_info;
+                                Storage.save("personal_info", user.personal_info, 24);
+                            }
 
-                        // Setting the user details for all controllers
-                        user.email = data.email;
-                        user.user_id = data.user_id;
-
-                        // Closing the login prompt incase its open
-                        Prompts.close_prompt("login");
-
+                        });
                     }
-                });
-            }
+                }
+            });
         },
 
         login: function(email, password) {
@@ -146,7 +142,16 @@ dah.factory('Account', function($http, Storage, AccountData, Prompts, $q) {
 
             });
 
+        },
+
+        update_personal_details: function() {
+            var params = AccountData.personal_info;
+            params.dob = dobToTimestamp(params.dob);
+            $http.post("/api/account/change_personal_details.php", params).then(function(response) {
+                console.log(response);
+            })
         }
+
     }
 });
 

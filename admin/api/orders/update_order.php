@@ -26,7 +26,7 @@ if (check_user($permissions_needed, false)) {
             if ($old_order) {
 
                 // We found the old order. Lets update it with the new status
-                $stmt = $mysqli->prepare("UPDATE orders SET status = ? WHERE order_id = ?");
+                $stmt = $mysqli->prepare("UPDATE orders SET order_status = ? WHERE order_id = ?");
                 $stmt->bind_param("si", $_POST['status'], $_POST['order_id']);
                 $stmt->execute();
 

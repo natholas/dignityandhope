@@ -42,16 +42,16 @@ if (check_user($permissions_needed, false)) {
         // The client wants to filter the results.
         // Lets see if the filter that they entered matches one of the allowed filters
         if (isset($filter->canceled) && !$filter->canceled) {
-            $sql.= " AND orders.status != 'CANCELED'";
+            $sql.= " AND orders.order_status != 'CANCELED'";
         }
         if (isset($filter->pending) && !$filter->pending) {
-            $sql.= " AND orders.status != 'PENDING'";
+            $sql.= " AND orders.order_status != 'PENDING'";
         }
         if (isset($filter->completed) && !$filter->completed) {
-            $sql.= " AND orders.status != 'COMPLETED'";
+            $sql.= " AND orders.order_status != 'COMPLETED'";
         }
         if (isset($filter->processed) && !$filter->processed) {
-            $sql.= " AND orders.status != 'PROCESSED'";
+            $sql.= " AND orders.order_status != 'PROCESSED'";
         }
         if (isset($filter->organization_id) && is_numeric($filter->organization_id)) {
             $sql.= " AND organizations.organization_id = ".$filter->organization_id;

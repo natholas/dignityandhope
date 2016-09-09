@@ -1,0 +1,38 @@
+<flex>
+    <inputcontainer>
+        <input type="text" ng-model="customerinfo.personal_info.first_name" required>
+        <label>First name</label>
+    </inputcontainer>
+    <inputcontainer>
+        <input type="text" ng-model="customerinfo.personal_info.last_name" required>
+        <label>Last name</label>
+    </inputcontainer>
+    <inputcontainer>
+        <input type="text" ng-model="customerinfo.personal_info.dob" required>
+        <label>Date of birth (DD/MM/YYYY)</label>
+    </inputcontainer>
+</flex>
+
+<flex>
+    <inputcontainer>
+        <input type="text" ng-model="customerinfo.personal_info.address" required>
+        <label>Street name</label>
+    </inputcontainer>
+</flex>
+
+<flex>
+    <inputcontainer>
+        <input type="text" ng-model="customerinfo.personal_info.post_code" required>
+        <label>Postcode</label>
+    </inputcontainer>
+    <inputcontainer>
+        <input type="text" ng-model="customerinfo.personal_info.city" required>
+        <label>City</label>
+    </inputcontainer>
+    <inputcontainer>
+        <select ng-model="customerinfo.personal_info.country" required>
+            <option ng-repeat="country in countries track by $index">{{country}}</option>
+        </select>
+        <label>Country</label>
+    </inputcontainer>
+</flex>

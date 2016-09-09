@@ -792,3 +792,70 @@ remove::after
 {
     transform: rotate(-45deg);
 }
+
+order
+{
+    display: block;
+    margin-bottom: 1em;
+    border: 2px solid rgba(44, 62, 80, 0.2);
+}
+
+order p
+{
+    margin: 0;
+}
+
+order order-head
+{
+    display: block;
+    cursor: pointer;
+    padding: 1em;
+}
+
+order-content
+{
+    display: block;
+    padding: 0 1em 1em;
+}
+
+order-item
+{
+    display: block;
+    border-bottom: 2px solid rgba(44, 62, 80, 0.2);
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+}
+
+order-item:last-child
+{
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+order-item a
+{
+    display: block;
+}
+
+order-item .image
+{
+    display: block;
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    background-size: cover;
+    float: left;
+}
+
+order-item p
+{
+    float: left;
+    display: block;
+    margin: 1em 0 0 1em;
+}
+
+.center
+{
+    text-align: center;
+}

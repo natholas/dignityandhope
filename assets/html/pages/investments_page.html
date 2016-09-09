@@ -12,8 +12,8 @@
                     <progress-box>
                         <p>Progress: <b>{{investment.amount_invested | convert | currency: currency.sign}} / {{investment.amount_needed | convert | currency: currency.sign}}</b></p>
                         <inv-progress>
-                            <progress-fill ng-style="{'width': investment.amount_needed / 100 * investment.amount_invested + '%'}"></progress-fill>
-                            <p>{{investment.amount_needed / 100 * investment.amount_invested + '%'}}</p>
+                            <progress-fill ng-style="{'width': investment.amount_invested / investment.amount_needed * 100 + '%'}"></progress-fill>
+                            <p>{{(investment.amount_invested / investment.amount_needed * 100).toFixed()  + '%'}}</p>
                             <clearfix></clearfix>
                         </inv-progress>
                     </progress-box>

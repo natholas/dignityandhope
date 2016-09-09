@@ -1,4 +1,4 @@
-dah.service("Checkout", function($http, AccountData, Storage, Cart) {
+dah.service("Checkout", function($http, AccountData, Storage, Cart, Orders) {
 
 
     this.data = {
@@ -8,20 +8,10 @@ dah.service("Checkout", function($http, AccountData, Storage, Cart) {
     var data = this.data;
 
 
-    this.loadCheckoutData = function () {
-        var old_checkout_data = Storage.load("checkout_data");
-        if (old_checkout_data) {
-            AccountData.checkout_data = old_checkout_data;
-        }
-    }
-
     this.checkout = function () {
 
-        // Saving the checkout data to localstorage
-        Storage.save("checkout_data", AccountData.checkout_data, 4);
-
         // Preparing the checkout parameters
-        var params = JSON.parse(JSON.stringify(AccountData.checkout_data));
+        var params = JSON.parse(JSON.stringify(AccountData.personal_info));
         params.cart = Cart.data.items;
         params.dob = dobToTimestamp(params.dob);
 
@@ -32,6 +22,8 @@ dah.service("Checkout", function($http, AccountData, Storage, Cart) {
                 Cart.empty();
                 data.order = JSON.parse(JSON.stringify(params));
                 data.order_id = response.data.order_id;
+                Storage.remove("order_history");
+                Orders.data.orders = [];
                 window.location.href = "#/confirmation";
 
             } else {
@@ -40,7 +32,5 @@ dah.service("Checkout", function($http, AccountData, Storage, Cart) {
         });
 
     }
-
-    this.loadCheckoutData();
 
 })

@@ -2,46 +2,9 @@
 
 <h1>Checkout</h1>
 
-<form name="checkoutForm" ng-submit="checkoutForm.$valid && checkout()" novalidate>
+<form name="checkoutForm" ng-submit="checkoutForm.$valid && checkout()" ng-show="cart.data.items.length" novalidate>
 
-    <flex>
-        <inputcontainer>
-            <input type="text" ng-model="customerinfo.checkout_data.first_name" required>
-            <label>First name</label>
-        </inputcontainer>
-        <inputcontainer>
-            <input type="text" ng-model="customerinfo.checkout_data.last_name" required>
-            <label>Last name</label>
-        </inputcontainer>
-        <inputcontainer>
-            <input type="text" ng-model="customerinfo.checkout_data.dob" required>
-            <label>Date of birth (DD/MM/YYYY)</label>
-        </inputcontainer>
-    </flex>
-
-    <flex>
-        <inputcontainer>
-            <input type="text" ng-model="customerinfo.checkout_data.address" required>
-            <label>Street name</label>
-        </inputcontainer>
-    </flex>
-
-    <flex>
-        <inputcontainer>
-            <input type="text" ng-model="customerinfo.checkout_data.postcode" required>
-            <label>Postcode</label>
-        </inputcontainer>
-        <inputcontainer>
-            <input type="text" ng-model="customerinfo.checkout_data.city" required>
-            <label>City</label>
-        </inputcontainer>
-        <inputcontainer>
-            <select ng-model="customerinfo.checkout_data.country" required>
-                <option ng-repeat="country in countries track by $index">{{country}}</option>
-            </select>
-            <label>Country</label>
-        </inputcontainer>
-    </flex>
+    <div ng-include="'/assets/html/elements/personal_details.html'"></div>
     <flex>
         <div>
 
@@ -54,5 +17,10 @@
     </flex>
 
 </form>
+
+<div ng-show="!cart.data.items.length">
+    <h2>The cart is empty</h2>
+    <a href="#/" class="button floatleft">Home</a>
+</div>
 
 </space-limiter>

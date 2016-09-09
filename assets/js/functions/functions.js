@@ -43,5 +43,21 @@ dah.filter("upperCase", function () {
 });
 
 function dobToTimestamp(dob) {
-    return new Date(dob.substring(6,10), dob.substring(3,5), dob.substring(0,2)).getTime() / 1000;
+    return new Date(dob.substring(6,10), dob.substring(3,5) -1, dob.substring(0,2)).getTime() / 1000;
+}
+
+function timestampToDob(timestamp) {
+    var date = new Date(timestamp * 1000);
+    return pad_length(date.getDate(), 2) + "/" + pad_length(date.getMonth() + 1, 2) + "/" + date.getFullYear();
+}
+
+function pad_length(input, length) {
+    input = input + "";
+    var x = length - input.length;
+    if (input.length < length) {
+        for (var i = 0; i < x; i++) {
+            input = "0" + input;
+        }
+    }
+    return input;
 }

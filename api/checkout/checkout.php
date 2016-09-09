@@ -3,7 +3,7 @@
 require($_SERVER["DOCUMENT_ROOT"]."/setup.php");
 
 $data = new stdClass();
-$data->status = "success";
+$data->status = "failed";
 
 // This script is for doing a checkout.
 // Im not sure yet how the payment method will be involved so for now this only handles adding the order to the db
@@ -11,7 +11,7 @@ $data->status = "success";
 // Lets make sure that the client is logged in
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['email'])) {
     echo json_encode($data);
-    die();
+    die("Not logged in");
 }
 
 // Lets check if all the needed parameters were sent
@@ -19,17 +19,19 @@ if (!isset($_POST['first_name'])
 || !isset($_POST['last_name'])
 || !isset($_POST['dob'])
 || !isset($_POST['address'])
-|| !isset($_POST['postcode'])
+|| !isset($_POST['post_code'])
 || !isset($_POST['city'])
 || !isset($_POST['country'])
 || !isset($_POST['cart'])) {
     echo json_encode($data);
-    die();
+    die(" Missing params");
 }
+
+$data->status = "success";
 
 // Lets update the user table with the billing details that were sent
 $stmt = $mysqli->prepare("UPDATE users SET first_name = ?, last_name = ?, dob = ?, address = ?, post_code = ?, city = ?, country = ? WHERE user_id = ?");
-$stmt->bind_param("sssssssi", $_POST['first_name'], $_POST['last_name'], $_POST['dob'], $_POST['address'], $_POST['postcode'], $_POST['city'], $_POST['country'], $_SESSION['user_id']);
+$stmt->bind_param("sssssssi", $_POST['first_name'], $_POST['last_name'], $_POST['dob'], $_POST['address'], $_POST['post_code'], $_POST['city'], $_POST['country'], $_SESSION['user_id']);
 $stmt->execute();
 
 // We need to make sure that each item in the cart exists and is allowed
@@ -39,7 +41,7 @@ $order_total = 0;
 
 // Now that we know everything in the cart is allowed we can create the order.
 // Note that at this time the order status is set to INITIAL. We will change it to completed when all of the order items have been created and the payment has been done
-$stmt = $mysqli->prepare("INSERT INTO orders (user_id, order_time, status) VALUES (?,?,'FAILED')");
+$stmt = $mysqli->prepare("INSERT INTO orders (user_id, order_time, order_status) VALUES (?,?,'FAILED')");
 $stmt->bind_param("ii", $_SESSION['user_id'], time());
 $stmt->execute();
 $order_id = $stmt->insert_id;
@@ -56,7 +58,7 @@ for ($i=0; $i < count($cart); $i++) {
         if (!$result) {$data->status = "failed";}
 
         // For investments we need to check if the amount that the client sent is less than the amount that the investment still needs
-        if ($result->amount_needed - $result->amount_invested < $cart[$i]["amount"]) {$data->status = "failed";}
+        if ($result->amount_needed - $result->amount_invested < $cart[$i]["amount"] - 0.02) {$data->status = "failed";}
         $order_total += $cart[$i]["amount"];
         $cart[$i]["new_amount"] = $result->amount_invested + $cart[$i]["amount"];
         if ($result->amount_needed - $cart[$i]["new_amount"] < 0.01) {
@@ -95,7 +97,7 @@ if ($data->status == "success") {
         if ($cart[$i]["type"] == "investment") {
 
             if ($cart[$i]["completed"]) {
-                $stmt = $mysqli->prepare("UPDATE investments SET amount_invested = ?, completion_time = ?, status = 'COMPLETED' WHERE investment_id = ?");
+                $stmt = $mysqli->prepare("UPDATE investments SET amount_invested = ?, completion_time = ?, status = 'ENDED' WHERE investment_id = ?");
                 $stmt->bind_param("dii", $cart[$i]["new_amount"], time(), $cart[$i]["investment_id"]);
                 $stmt->execute();
             } else {
@@ -115,17 +117,20 @@ if ($data->status == "success") {
     }
 
 
-
     // Somewhere here we need to confirm the payment
-
 
 
     // Now we can set the order status to completed and add the order_total
 
-    $stmt = $mysqli->prepare("UPDATE orders SET status = 'COMPLETED', order_total = ? WHERE order_id = ?");
+    $stmt = $mysqli->prepare("UPDATE orders SET order_status = 'COMPLETED', order_total = ? WHERE order_id = ?");
     $stmt->bind_param("di", $order_total, $order_id);
     $stmt->execute();
     $data->order_id = $order_id;
+
+} else {
+    echo "Something went wrong";
 }
+
+
 // Now we can return the order_id or a failure message
 echo json_encode($data);
