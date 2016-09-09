@@ -8,7 +8,7 @@ dah.service("Investments", function($http, $q, Orders) {
     this.get = function (offset, limit) {
         var deferred = $q.defer();
 
-        if (data.investments.length) {
+        if (data.investments.length >= limit + offset && !ignore) {
 
             deferred.resolve(this.data);
 

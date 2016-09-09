@@ -13,7 +13,7 @@
     </form>
 
     <h2>You have invested in:</h2>
-    <investments>
+    <investments ng-show="orders.investments.length">
         <investment ng-repeat="investment in orders.investments | orderBy: '-amount_paid' track by $index" class="clickable">
             <span class="invested_tag" ng-show="investment.status == 'ENDED'">FUNDED</span>
             <a ng-href="#/investment/{{investment.investment_id}}" class="nolink">
@@ -27,11 +27,20 @@
         </investment>
         <clearfix></clearfix>
     </investments>
+	<clearfix></clearfix>
+	<div ng-show="!orders.investments.length">
+		<p>You have not yet invested in any Entrepreneurs</p>
+		<a href="#/all_investments" class="button floatleft">View all Entrepreneurs</a>
+		<clearfix></clearfix>
+	</div>
 
-    <clearfix></clearfix>
     <hr>
     <h2>Your order history:</h2>
-    <order ng-repeat="order in orders.orders track by $index" ng-if="order.order_status == 'COMPLETED'">
+	<div ng-show="!orders.orders.length">
+		<p>No orders found</p>
+		<clearfix></clearfix>
+	</div>
+    <order ng-repeat="order in orders.orders | orderBy: '-order_time' track by $index" ng-if="order.order_status == 'COMPLETED'">
         <order-head ng-click="order.toggled = !order.toggled">
             <p><b>#{{order.order_id}}</b> - {{order.order_time * 1000 | date}} ({{order.order_total | convert | currency : currency.sign}})</p>
         </order-head>

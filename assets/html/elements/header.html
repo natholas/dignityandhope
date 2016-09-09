@@ -70,16 +70,19 @@
 <prompt-bg ng-show="prompt_info.count > 0 || confirmData.text"></prompt-bg>
 
 <space-limiter>
-    <a href="#/" class="floatleft"><logo></logo></a>
-    <menu ng-show="user.user_id" class="floatright">
-        <div ng-include="'/assets/html/elements/cart.html'" ng-show="cart.data.show"></div>
-        <button ng-click="cart.data.show = true" class="show-cart" ng-hide="cart.data.show || !cart.data.items.length">Cart ({{cart.data.items.length}})</button>
+	<a href="#/" class="floatleft"><logo></logo></a>
+	<header-menu>
+		<div ng-include="'/assets/html/elements/cart.html'" ng-show="cart.data.show"></div>
+		<button ng-click="cart.data.show = true" class="show-cart" ng-hide="cart.data.show || !cart.data.items.length">Cart ({{cart.data.items.length}})</button>
+	</header-menu>
+    <header-menu ng-show="user.user_id" class="floatright">
         <button ng-click="logout()">Logout</button>
         <a href="#/account" class="button">Account</a>
-    </menu>
-    <menu ng-hide="user.user_id" class="floatright">
+    </header-menu>
+    <header-menu ng-hide="user.user_id" class="floatright">
         <button ng-click="show_login()">Login</button>
-    </menu>
+    </header-menu>
+
     <clearfix></clearfix>
 
     <hr>

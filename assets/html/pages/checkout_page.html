@@ -5,6 +5,20 @@
 <form name="checkoutForm" ng-submit="checkoutForm.$valid && checkout()" ng-show="cart.data.items.length" novalidate>
 
     <div ng-include="'/assets/html/elements/personal_details.html'"></div>
+
+	<div ng-show="!customerinfo.user_id">
+		<flex>
+			<inputContainer>
+				<input type="text" ng-model="customerinfo.personal_info.email" ng-required="!customerinfo.user_id">
+				<label>Email</label>
+			</inputContainer>
+			<inputContainer>
+				<input type="password" ng-model="customerinfo.personal_info.password" ng-required="!customerinfo.user_id">
+				<label>Create a password</label>
+			</inputContainer>
+		</flex>
+	</div>
+	<hr>
     <flex>
         <div>
 

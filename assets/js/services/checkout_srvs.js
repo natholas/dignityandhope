@@ -1,4 +1,4 @@
-dah.service("Checkout", function($http, AccountData, Storage, Cart, Orders) {
+dah.service("Checkout", function($http, AccountData, Storage, Cart, Orders, Investments) {
 
 
     this.data = {
@@ -6,7 +6,6 @@ dah.service("Checkout", function($http, AccountData, Storage, Cart, Orders) {
     };
 
     var data = this.data;
-
 
     this.checkout = function () {
 
@@ -23,6 +22,8 @@ dah.service("Checkout", function($http, AccountData, Storage, Cart, Orders) {
                 data.order = JSON.parse(JSON.stringify(params));
                 data.order_id = response.data.order_id;
                 Storage.remove("order_history");
+				Investments.get(0,18, true);
+
                 Orders.data.orders = [];
                 window.location.href = "#/confirmation";
 

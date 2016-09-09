@@ -120,8 +120,10 @@ if (check_user($permissions_needed, false)) {
                                     $location = json_encode(lat_lng_from_address($_POST['address']. ", " .$_POST['city']. ", " .$_POST['country']));
 
                                     // Everything looks ok so we can now edit the investment in the database
+									$imgs = json_encode($images);
+									$ms = json_encode($_POST['money_split']);
                                     $stmt = $mysqli->prepare("UPDATE investments SET name = ?, dob = ?, description = ?, address = ?,  city = ?,  country = ?, location_lat_lng = ?, amount_needed = ?, organization_id = ?, status = ?, images = ?, money_split = ? WHERE investment_id = ?");
-                                    $stmt->bind_param("sisssssdisssi", $_POST['name'], $_POST['dob'], $_POST['description'], $_POST['address'], $_POST['city'], $_POST['country'], $location, $_POST['amount_needed'], $_POST['organization_id'], $_POST['status'], json_encode($images), json_encode($_POST['money_split']), $_POST['investment_id']);
+                                    $stmt->bind_param("sisssssdisssi", $_POST['name'], $_POST['dob'], $_POST['description'], $_POST['address'], $_POST['city'], $_POST['country'], $location, $_POST['amount_needed'], $_POST['organization_id'], $_POST['status'], $imgs, $ms, $_POST['investment_id']);
                                     $stmt->execute();
 
                                     $data->status = "success";

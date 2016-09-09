@@ -8,8 +8,9 @@ $data->status = "failed";
 // This script is for doing a checkout.
 // Im not sure yet how the payment method will be involved so for now this only handles adding the order to the db
 
-// Lets make sure that the client is logged in
-if (!isset($_SESSION['user_id']) || !isset($_SESSION['email'])) {
+// Lets make sure that the client is either logged in or has provided the extra info needed to creat their account
+if ((!isset($_SESSION['user_id']) || !isset($_SESSION['email']))
+&& (!isset($_POST['email']) || !isset($_POST['password']))) {
     echo json_encode($data);
     die("Not logged in");
 }
@@ -29,10 +30,49 @@ if (!isset($_POST['first_name'])
 
 $data->status = "success";
 
-// Lets update the user table with the billing details that were sent
-$stmt = $mysqli->prepare("UPDATE users SET first_name = ?, last_name = ?, dob = ?, address = ?, post_code = ?, city = ?, country = ? WHERE user_id = ?");
-$stmt->bind_param("sssssssi", $_POST['first_name'], $_POST['last_name'], $_POST['dob'], $_POST['address'], $_POST['post_code'], $_POST['city'], $_POST['country'], $_SESSION['user_id']);
-$stmt->execute();
+// Lets update the user table with the billing details that were sent if the user is logged in
+if (isset($_SESSION['user_id'])) {
+
+	$stmt = $mysqli->prepare("UPDATE users SET first_name = ?, last_name = ?, dob = ?, address = ?, post_code = ?, city = ?, country = ? WHERE user_id = ?");
+	$stmt->bind_param("sssssssi", $_POST['first_name'], $_POST['last_name'], $_POST['dob'], $_POST['address'], $_POST['post_code'], $_POST['city'], $_POST['country'], $_SESSION['user_id']);
+	$stmt->execute();
+
+} else {
+
+	// If the user is not logged in then we need to create a new account for this user
+
+	// First we need to check if this email address is unique
+	$stmt = $mysqli->prepare("SELECT COUNT(*) FROM users WHERE email = ?");
+	$stmt->bind_param("s", $_POST['email']);
+	$stmt->execute();
+	$result = mysqli_fetch_assoc($stmt->get_result())['COUNT(*)'];
+	
+	if ($result == 0) {
+
+		$password_hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
+		$stmt = $mysqli->prepare("INSERT INTO users (first_name, last_name, dob, address, post_code, city, country, email, password_hash) VALUES (?,?,?,?,?,?,?,?,?)");
+		$stmt->bind_param("sssssssss", $_POST['first_name'], $_POST['last_name'], $_POST['dob'], $_POST['address'], $_POST['post_code'], $_POST['city'], $_POST['country'], $_POST['email'], $password_hash);
+		$stmt->execute();
+
+		$_SESSION['user_id'] = $stmt->insert_id;
+		$_SESSION['email'] = $_POST['email'];
+		$data->user_id = $_SESSION['user_id'];
+		$data->email = $_SESSION['email'];
+
+	} else {
+
+		$data->status = "failed";
+		$data->error = "email_not_unique";
+		echo json_encode($data);
+		die();
+
+	}
+
+}
+
+
+
+
 
 // We need to make sure that each item in the cart exists and is allowed
 // At the same time we can calculate the order total
@@ -41,8 +81,9 @@ $order_total = 0;
 
 // Now that we know everything in the cart is allowed we can create the order.
 // Note that at this time the order status is set to INITIAL. We will change it to completed when all of the order items have been created and the payment has been done
+$time = time();
 $stmt = $mysqli->prepare("INSERT INTO orders (user_id, order_time, order_status) VALUES (?,?,'FAILED')");
-$stmt->bind_param("ii", $_SESSION['user_id'], time());
+$stmt->bind_param("ii", $_SESSION['user_id'], $time);
 $stmt->execute();
 $order_id = $stmt->insert_id;
 
@@ -98,7 +139,7 @@ if ($data->status == "success") {
 
             if ($cart[$i]["completed"]) {
                 $stmt = $mysqli->prepare("UPDATE investments SET amount_invested = ?, completion_time = ?, status = 'ENDED' WHERE investment_id = ?");
-                $stmt->bind_param("dii", $cart[$i]["new_amount"], time(), $cart[$i]["investment_id"]);
+                $stmt->bind_param("dii", $cart[$i]["new_amount"], $time, $cart[$i]["investment_id"]);
                 $stmt->execute();
             } else {
                 $stmt = $mysqli->prepare("UPDATE investments SET amount_invested = ? WHERE investment_id = ?");

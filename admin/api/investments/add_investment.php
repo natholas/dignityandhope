@@ -46,8 +46,10 @@ if (check_user($permissions_needed, false)) {
                         $location = json_encode(lat_lng_from_address($_POST['address']. ", " .$_POST['city']. ", " .$_POST['country']));
 
                         // Everything looks ok so we can now add the new investment to the database
+						$time = time();
+						$ms = json_encode($_POST['money_split']);
                         $stmt = $mysqli->prepare("INSERT INTO investments (name, dob, description, address, city, country, location_lat_lng, amount_needed, organization_id, status, creation_time, money_split) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
-                        $stmt->bind_param("sisssssdisis", $_POST['name'], $_POST['dob'], $_POST['description'], $_POST['address'], $_POST['city'], $_POST['country'], $location, $_POST['amount_needed'], $_POST['organization_id'], $_POST['status'], time(), json_encode($_POST['money_split']));
+                        $stmt->bind_param("sisssssdisis", $_POST['name'], $_POST['dob'], $_POST['description'], $_POST['address'], $_POST['city'], $_POST['country'], $location, $_POST['amount_needed'], $_POST['organization_id'], $_POST['status'], $time, $ms);
                         $stmt->execute();
 
                         $new_investment_id = $stmt->insert_id;
@@ -83,8 +85,9 @@ if (check_user($permissions_needed, false)) {
                         }
 
                         // And now we need to update this investment in the database with the image names
+						$ni = json_encode($new_images);
                         $stmt = $mysqli->prepare("UPDATE investments SET images = ? WHERE investment_id = ?");
-                        $stmt->bind_param("si", json_encode($new_images), $new_investment_id);
+                        $stmt->bind_param("si", $ni, $new_investment_id);
                         $stmt->execute();
 
                         $data->status = "success";

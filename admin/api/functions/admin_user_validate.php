@@ -170,8 +170,9 @@ function check_and_fix_permissions() {
 
     // If there were any values missing we update the users permissions in the database
     // Then we get the users permissions from the database
+	$x = json_encode($new_permissions);
     $stmt = $mysqli->prepare("UPDATE admin_users SET permissions = ? WHERE user_id = ?");
-    $stmt->bind_param("si", json_encode($new_permissions), $_SESSION['admin_user_id']);
+    $stmt->bind_param("si", $x, $_SESSION['admin_user_id']);
     $stmt->execute();
 
     return (object)$new_permissions;

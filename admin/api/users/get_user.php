@@ -32,7 +32,7 @@ if (isset($_POST['user_id'])) {
             $data->user->emails[]= $email;
         }
 
-        $stmt = $mysqli->prepare("SELECT * FROM orders WHERE user_id = ? AND (status = 'COMPLETED' OR status = 'PROCESSED') ORDER BY order_id DESC LIMIT 10");
+        $stmt = $mysqli->prepare("SELECT * FROM orders WHERE user_id = ? AND (order_status = 'COMPLETED' OR order_status = 'PROCESSED') ORDER BY order_id DESC LIMIT 10");
         $stmt->bind_param("i", $_POST['user_id']);
         $stmt->execute();
         $result = $stmt->get_result();

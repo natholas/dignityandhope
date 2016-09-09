@@ -4,7 +4,7 @@
     <div ng-if="!investment.images.length" class="image"></div>
     <investment-content>
         <h2 class="headless">{{investment.name}} ({{investment.dob | dobToAge}})</h2>
-        <p>{{investment.address}}, {{investment.city}}, {{investment.country}}</p>
+        <p>{{investment.city}}, {{investment.country}}</p>
         <p>{{investment.description | limitTo: 80}}...</p>
         <hr class="small">
         <progress-box>
