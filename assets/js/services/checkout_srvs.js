@@ -15,18 +15,10 @@ dah.service("Checkout", function($http, AccountData, Storage, Cart, Orders, Inve
         params.dob = dobToTimestamp(params.dob);
 
         // Doing the call to complete the order
-        $http.post("/api/checkout/checkout.php", params).then(function(response) {
+        $http.post("/api/checkout/checkout_init.php", params).then(function(response) {
+			console.log(response);
             if (response.data.status == "success") {
-
-                Cart.empty();
-                data.order = JSON.parse(JSON.stringify(params));
-                data.order_id = response.data.order_id;
-                Storage.remove("order_history");
-				Investments.get(0,18, true);
-
-                Orders.data.orders = [];
-                window.location.href = "#/confirmation";
-
+                window.location.href = response.data.RedirectUrl;
             } else {
                 // Error notice
             }

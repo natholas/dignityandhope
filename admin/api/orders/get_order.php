@@ -17,7 +17,17 @@ if (check_user($permissions_needed, false)) {
 
         // The client is allowed to view orders
         // Lets first get the info about this order.
-        $sql = "SELECT orders.*, users.first_name, users.last_name, users.email FROM orders INNER JOIN users ON orders.user_id = users.user_id WHERE order_id = ".$_POST['order_id'];
+        $sql = "SELECT orders.*, users.first_name, users.last_name, users.email, order_requests.payment_method, order_requests.masked_cc
+		FROM orders
+
+		INNER JOIN users
+		ON orders.user_id = users.user_id
+
+		INNER JOIN order_requests
+		ON order_requests.order_id = orders.order_id
+
+		WHERE order_requests.request_type = 'Assert' AND orders.order_id = ".$_POST['order_id'];
+
         $result_order = mysqli_fetch_object($mysqli->query($sql));
 
         if ($result_order) {
@@ -41,6 +51,9 @@ if (check_user($permissions_needed, false)) {
 
             INNER JOIN orders
             ON order_items.order_id = orders.order_id
+
+			INNER JOIN order_requests
+            ON order_requests.order_id = orders.order_id
 
             INNER JOIN products
             ON order_items.the_id = products.product_id

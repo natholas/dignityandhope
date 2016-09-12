@@ -24,13 +24,18 @@
             <div>
                 <div>
                     Status<br>
-                    <h2>{{order.status | capitalize}}</h2>
+                    <h2>{{order.order_status | capitalize}}</h2>
                 </div>
             </div>
         </flex>
     </inv>
     <br>
 </investment>
+
+<p><b>Payment method:</b> {{order.payment_method}}</p>
+<p><b>Credit card used:</b> {{order.masked_cc}}</p>
+
+
 
 <flex ng-repeat="item in order.products" class="small_li">
     <div>
@@ -69,11 +74,11 @@
 <br><br>
 <flex>
     <inputContainer>
-        <select ng-model="order.status" ng-class="{filled: order.status}">
-            <option value="PENDING" ng-if="order.status == 'PENDING'">Pending</option>
-            <option value="COMPLETED" ng-if="order.status == 'COMPLETED' || order.status == 'PROCESSED'">Completed</option>
-            <option value="PROCESSED" ng-if="order.status == 'COMPLETED' || order.status == 'PROCESSED'">Processed</option>
-            <option value="CANCELED" ng-if="order.status == 'CANCELED'">Canceled</option>
+        <select ng-model="order.order_status" ng-class="{filled: order.order_status}">
+            <option value="PENDING" ng-if="order.order_status == 'PENDING'">Pending</option>
+            <option value="COMPLETED" ng-if="order.order_status == 'COMPLETED' || order.order_status == 'PROCESSED'">Completed</option>
+            <option value="PROCESSED" ng-if="order.order_status == 'COMPLETED' || order.order_status == 'PROCESSED'">Processed</option>
+            <option value="CANCELED" ng-if="order.order_status == 'CANCELED'">Canceled</option>
         </select>
         <label>Status</label>
     </inputContainer>

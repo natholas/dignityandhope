@@ -22,7 +22,7 @@ if (check_user($permissions_needed, false)) {
         $inv_sql = "SELECT COUNT(*) FROM investments WHERE status = 'PENDING'";
         $prod_sql = "SELECT COUNT(*) FROM products WHERE status = 'PENDING'";
         $email_sql = "SELECT COUNT(*) FROM emails WHERE status = 'PENDING'";
-        $order_sql = "SELECT COUNT(*) FROM orders WHERE status = 'COMPLETED'";
+        $order_sql = "SELECT COUNT(*) FROM orders WHERE order_status = 'COMPLETED'";
         $product_count = $mysqli->query($prod_sql)->fetch_assoc()['COUNT(*)'];
         $invest_count = $mysqli->query($inv_sql)->fetch_assoc()['COUNT(*)'];
         $email_count = $mysqli->query($email_sql)->fetch_assoc()['COUNT(*)'];

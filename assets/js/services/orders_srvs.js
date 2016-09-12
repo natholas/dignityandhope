@@ -51,7 +51,7 @@ dah.service("Orders", function($http, $q, Storage) {
         data.investments = [];
         for (var i = 0; i < data.orders.length; i++) {
             for (var ii = 0; ii < data.orders[i].order_items.length; ii++) {
-                if (data.orders[i].order_items[ii].type == "investment") {
+                if (data.orders[i].order_items[ii].type == "investment" && data.orders[i].order_status == "COMPLETED") {
                     var found = false;
                     for (var iii = 0; iii < data.investments.length; iii++) {
                         if (data.investments[iii].investment_id == data.orders[i].order_items[ii].investment_id) found = iii;

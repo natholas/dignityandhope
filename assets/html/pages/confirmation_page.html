@@ -1,1 +1,15 @@
-{{order}}
+<space-limiter>
+
+	<div ng-hide="order_failed">
+
+		<h2>Order successful</h2>
+		{{order}}
+		Order ID: #{{order_id}}
+
+	</div>
+
+	<div ng-show="order_failed">
+		<h2>Order cancelled. You have not been charged.</h2>
+	</div>
+
+</space-limiter>

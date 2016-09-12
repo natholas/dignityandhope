@@ -1,13 +1,12 @@
 <?php
 
 require($_SERVER["DOCUMENT_ROOT"]."/setup.php");
+require("functions.php");
 
 $data = new stdClass();
 $data->status = "failed";
 
-// This script is for doing a checkout.
-// Im not sure yet how the payment method will be involved so for now this only handles adding the order to the db
-
+// This is the first part of the backend order process
 // Lets make sure that the client is either logged in or has provided the extra info needed to creat their account
 if ((!isset($_SESSION['user_id']) || !isset($_SESSION['email']))
 && (!isset($_POST['email']) || !isset($_POST['password']))) {
@@ -40,13 +39,12 @@ if (isset($_SESSION['user_id'])) {
 } else {
 
 	// If the user is not logged in then we need to create a new account for this user
-
 	// First we need to check if this email address is unique
 	$stmt = $mysqli->prepare("SELECT COUNT(*) FROM users WHERE email = ?");
 	$stmt->bind_param("s", $_POST['email']);
 	$stmt->execute();
 	$result = mysqli_fetch_assoc($stmt->get_result())['COUNT(*)'];
-	
+
 	if ($result == 0) {
 
 		$password_hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
@@ -67,12 +65,7 @@ if (isset($_SESSION['user_id'])) {
 		die();
 
 	}
-
 }
-
-
-
-
 
 // We need to make sure that each item in the cart exists and is allowed
 // At the same time we can calculate the order total
@@ -132,46 +125,53 @@ for ($i=0; $i < count($cart); $i++) {
 
 if ($data->status == "success") {
 
-    // Now we can update the investments/products with the new value
-    for ($i=0; $i < count($cart); $i++) {
+	$request_id = generateRandomString(32);
 
-        if ($cart[$i]["type"] == "investment") {
+	$object = array();
+	$object['RequestHeader'] = array();
+	$object['RequestHeader']['SpecVersion'] = "1.3";
+	$object['RequestHeader']['CustomerId'] = "406798";
+	$object['RequestHeader']['RequestId'] = $request_id;
+	$object['RequestHeader']['RetryIndicator'] = 0;
+	$object['TerminalId'] = "17829283";
+	$object['Payment'] = array();
+	$object['Payment']['Amount'] = array();
+	$object['Payment']['Amount']['Value'] = $order_total * 100;
+	$object['Payment']['Amount']['CurrencyCode'] = "CHF";
+	$object['Payment']['OrderId'] = $order_id;
+	$object['Payment']['Description'] = "Payment to dignity and hope";
+	$object['Payer'] = array();
+	$object['Payer']['LanguageCode'] = "en";
+	$object['ReturnUrls'] = array();
+	$object['ReturnUrls']['Success'] = "http://dignityandhope/api/checkout/checkout_success.php?RequestId=".$request_id;
+	$object['ReturnUrls']['Fail'] = "http://dignityandhope/api/checkout/checkout_failure.php";
 
-            if ($cart[$i]["completed"]) {
-                $stmt = $mysqli->prepare("UPDATE investments SET amount_invested = ?, completion_time = ?, status = 'ENDED' WHERE investment_id = ?");
-                $stmt->bind_param("dii", $cart[$i]["new_amount"], $time, $cart[$i]["investment_id"]);
-                $stmt->execute();
-            } else {
-                $stmt = $mysqli->prepare("UPDATE investments SET amount_invested = ? WHERE investment_id = ?");
-                $stmt->bind_param("di", $cart[$i]["new_amount"], $cart[$i]["investment_id"]);
-                $stmt->execute();
-            }
+	$url = "https://test.saferpay.com/api/Payment/v1/PaymentPage/Initialize";
 
-        } else if ($cart[$i]["type"] == "product") {
+	$result = do_post($url, $object);
 
-            $stmt = $mysqli->prepare("UPDATE products SET stock = ? WHERE product_id = ?");
-            $stmt->bind_param("di", $cart[$i]["new_stock"], $cart[$i]["product_id"]);
-            $stmt->execute();
+	if (!$result) {
+		$data->status == "failed";
+	} else {
 
-        }
+		$data->RedirectUrl = $result['RedirectUrl'];
 
-    }
+		$time = time();
+		$request_type = "Initialize";
+		$stmt = $mysqli->prepare("INSERT INTO order_requests (order_id, request_type, RequestId, Token, request_time) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("isssi", $order_id, $request_type, $object['RequestHeader']['RequestId'], $result['Token'], $time);
+        $stmt->execute();
 
+		// Now we also need to save the cart so that we can load it up again after the transaction is successful
+		$cart = json_encode($cart);
+		$stmt = $mysqli->prepare("INSERT INTO cart_data (order_id, cart_data) VALUES (?, ?)");
+        $stmt->bind_param("is", $order_id, $cart);
+        $stmt->execute();
 
-    // Somewhere here we need to confirm the payment
-
-
-    // Now we can set the order status to completed and add the order_total
-
-    $stmt = $mysqli->prepare("UPDATE orders SET order_status = 'COMPLETED', order_total = ? WHERE order_id = ?");
-    $stmt->bind_param("di", $order_total, $order_id);
-    $stmt->execute();
-    $data->order_id = $order_id;
-
-} else {
-    echo "Something went wrong";
+	}
 }
 
-
-// Now we can return the order_id or a failure message
 echo json_encode($data);
+
+
+?>

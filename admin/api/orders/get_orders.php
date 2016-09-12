@@ -15,22 +15,20 @@ if (check_user($permissions_needed, false)) {
     // The user is logged in and is allowed to get the orders
     // Lets see if the client wants to filter the results
 
-    $sql = "SELECT DISTINCT orders.*, users.first_name, users.last_name FROM organizations";
+    $sql = "SELECT orders.*, users.first_name, users.last_name, order_requests.payment_method, order_requests.masked_cc FROM orders";
 
-    $sql .= " INNER JOIN investments
-    ON organizations.organization_id = investments.organization_id
+    $sql .= " INNER JOIN order_items
+	ON order_items.order_id = orders.order_id
 
-    INNER JOIN products
-    ON investments.investment_id = products.creator_id
+	INNER JOIN order_requests
+	ON order_requests.order_id = orders.order_id
 
-    INNER JOIN order_items
-    ON products.product_id = order_items.the_id
 
-    INNER JOIN orders
-    ON order_items.order_id = orders.order_id
+	INNER JOIN investments
+	ON investments.investment_id = order_items.the_id
 
-    INNER JOIN users
-    ON orders.user_id = users.user_id WHERE 1=1";
+	INNER JOIN users
+	ON orders.user_id = users.user_id WHERE order_requests.request_type = 'Assert'";
 
     if (isset($_POST['filter'])) {
 

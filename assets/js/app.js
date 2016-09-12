@@ -65,7 +65,7 @@ var dah = angular.module('dah', ['ngRoute'])
         templateUrl: '/assets/html/pages/checkout_page.html',
         controller: "CheckoutCtrl"
     })
-    .when('/confirmation/',
+    .when('/confirmation/:order_id',
     {
         templateUrl: '/assets/html/pages/confirmation_page.html',
         controller: "ConfirmationCtrl"
