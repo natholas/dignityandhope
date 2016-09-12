@@ -106,6 +106,10 @@ if ($data->status == "success") {
     $data->order_id = $order_id;
 
 	// Now we can redirect the user to the confirmation page
-	header("Location: http://dignityandhope/#/confirmation/$order_id");
+	if ($_SERVER['HTTP_HOST'] == "dignityandhope") {
+		header("Location: http://dignityandhope/#/confirmation/$order_id");
+	} else {
+		header("Location: http://dah.felix-design.com/#/confirmation/$order_id");
+	}
 
 }
