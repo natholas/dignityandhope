@@ -143,8 +143,13 @@ if ($data->status == "success") {
 	$object['Payer'] = array();
 	$object['Payer']['LanguageCode'] = "en";
 	$object['ReturnUrls'] = array();
-	$object['ReturnUrls']['Success'] = "http://dignityandhope/api/checkout/checkout_success.php?RequestId=".$request_id;
-	$object['ReturnUrls']['Fail'] = "http://dignityandhope/api/checkout/checkout_failure.php";
+	if ($_SERVER['HTTP_HOST'] == "dignityandhope") {
+		$object['ReturnUrls']['Success'] = "http://dignityandhope/api/checkout/checkout_success.php?RequestId=".$request_id;
+		$object['ReturnUrls']['Fail'] = "http://dignityandhope/api/checkout/checkout_failure.php";
+	} else {
+		$object['ReturnUrls']['Success'] = "http://dah.felix-design.com/api/checkout/checkout_success.php?RequestId=".$request_id;
+		$object['ReturnUrls']['Fail'] = "http://dah.felix-design.com/api/checkout/checkout_failure.php";
+	}
 
 	$url = "https://test.saferpay.com/api/Payment/v1/PaymentPage/Initialize";
 

@@ -111,5 +111,4 @@ if ($data->status == "success") {
 	} else {
 		header("Location: http://dah.felix-design.com/#/confirmation/$order_id");
 	}
-
 }
