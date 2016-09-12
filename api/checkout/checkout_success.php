@@ -19,8 +19,8 @@ $request_id = $_GET['RequestId'];
 // Of course we cant trust that a payment was successfully made just because someone visits this url.
 // Lets get the token for the request that this RequestId relates to from the db
 $time = time() - 60 * 20;
-$stmt = $mysqli->prepare("SELECT token FROM order_requests WHERE RequestId = ? AND request_time > $time");
-$stmt->bind_param("i", $request_id);
+$stmt = $mysqli->prepare("SELECT token, order_id FROM order_requests WHERE RequestId = ?");
+$stmt->bind_param("s", $request_id);
 $stmt->execute();
 
 $token = mysqli_fetch_object($stmt->get_result());
@@ -41,13 +41,12 @@ if ($token) {
 	$object['Token'] = $token->token;
 
 	$result = do_post($url, $object);
-
 	// If the transaction was successful then we can save the request in the db
 	if ($result && $result['Transaction']['Status'] == "AUTHORIZED") {
 
 		$time = time();
 		$order_total = $result['Transaction']['Amount']['Value'] / 100;
-		$order_id = $result['Transaction']['OrderId'];
+		$order_id = $token->order_id;
 
 		$request_type = "Assert";
 		$stmt = $mysqli->prepare("INSERT INTO order_requests (order_id, request_type, RequestId, request_time, transaction_id, payment_method, masked_cc) VALUES (?, ?, ?, ?, ?, ?, ?)");
@@ -61,8 +60,6 @@ if ($token) {
 }
 
 if ($data->status == "success") {
-
-
 
     // Now we can update the investments/products with the new value
 	// First we need to load the cart again from the db
@@ -105,12 +102,10 @@ if ($data->status == "success") {
     $stmt->execute();
     $data->order_id = $order_id;
 
-	print_r($data);
-
 	// Now we can redirect the user to the confirmation page
 	if ($_SERVER['HTTP_HOST'] == "dignityandhope") {
-		//header("Location: http://dignityandhope/#/confirmation/$order_id");
+		header("Location: http://dignityandhope/#/confirmation/$order_id");
 	} else {
-		//header("Location: http://dah.felix-design.com/#/confirmation/$order_id");
+		header("Location: http://dah.felix-design.com/#/confirmation/$order_id");
 	}
 }

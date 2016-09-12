@@ -164,7 +164,7 @@ if ($data->status == "success") {
 		$time = time();
 		$request_type = "Initialize";
 		$stmt = $mysqli->prepare("INSERT INTO order_requests (order_id, request_type, RequestId, Token, request_time) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("isssi", $order_id, $request_type, $object['RequestHeader']['RequestId'], $result['Token'], $time);
+        $stmt->bind_param("isssi", $order_id, $request_type, $request_id, $result['Token'], $time);
         $stmt->execute();
 
 		// Now we also need to save the cart so that we can load it up again after the transaction is successful
