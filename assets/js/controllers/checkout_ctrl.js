@@ -1,4 +1,4 @@
-dah.controller("CheckoutCtrl", function($scope, Currency, Storage, $http, AccountData, Cart, Checkout) {
+dah.controller("CheckoutCtrl", function($scope, Currency, Storage, $http, AccountData, Cart, Checkout, Prompts) {
 
     $scope.customerinfo = AccountData;
     $scope.currency = Currency.data.currentCurrency;
@@ -10,5 +10,9 @@ dah.controller("CheckoutCtrl", function($scope, Currency, Storage, $http, Accoun
         "Country 1",
         "Country 2"
     ]
+
+    $scope.show_login = function () {
+        Prompts.open_prompt("login");
+    }
 
 })

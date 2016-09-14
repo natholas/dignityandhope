@@ -1,4 +1,4 @@
-dah.service("Checkout", function($http, AccountData, Storage, Cart, Orders, Investments) {
+dah.service("Checkout", function($http, AccountData, Storage, Cart, Orders, Investments, Currency) {
 
 
     this.data = {
@@ -13,6 +13,7 @@ dah.service("Checkout", function($http, AccountData, Storage, Cart, Orders, Inve
         var params = JSON.parse(JSON.stringify(AccountData.personal_info));
         params.cart = Cart.data.items;
         params.dob = dobToTimestamp(params.dob);
+        params.currency = Currency.data.currentCurrency.currency_code;
 
         // Doing the call to complete the order
         $http.post("/api/checkout/checkout_init.php", params).then(function(response) {

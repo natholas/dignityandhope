@@ -4,20 +4,28 @@
 
 <form name="checkoutForm" ng-submit="checkoutForm.$valid && checkout()" ng-show="cart.data.items.length" novalidate>
 
+    <hr class="small">
+    <div ng-show="!customerinfo.user_id">
+        <h2 class="bottomless">Login</h2>
+        <p>Please login if you already have an account on dignity and hope</p>
+        <button class="floatnone" ng-click="show_login()" type="button">Login</button>
+        <hr class="small">
+        <h2 class="bottomless">or create a new account</h2>
+        <flex>
+            <inputContainer>
+                <input type="text" ng-model="customerinfo.personal_info.email" ng-required="!customerinfo.user_id">
+                <label>Email</label>
+            </inputContainer>
+            <inputContainer>
+                <input type="password" ng-model="customerinfo.personal_info.password" ng-required="!customerinfo.user_id">
+                <label>Create a password</label>
+            </inputContainer>
+        </flex>
+        <hr class="small">
+    </div>
     <div ng-include="'/assets/html/elements/personal_details.html'"></div>
 
-	<div ng-show="!customerinfo.user_id">
-		<flex>
-			<inputContainer>
-				<input type="text" ng-model="customerinfo.personal_info.email" ng-required="!customerinfo.user_id">
-				<label>Email</label>
-			</inputContainer>
-			<inputContainer>
-				<input type="password" ng-model="customerinfo.personal_info.password" ng-required="!customerinfo.user_id">
-				<label>Create a password</label>
-			</inputContainer>
-		</flex>
-	</div>
+
 	<hr>
     <flex>
         <div>
@@ -26,7 +34,7 @@
 
         </div>
         <div>
-            <button ng-show="cart.data.items.length">Confirm order</button>
+            <button ng-show="cart.data.items.length">Confirm order<span ng-show="!customerinfo.user_id"> and create account</span></button>
         </div>
     </flex>
 

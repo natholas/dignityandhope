@@ -2,6 +2,7 @@ dah.controller("AccountCtrl", function($scope, Currency, AccountData, Orders, Ac
 
     $scope.customerinfo = AccountData;
     $scope.currency = Currency.data.currentCurrency;
+    $scope.curr = Currency.data;
 
     $scope.orders = Orders.data;
 

@@ -10,7 +10,7 @@ $data->status = "failed";
 // The request ID should be in the header.
 // If this is not the case then we can redirect to the failed page
 if (!isset($_GET['RequestId'])) {
-	header("Location: http://dignityandhope/api/checkout/checkout_failure.php");
+	header("Location: http://".$_SERVER['HTTP_HOST']."api/checkout/checkout_failure.php");
 	die("No request_id");
 }
 
@@ -103,9 +103,6 @@ if ($data->status == "success") {
     $data->order_id = $order_id;
 
 	// Now we can redirect the user to the confirmation page
-	if ($_SERVER['HTTP_HOST'] == "dignityandhope") {
-		header("Location: http://dignityandhope/#/confirmation/$order_id");
-	} else {
-		header("Location: http://dah.felix-design.com/#/confirmation/$order_id");
-	}
+	header("Location: http://".$_SERVER['HTTP_HOST']."/#/confirmation/$order_id");
+
 }

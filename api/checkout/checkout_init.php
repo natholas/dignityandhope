@@ -22,6 +22,7 @@ if (!isset($_POST['first_name'])
 || !isset($_POST['post_code'])
 || !isset($_POST['city'])
 || !isset($_POST['country'])
+|| !isset($_POST['currency'])
 || !isset($_POST['cart'])) {
     echo json_encode($data);
     die(" Missing params");
@@ -67,6 +68,19 @@ if (isset($_SESSION['user_id'])) {
 	}
 }
 
+// Lets make sure that the currency that was entered is valid
+$stmt = $mysqli->prepare("SELECT * FROM conversion_rates WHERE currency_code = ?");
+$stmt->bind_param("s", $_POST['currency']);
+$stmt->execute();
+$currency = mysqli_fetch_assoc($stmt->get_result());
+
+if (!$currency) {
+    $data->status = "failed";
+    $data->error = "currency_not_found";
+    echo json_encode($data);
+    die();
+}
+
 // We need to make sure that each item in the cart exists and is allowed
 // At the same time we can calculate the order total
 $cart = $_POST['cart'];
@@ -75,8 +89,8 @@ $order_total = 0;
 // Now that we know everything in the cart is allowed we can create the order.
 // Note that at this time the order status is set to INITIAL. We will change it to completed when all of the order items have been created and the payment has been done
 $time = time();
-$stmt = $mysqli->prepare("INSERT INTO orders (user_id, order_time, order_status) VALUES (?,?,'FAILED')");
-$stmt->bind_param("ii", $_SESSION['user_id'], $time);
+$stmt = $mysqli->prepare("INSERT INTO orders (user_id, order_time, order_status, currency_code, conversion_rate) VALUES (?,?,'FAILED',?, ?)");
+$stmt->bind_param("iisd", $_SESSION['user_id'], $time, $currency['currency_code'], $currency['value']);
 $stmt->execute();
 $order_id = $stmt->insert_id;
 
@@ -116,9 +130,9 @@ for ($i=0; $i < count($cart); $i++) {
         $cart[$i]["new_stock"] = $result->stock - $cart[$i]["count"];
 
     } else {$data->status = "failed";}
-
+    $converted_amount = $cart[$i]["amount"] / $currency['value'];
     $stmt = $mysqli->prepare("INSERT INTO order_items (order_id, type, the_id, amount_paid) VALUES (?,?,?,?)");
-    $stmt->bind_param("isid", $order_id, $cart[$i]["type"], $cart[$i][$cart[$i]["type"]."_id"], $cart[$i]["amount"]);
+    $stmt->bind_param("isid", $order_id, $cart[$i]["type"], $cart[$i][$cart[$i]["type"]."_id"], $converted_amount);
     $stmt->execute();
 
 }
@@ -136,20 +150,15 @@ if ($data->status == "success") {
 	$object['TerminalId'] = "17829283";
 	$object['Payment'] = array();
 	$object['Payment']['Amount'] = array();
-	$object['Payment']['Amount']['Value'] = $order_total * 100;
-	$object['Payment']['Amount']['CurrencyCode'] = "CHF";
+	$object['Payment']['Amount']['Value'] = ($order_total * 100) / $currency['value'];
+	$object['Payment']['Amount']['CurrencyCode'] = $currency['currency_code'];
 	$object['Payment']['OrderId'] = $order_id;
 	$object['Payment']['Description'] = "Payment to dignity and hope";
 	$object['Payer'] = array();
 	$object['Payer']['LanguageCode'] = "en";
 	$object['ReturnUrls'] = array();
-	if ($_SERVER['HTTP_HOST'] == "dignityandhope") {
-		$object['ReturnUrls']['Success'] = "http://dignityandhope/api/checkout/checkout_success.php?RequestId=".$request_id;
-		$object['ReturnUrls']['Fail'] = "http://dignityandhope/api/checkout/checkout_failure.php";
-	} else {
-		$object['ReturnUrls']['Success'] = "http://dah.felix-design.com/api/checkout/checkout_success.php?RequestId=".$request_id;
-		$object['ReturnUrls']['Fail'] = "http://dah.felix-design.com/api/checkout/checkout_failure.php";
-	}
+	$object['ReturnUrls']['Success'] = "http://".$_SERVER['HTTP_HOST']."/api/checkout/checkout_success.php?RequestId=".$request_id;
+	$object['ReturnUrls']['Fail'] = "http://".$_SERVER['HTTP_HOST']."/api/checkout/checkout_failure.php";
 
 	$url = "https://test.saferpay.com/api/Payment/v1/PaymentPage/Initialize";
 

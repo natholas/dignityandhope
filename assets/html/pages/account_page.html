@@ -21,7 +21,7 @@
                 <div ng-if="!investment.images.length" class="image"></div>
                 <investment-content>
                     <h2 class="headless center bottomless">{{investment.name}} ({{investment.dob | dobToAge}})</h2>
-                    <h4 class="headless center bottomless">({{investment.amount_paid | convert | currency : currency.sign}})</h4>
+                    <h4 class="headless center bottomless">({{investment.amount_paid | currency : currency.sign}})</h4>
                 </investment-content>
             </a>
         </investment>
@@ -42,7 +42,7 @@
 	</div>
     <order ng-repeat="order in orders.orders | orderBy: '-order_time' track by $index" ng-if="order.order_status == 'COMPLETED'">
         <order-head ng-click="order.toggled = !order.toggled">
-            <p><b>#{{order.order_id}}</b> - {{order.order_time * 1000 | date}} ({{order.order_total | convert | currency : currency.sign}})</p>
+            <p><b>#{{order.order_id}}</b> - {{order.order_time * 1000 | date}} ({{order.order_total | currency : curr.currencies[order.currency_code].sign}})</p>
         </order-head>
         <order-content ng-show="order.toggled">
             <order-item ng-repeat="item in order.order_items track by $index">
@@ -50,7 +50,7 @@
                     <a ng-href="#/investment/{{item.investment_id}}">
                         <div ng-if="item.images.length" class="image" ng-style="{'background-image': 'url(/assets/images/investments/inv_' + item.investment_id + '/img_' + item.images[0].name + '.jpg)', 'transform': 'rotate(' +  item.images[0].settings.rotation + 'deg)', 'background-position': item.images[0].settings.position}"></div>
                         <div ng-if="!item.images.length" class="image"></div>
-                        <p>{{item.name}} ({{item.amount_paid | convert | currency : currency.sign}})</p>
+                        <p>{{item.name}} ({{item.amount_paid | currency : curr.currencies[order.currency_code].sign}})</p>
                         <clearfix></clearfix>
                     </a>
                 </div>
