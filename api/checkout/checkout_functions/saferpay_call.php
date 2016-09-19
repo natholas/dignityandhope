@@ -2,6 +2,7 @@
 //JSONObj is a multidimensional Array, that assembles the JSON structure
 //$username and $password for the http-Basic Authentication
 //$url is the SaferpayURL eg. https://www.saferpay.com/api/Payment/v1/Transaction/Initialize
+
 function do_post($url, $JSONObj) {
 
 	$username = "API_406798_69320839";

@@ -1,7 +1,8 @@
 <?php
 
 require($_SERVER["DOCUMENT_ROOT"]."/setup.php");
-require("functions.php");
+require("checkout_functions/saferpay_call.php");
+require("checkout_functions/initialize_transaction.php");
 
 $data = new stdClass();
 $data->status = "failed";
@@ -140,29 +141,9 @@ for ($i=0; $i < count($cart); $i++) {
 if ($data->status == "success") {
 
 	$request_id = generateRandomString(32);
+    
+    $result = initialize_transaction($request_id, $order_total, $currency['value'], $currency['currency_code'], $order_id);
 
-	$object = array();
-	$object['RequestHeader'] = array();
-	$object['RequestHeader']['SpecVersion'] = "1.3";
-	$object['RequestHeader']['CustomerId'] = "406798";
-	$object['RequestHeader']['RequestId'] = $request_id;
-	$object['RequestHeader']['RetryIndicator'] = 0;
-	$object['TerminalId'] = "17829283";
-	$object['Payment'] = array();
-	$object['Payment']['Amount'] = array();
-	$object['Payment']['Amount']['Value'] = ($order_total * 100) / $currency['value'];
-	$object['Payment']['Amount']['CurrencyCode'] = $currency['currency_code'];
-	$object['Payment']['OrderId'] = $order_id;
-	$object['Payment']['Description'] = "Payment to dignity and hope";
-	$object['Payer'] = array();
-	$object['Payer']['LanguageCode'] = "en";
-	$object['ReturnUrls'] = array();
-	$object['ReturnUrls']['Success'] = "http://".$_SERVER['HTTP_HOST']."/api/checkout/checkout_success.php?RequestId=".$request_id;
-	$object['ReturnUrls']['Fail'] = "http://".$_SERVER['HTTP_HOST']."/api/checkout/checkout_failure.php";
-
-	$url = "https://test.saferpay.com/api/Payment/v1/PaymentPage/Initialize";
-
-	$result = do_post($url, $object);
 
 	if (!$result) {
 		$data->status == "failed";

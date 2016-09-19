@@ -1,7 +1,9 @@
 <?php
 
 require($_SERVER["DOCUMENT_ROOT"]."/setup.php");
-require("functions.php");
+require("checkout_functions/saferpay_call.php");
+require("checkout_functions/assert_transaction.php");
+require("checkout_functions/capture_transaction.php");
 
 $data = new stdClass();
 $data->status = "failed";
@@ -28,19 +30,9 @@ $token = mysqli_fetch_object($stmt->get_result());
 if ($token) {
 
 	// Lets check with saferpay if the payment was successful
-	$url = "https://test.saferpay.com/api/Payment/v1/PaymentPage/Assert";
-
 	$request_id = generateRandomString(32);
+	$result = assert_transaction($request_id, $token->token);
 
-	$object = array();
-	$object['RequestHeader'] = array();
-	$object['RequestHeader']['SpecVersion'] = "1.3";
-	$object['RequestHeader']['CustomerId'] = "406798";
-	$object['RequestHeader']['RequestId'] = $request_id;
-	$object['RequestHeader']['RetryIndicator'] = 0;
-	$object['Token'] = $token->token;
-
-	$result = do_post($url, $object);
 	// If the transaction was successful then we can save the request in the db
 	if ($result && $result['Transaction']['Status'] == "AUTHORIZED") {
 
@@ -50,11 +42,19 @@ if ($token) {
 
 		$request_type = "Assert";
 		$stmt = $mysqli->prepare("INSERT INTO order_requests (order_id, request_type, RequestId, request_time, transaction_id, payment_method, masked_cc) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ississs", $order_id, $request_type, $object['RequestHeader']['RequestId'], $time, $result['Transaction']['Id'], $result['PaymentMeans']['Brand']['PaymentMethod'], $result['PaymentMeans']['Card']['MaskedNumber']);
+        $stmt->bind_param("ississs", $order_id, $request_type, $result['RequestHeader']['RequestId'], $time, $result['Transaction']['Id'], $result['PaymentMeans']['Brand']['PaymentMethod'], $result['PaymentMeans']['Card']['MaskedNumber']);
+        $stmt->execute();
+
+		// If the transaction was authorized then we can capture the transaction
+		$request_id = generateRandomString(32);
+		$capture = capture_transaction($request_id, $result['Transaction']['Id']);
+
+		$request_type = "Capture";
+		$stmt = $mysqli->prepare("INSERT INTO order_requests (order_id, request_type, RequestId, request_time, transaction_id) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("issis", $order_id, $request_type, $capture['RequestHeader']['RequestId'], $time, $capture['TransactionId']);
         $stmt->execute();
 
 		$data->status = "success";
-
 
 	}
 }
@@ -104,5 +104,17 @@ if ($data->status == "success") {
 
 	// Now we can redirect the user to the confirmation page
 	header("Location: http://".$_SERVER['HTTP_HOST']."/#/confirmation/$order_id");
+
+} else if ($result && $result['Transaction']['Status'] != "CAPTURED") {
+
+	// If the transaction has failed for whatever reason we need to cancel the transaction
+	$time = time();
+	require("checkout_functions/cancel_transaction.php");
+	$request_id = generateRandomString(32);
+	$result = cancel_transaction($request_id, $result['Transaction']['Id']);
+	$request_type = "Cancel";
+	$stmt = $mysqli->prepare("INSERT INTO order_requests (order_id, request_type, RequestId, request_time, transaction_id) VALUES (?, ?, ?, ?, ?)");
+	$stmt->bind_param("issis", $order_id, $request_type, $result['RequestHeader']['RequestId'], $time, $result['TransactionId']);
+	$stmt->execute();
 
 }
