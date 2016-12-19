@@ -11,8 +11,8 @@ function initialize_transaction($request_id, $order_total, $conversion_rate, $cu
     $object['TerminalId'] = "17829283";
     $object['Payment'] = array();
     $object['Payment']['Amount'] = array();
-    $object['Payment']['Amount']['Value'] = floatval(number_format(($order_total * 100) / $conversion_rate));
-    $object['Payment']['Amount']['CurrencyCode'] = $currency;
+    $object['Payment']['Amount']['Value'] = floatval(number_format($order_total * 100));
+    $object['Payment']['Amount']['CurrencyCode'] = "CHF";
     $object['Payment']['OrderId'] = $order_id;
     $object['Payment']['Description'] = "Payment to dignity and hope";
     $object['Payer'] = array();

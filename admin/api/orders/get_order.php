@@ -26,7 +26,7 @@ if (check_user($permissions_needed, false)) {
 		INNER JOIN order_requests
 		ON order_requests.order_id = orders.order_id
 
-		WHERE order_requests.request_type = 'Assert' AND orders.order_id = ".$_POST['order_id'];
+		WHERE orders.order_id = ".$_POST['order_id'];
 
         $result_order = mysqli_fetch_object($mysqli->query($sql));
 

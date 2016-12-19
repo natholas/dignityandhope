@@ -12,6 +12,7 @@ dah.service('Orders', function($http, Storage, $q, AccountData) {
         filter: {
             organization_id: "any",
             canceled: false,
+            failed: false,
             pending: true,
             completed: true,
             processed: false,
@@ -23,6 +24,7 @@ dah.service('Orders', function($http, Storage, $q, AccountData) {
         data.settings.filter = {
             organization_id: "any",
             canceled: false,
+            failed: false,
             pending: true,
             completed: true,
             processed: false,
@@ -75,7 +77,7 @@ dah.service('Orders', function($http, Storage, $q, AccountData) {
             }
 
             $http.post("/admin/api/orders/get_orders.php", settings).success(function(response, status) {
-                
+
                 if (response && response.status == "success") {
 
                     if (autoLoad) {

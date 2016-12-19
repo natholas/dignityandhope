@@ -79,6 +79,7 @@
             <option value="COMPLETED" ng-if="order.order_status == 'COMPLETED' || order.order_status == 'PROCESSED'">Completed</option>
             <option value="PROCESSED" ng-if="order.order_status == 'COMPLETED' || order.order_status == 'PROCESSED'">Processed</option>
             <option value="CANCELED" ng-if="order.order_status == 'CANCELED'">Canceled</option>
+            <option value="FAILED" ng-if="order.order_status == 'FAILED'">Failed</option>
         </select>
         <label>Status</label>
     </inputContainer>

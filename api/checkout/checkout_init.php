@@ -131,9 +131,8 @@ for ($i=0; $i < count($cart); $i++) {
         $cart[$i]["new_stock"] = $result->stock - $cart[$i]["count"];
 
     } else {$data->status = "failed";}
-    $converted_amount = $cart[$i]["amount"] / $currency['value'];
     $stmt = $mysqli->prepare("INSERT INTO order_items (order_id, type, the_id, amount_paid) VALUES (?,?,?,?)");
-    $stmt->bind_param("isid", $order_id, $cart[$i]["type"], $cart[$i][$cart[$i]["type"]."_id"], $converted_amount);
+    $stmt->bind_param("isid", $order_id, $cart[$i]["type"], $cart[$i][$cart[$i]["type"]."_id"], $cart[$i]["amount"]);
     $stmt->execute();
 
 }
@@ -141,7 +140,7 @@ for ($i=0; $i < count($cart); $i++) {
 if ($data->status == "success") {
 
 	$request_id = generateRandomString(32);
-    
+
     $result = initialize_transaction($request_id, $order_total, $currency['value'], $currency['currency_code'], $order_id);
 
 

@@ -23,12 +23,13 @@ if (check_user($permissions_needed, false)) {
 	INNER JOIN order_requests
 	ON order_requests.order_id = orders.order_id
 
-
 	INNER JOIN investments
 	ON investments.investment_id = order_items.the_id
 
 	INNER JOIN users
-	ON orders.user_id = users.user_id WHERE order_requests.request_type = 'Assert'";
+	ON orders.user_id = users.user_id
+
+    WHERE 1 = 1";
 
     if (isset($_POST['filter'])) {
 
@@ -50,6 +51,9 @@ if (check_user($permissions_needed, false)) {
         }
         if (isset($filter->processed) && !$filter->processed) {
             $sql.= " AND orders.order_status != 'PROCESSED'";
+        }
+        if (isset($filter->failed) && !$filter->failed) {
+            $sql.= " AND orders.order_status != 'FAILED'";
         }
         if (isset($filter->organization_id) && is_numeric($filter->organization_id)) {
             $sql.= " AND organizations.organization_id = ".$filter->organization_id;
