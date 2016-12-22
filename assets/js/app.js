@@ -10,11 +10,15 @@ var dah = angular.module('dah', ['ngRoute'])
 		resolve: {
             orders: function(Orders) {
                 return Orders.get_order_history().then(function(response) {
+					console.log(1);
 					return response;
 				})
             },
             investments: function(Investments) {
-                return Investments.get(0,18);
+                return Investments.get(0,18).then(function(response) {
+					console.log(2);
+					return response;
+				});
             }
         }
     })

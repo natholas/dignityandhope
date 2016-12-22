@@ -35,6 +35,7 @@ dah.service("Orders", function($http, $q, Storage, Account) {
 		        } else {
 
 		            $http.post("/api/account/get_order_history.php").then(function(response) {
+						console.log(response);
 		                if (response.data.status == "success") {
 							$this.process_order_data(response.data.orders);
 		                    // data.orders = response.data.orders;

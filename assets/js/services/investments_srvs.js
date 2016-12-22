@@ -20,7 +20,7 @@ dah.service("Investments", function($http, $q, Orders) {
             }
 
             $http.post("/api/investments/get_investments.php", params).then(function(response) {
-
+				console.log(response);
                 if (response.data.status == "success") {
                     if (offset == 0) data.investments = response.data.investments;
                     else data.investments.concat(response.data.investments);
