@@ -1,4 +1,4 @@
-dah.factory('Account', function($http, Storage, AccountData, Prompts, $q) {
+dah.factory('Account', function($http, Storage, AccountData, Prompts, $q, Notifications, $interval) {
 
     var user = AccountData,
     loggingin = false,
@@ -7,41 +7,58 @@ dah.factory('Account', function($http, Storage, AccountData, Prompts, $q) {
 
     return {
         info: function(ignore) {
+			var deferred = $q.defer();
 
-            // This little function gets our login status
-            $http.post("/api/account/check_login.php").then(function(response) {
+			if (user.checked && user.user_id) deferred.resolve(true);
+			else if (user.checked) deferred.resolve(false);
+			else if (!user.checking) {
+				user.checking = true;
+	            // This little function gets our login status
+	            $http.post("/api/account/check_login.php").then(function(response) {
 
-                if (response.data && response.data.status == "success") {
+					user.checking = false;
+	                if (response.data && response.data.status == "success") {
 
-                    // Look at that! The server has told us that we are logged in!
+	                    // Setting the user details
+	                    user.email = response.data.email;
+	                    user.user_id = response.data.user_id;
 
-                    // Setting the user details for all controllers
-                    user.email = response.data.email;
-                    user.user_id = response.data.user_id;
+	                    // Closing the login prompt incase its open
+	                    Prompts.close_prompt("login");
 
-                    // Closing the login prompt incase its open
-                    Prompts.close_prompt("login");
+	                    // We will also need our personal info
+	                    // Lets first see if it is already in local Storage
+	                    var old_personal_info = Storage.load("personal_info");
+	                    if (old_personal_info && !ignore) {
+	                        user.personal_info = old_personal_info;
+	                    } else {
 
-                    // We will also need our personal info
-                    // Lets first see if it is already in local Storage
-                    var old_personal_info = Storage.load("personal_info");
-                    if (old_personal_info && !ignore) {
-                        user.personal_info = old_personal_info;
-                    } else {
+	                        // Getting personal_info from the server
+	                        $http.post("/api/account/get_account_details.php").then(function(response) {
 
-                        // Getting personal_info from the server
-                        $http.post("/api/account/get_account_details.php").then(function(response) {
+	                            if (response.data && response.data.status == "success") {
+	                                response.data.personal_info.dob = timestampToDob(response.data.personal_info.dob);
+	                                user.personal_info = response.data.personal_info;
+	                                user.personal_info.dob = {"string": user.personal_info.dob};
+	                                Storage.save("personal_info", user.personal_info, 24);
+	                            }
 
-                            if (response.data && response.data.status == "success") {
-                                response.data.personal_info.dob = timestampToDob(response.data.personal_info.dob);
-                                user.personal_info = response.data.personal_info;
-                                Storage.save("personal_info", user.personal_info, 24);
-                            }
+	                        });
+	                    }
 
-                        });
-                    }
-                }
-            });
+						user.checked = true;
+						deferred.resolve(true);
+	                } else deferred.resolve(false);
+	            });
+			} else {
+				var timer = $interval(function() {
+					$interval.cancel(timer);
+					if (user.checking) return;
+					deferred.resolve(true);
+				},50)
+			}
+
+			return deferred.promise;
         },
 
         login: function(email, password) {
@@ -61,8 +78,6 @@ dah.factory('Account', function($http, Storage, AccountData, Prompts, $q) {
                     loggingin = false;
                     if (data.status == "success") {
 
-                        // Saving our account details in localstorage for the next two hours
-                        //Storage.save("account_data", data, 2);
                         // Setting the user details for all controllers
                         user.email = data.email;
                         user.user_id = data.user_id;
@@ -70,10 +85,10 @@ dah.factory('Account', function($http, Storage, AccountData, Prompts, $q) {
                         // Closing the login prompt incase its open
                         Prompts.close_prompt("login");
                         window.location.reload();
-                        //EaM.showMessage("loggedin");
+                        Notifications.add("Logged in");
 
                     } else {
-                        //EaM.showError("wronguserorpass");
+                        Notifications.add("Incorrect username or password", "bad");
                     }
 
                 });

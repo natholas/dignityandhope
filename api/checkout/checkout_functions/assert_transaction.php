@@ -8,7 +8,7 @@ function assert_transaction($request_id, $token) {
     $object = array();
     $object['RequestHeader'] = array();
     $object['RequestHeader']['SpecVersion'] = "1.3";
-    $object['RequestHeader']['CustomerId'] = "406798";
+    $object['RequestHeader']['CustomerId'] = "404298";
     $object['RequestHeader']['RequestId'] = $request_id;
     $object['RequestHeader']['RetryIndicator'] = 0;
     $object['Token'] = $token;

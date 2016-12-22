@@ -6,7 +6,17 @@ var dah = angular.module('dah', ['ngRoute'])
     .when('/',
     {
         templateUrl: '/assets/html/pages/home_page.html',
-        controller: "homeCtrl"
+        controller: "investmentsCtrl",
+		resolve: {
+            orders: function(Orders) {
+                return Orders.get_order_history().then(function(response) {
+					return response;
+				})
+            },
+            investments: function(Investments) {
+                return Investments.get(0,18);
+            }
+        }
     })
     .when('/investments',
     {
@@ -14,10 +24,28 @@ var dah = angular.module('dah', ['ngRoute'])
         controller: "investmentsCtrl",
         resolve: {
             orders: function(Orders) {
-                return Orders.get_order_history();
+                return Orders.get_order_history().then(function(response) {
+					return response;
+				})
             },
             investments: function(Investments) {
                 return Investments.get(0,18);
+            }
+        }
+    })
+    .when('/organizations/:organization_id?',
+    {
+        templateUrl: '/assets/html/pages/organizations.html',
+        controller: "organizationsCtrl",
+        resolve: {
+            organization: function(Organizations, $route) {
+				if ($route.current.params.organization_id) {
+	                return Organizations.get_one($route.current.params.organization_id).then(function(response) {
+						return response;
+					})
+				} else {
+					return false;
+				}
             }
         }
     })
@@ -26,8 +54,10 @@ var dah = angular.module('dah', ['ngRoute'])
         templateUrl: '/assets/html/pages/all_investments_page.html',
         controller: "investmentsCtrl",
         resolve: {
-            orders: function(Orders) {
-                return Orders.get_order_history();
+			orders: function(Orders) {
+                return Orders.get_order_history().then(function(response) {
+					return response;
+				})
             },
             investments: function(Investments) {
                 return Investments.get(0,18);
@@ -39,8 +69,10 @@ var dah = angular.module('dah', ['ngRoute'])
         templateUrl: '/assets/html/pages/ended_investments_page.html',
         controller: "investmentsCtrl",
         resolve: {
-            orders: function(Orders) {
-                return Orders.get_order_history();
+			orders: function(Orders) {
+                return Orders.get_order_history().then(function(response) {
+					return response;
+				})
             },
             investments: function(Investments) {
                 return Investments.get(0,18);
@@ -52,15 +84,17 @@ var dah = angular.module('dah', ['ngRoute'])
         templateUrl: '/assets/html/pages/investment_page.html',
         controller: "investmentCtrl",
         resolve: {
-            orders: function(Orders) {
-                return Orders.get_order_history();
+			orders: function(Orders) {
+                return Orders.get_order_history().then(function(response) {
+					return response;
+				})
             },
             investment: function(Investments, $route) {
                 return Investments.get_one($route.current.params.investment_id);
             }
         }
     })
-    .when('/checkout/',
+    .when('/checkout/:status?',
     {
         templateUrl: '/assets/html/pages/checkout_page.html',
         controller: "CheckoutCtrl"
@@ -75,10 +109,17 @@ var dah = angular.module('dah', ['ngRoute'])
         templateUrl: '/assets/html/pages/account_page.html',
         controller: "AccountCtrl",
         resolve: {
-            orders: function(Orders) {
-                return Orders.get_order_history();
+			orders: function(Orders) {
+                return Orders.get_order_history().then(function(response) {
+					return response;
+				})
             }
         }
+    })
+    .when('/memberships/',
+    {
+        templateUrl: '/assets/html/pages/memberships.html',
+        controller: "membershipsCtrl"
     })
 
     .otherwise(

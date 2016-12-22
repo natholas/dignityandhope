@@ -94,13 +94,13 @@ dah.service("Cart", function(Currency, Storage, Investments, $q) {
     }
 
     function fix_amount(input) {
-        return parseFloat((input * Currency.data.currentCurrency.value).toFixed(2));
+        return parseFloat((input / Currency.data.currentCurrency.value).toFixed(2));
     }
 
     this.total = function () {
         var total = 0;
         for (var i = 0; i < data.items.length; i++) {
-            if (data.items[i].count) total += data.items[i].amount * ata.items[i].count;
+            if (data.items[i].count) total += data.items[i].amount * data.items[i].count;
             else total += data.items[i].amount;
         }
         return total;

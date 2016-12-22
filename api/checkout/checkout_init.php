@@ -104,17 +104,14 @@ for ($i=0; $i < count($cart); $i++) {
         $stmt->bind_param("i", $cart[$i]["investment_id"]);
         $stmt->execute();
         $result = mysqli_fetch_object($stmt->get_result());
-        if (!$result) {$data->status = "failed";}
+        if (!$result) {$data->status = "failed1";}
 
         // For investments we need to check if the amount that the client sent is less than the amount that the investment still needs
-        if ($result->amount_needed - $result->amount_invested < $cart[$i]["amount"] - 0.02) {$data->status = "failed";}
+        if ($result->amount_needed - $result->amount_invested < $cart[$i]["amount"] - 0.02) $data->status = "failed2";
         $order_total += $cart[$i]["amount"];
         $cart[$i]["new_amount"] = $result->amount_invested + $cart[$i]["amount"];
-        if ($result->amount_needed - $cart[$i]["new_amount"] < 0.01) {
-            $cart[$i]["completed"] = true;
-        } else {
-            $cart[$i]["completed"] = false;
-        }
+        if ($result->amount_needed - $cart[$i]["new_amount"] < 0.01) $cart[$i]["completed"] = true;
+        else $cart[$i]["completed"] = false;
 
 
     } else if ($cart[$i]["type"] == "product") {
@@ -131,6 +128,7 @@ for ($i=0; $i < count($cart); $i++) {
         $cart[$i]["new_stock"] = $result->stock - $cart[$i]["count"];
 
     } else {$data->status = "failed";}
+
     $stmt = $mysqli->prepare("INSERT INTO order_items (order_id, type, the_id, amount_paid) VALUES (?,?,?,?)");
     $stmt->bind_param("isid", $order_id, $cart[$i]["type"], $cart[$i][$cart[$i]["type"]."_id"], $cart[$i]["amount"]);
     $stmt->execute();
@@ -142,7 +140,6 @@ if ($data->status == "success") {
 	$request_id = generateRandomString(32);
 
     $result = initialize_transaction($request_id, $order_total, $currency['value'], $currency['currency_code'], $order_id);
-
 
 	if (!$result) {
 		$data->status == "failed";

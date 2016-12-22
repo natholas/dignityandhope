@@ -1,9 +1,16 @@
-dah.controller("investmentCtrl", function($scope, investment, Currency, Cart, $timeout, Investments) {
+dah.controller("investmentCtrl", function($scope, investment, Currency, Cart, $timeout, Investments, Organizations) {
     $scope.investment = investment;
     $scope.currency = Currency.data.currentCurrency;
     $scope.cart_item_info = {};
     $scope.invest_amount = 10;
     $scope.cart = Cart;
+	$scope.organizations = Organizations;
+
+	for (var i in $scope.organizations) {
+		Organizations.get_one($scope.investment.organization_id).then(function(response) {
+			$scope.investment.organization = response;
+		})
+	}
 
     $scope.addToCart = function () {
         $scope.fixInvestmentAmount();
@@ -20,11 +27,8 @@ dah.controller("investmentCtrl", function($scope, investment, Currency, Cart, $t
 
         $scope.cart_item_info = response;
 
-        if (!response.data) {
-            $scope.invest_amount = 10;
-        } else {
-            $scope.invest_amount = parseFloat(($scope.cart_item_info.amount / $scope.currency.value).toFixed(2));
-        }
+        if (!response.data) $scope.invest_amount = 10;
+        else $scope.invest_amount = parseFloat(($scope.cart_item_info.amount * $scope.currency.value).toFixed(2));
 
         // Setting up the recommended investment amount
         $scope.fixInvestmentAmount();
@@ -34,8 +38,8 @@ dah.controller("investmentCtrl", function($scope, investment, Currency, Cart, $t
     $scope.fixInvestmentAmount = function () {
         if ($scope.invest_amount < 1) {
             $scope.invest_amount = 1;
-        } else if ($scope.investment.amount_needed - $scope.investment.amount_invested < $scope.invest_amount * $scope.currency.value) {
-            $scope.invest_amount = parseFloat((($scope.investment.amount_needed - $scope.investment.amount_invested) / $scope.currency.value).toFixed(2));
+        } else if ($scope.investment.amount_needed - $scope.investment.amount_invested < $scope.invest_amount / $scope.currency.value) {
+            $scope.invest_amount = parseFloat((($scope.investment.amount_needed - $scope.investment.amount_invested) * $scope.currency.value).toFixed(2));
         }
     }
 })

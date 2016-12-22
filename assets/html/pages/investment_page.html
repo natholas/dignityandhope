@@ -3,22 +3,30 @@
         <span ng-show="investment.invested" class="invested_tag">INVESTED</span>
         <flex>
             <div class="small">
-                <div class="image"
-                ng-style="{'background-image': 'url(/assets/images/investments/inv_' + investment.investment_id + '/img_' + investment.images[shown_image].name + '.jpg)',
-                'transform': 'rotate(' +  investment.images[shown_image].settings.rotation + 'deg)',
-                'background-position': investment.images[shown_image].settings.position}" ng-init="shown_image = 0">
-                    <button ng-click="shown_image = shown_image + 1" ng-show="shown_image < investment.images.length - 1" class="floatright">></button>
-                    <button ng-click="shown_image = shown_image - 1" ng-show="shown_image > 0" class="floatleft"><</button>
-                </div>
-                <div ng-if="!investment.images.length" class="image"></div>
-
-                <div class="map"></div>
-
+				<div ng-show="investment.images.length" class="image_container">
+	                <div class="image"
+	                ng-style="{'background-image': 'url(/assets/images/investments/inv_' + investment.investment_id + '/img_' + investment.images[shown_image].name + '.jpg)',
+	                'transform': 'rotate(' +  investment.images[shown_image].settings.rotation + 'deg)',
+	                'background-position': investment.images[shown_image].settings.position}" ng-init="shown_image = 0">
+	                </div>
+					<button ng-click="shown_image = shown_image + 1" ng-show="shown_image < investment.images.length - 1" class="floatright">></button>
+					<button ng-click="shown_image = shown_image - 1" ng-show="shown_image > 0" class="floatleft"><</button>
+				</div>
+                <div ng-show="!investment.images.length" class="image"></div>
+                <!-- <div class="map"></div> -->
+				<hr>
+				<div class="money_split">
+					<h2>Spending</h2>
+					<div ng-repeat="split in investment.money_split">
+						<hr class="small">
+						<span><b>{{(100 / investment.amount_needed) * split.amount | number : 0}}%</b>: {{split.name}}</span>
+					</div>
+				</div>
             </div>
             <div>
                 <h1 class="bottomless">{{investment.name}} ({{investment.dob | dobToAge}})</h1>
-                <h3 class="headless">{{investment.city}}, {{investment.country}}</h3>
-                <p>Organization: <a ng-href="#/organization/{{investment.organization_id}}">{{investment.organization}}</a></p>
+                <h3 class="headless"><a ng-href="https://www.google.ch/maps/place/{{investment.country + ', ' + investment.city | urlify}}" target="_blank">{{investment.city}}, {{investment.country}}</a></h3>
+                <p>Organization: <a ng-href="#/organizations/{{investment.organization_id}}">{{investment.organization.name}}</a></p>
 
                 <hr>
                 <div ng-show="investment.status == 'ENDED'">
@@ -64,7 +72,7 @@
                         <p>Progress:</p>
                         <inv-progress>
                             <progress-fill ng-style="{'width': investment.amount_invested / investment.amount_needed * 100 + '%'}"></progress-fill>
-                            <progress-fill class="toAdd" ng-style="{'width': (invest_amount * currency.value).toFixed(1) / investment.amount_needed * 100 + '%'}"></progress-fill>
+                            <progress-fill class="toAdd" ng-style="{'width': (invest_amount / currency.value).toFixed(1) / investment.amount_needed * 100 + '%'}"></progress-fill>
                             <p>{{(investment.amount_invested / investment.amount_needed * 100).toFixed(0) + '%'}}</p>
                             <clearfix></clearfix>
                         </inv-progress>

@@ -31,8 +31,8 @@ while($investment = mysqli_fetch_object($result)) {
     $investment->money_split = json_decode($investment->money_split);
 
     // We now need to see what the organization is called that this investment is part of
-    $sql = "SELECT name FROM organizations WHERE organization_id = ".$investment->organization_id;
-    $investment->organization = mysqli_fetch_object($mysqli->query($sql))->name;
+    // $sql = "SELECT name FROM organizations WHERE organization_id = ".$investment->organization_id;
+    // $investment->organization = mysqli_fetch_object($mysqli->query($sql))->name;
     $investments[] = $investment;
 }
 

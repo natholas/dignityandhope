@@ -1,12 +1,12 @@
-dah.controller("headerCtrl", function($scope, Prompts, AccountData, Account, Cart, Storage, Currency) {
+dah.controller("headerCtrl", function($scope, Prompts, AccountData, Account, Cart, Storage, Currency, Notifications) {
 
     $scope.currency = Currency.data.currentCurrency;
     $scope.login_info = {};
     $scope.prompt_info = {};
+	$scope.notifications = Notifications.data;
 
     $scope.errorandmessages = {};
 
-    // Getting a reference to our account data
     $scope.user = AccountData;
 
     $scope.cart = Cart;
@@ -15,12 +15,9 @@ dah.controller("headerCtrl", function($scope, Prompts, AccountData, Account, Car
     $scope.prompts = Prompts.data;
     $scope.prompt_info = Prompts.count;
 
-    //$scope.errorandmessages = EaM.data;
+	Account.info();
 
     $scope.hide_prompts = Prompts.close_prompt;
-
-    // Lets get the status of our account
-    Account.info();
 
     $scope.show_login = function () {
         Prompts.open_prompt("login");

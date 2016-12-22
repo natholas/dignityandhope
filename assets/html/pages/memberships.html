@@ -1,0 +1,9 @@
+<space-limiter>
+	<investment ng-repeat="membership in data track by $index" style="margin-top:1em;" ng-hide="$index == 0">
+		<investment-content>
+		<h2 class="floatleft headless bottomless">{{membership.name}}</h2>
+		<h2 class="floatright headless bottomless">{{membership.price | convert | currency: currency.sign}}</h2>
+		<clearfix></clearfix>
+		</investment-content>
+	</investment>
+</space-limiter>

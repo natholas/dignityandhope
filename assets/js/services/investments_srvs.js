@@ -22,15 +22,13 @@ dah.service("Investments", function($http, $q, Orders) {
             $http.post("/api/investments/get_investments.php", params).then(function(response) {
 
                 if (response.data.status == "success") {
-                    if (offset == 0) {
-                        data.investments = response.data.investments;
-                    } else {
-                        data.investments.concat(response.data.investments);
-                    }
+                    if (offset == 0) data.investments = response.data.investments;
+                    else data.investments.concat(response.data.investments);
                     find_my_investments();
-                    seperate_ended();
                     deferred.resolve(this.data);
-                }
+                } else {
+					deferred.resolve(false);
+				}
             });
 
         }
@@ -63,7 +61,9 @@ dah.service("Investments", function($http, $q, Orders) {
                 if (response.data.status == "success") {
                     response.data.investment.invested = find_my_investment(response.data.investment.investment_id);
                     deferred.resolve(response.data.investment);
-                }
+                } else {
+					deferred.resolve(false);
+				}
             });
         }
 
@@ -87,17 +87,6 @@ dah.service("Investments", function($http, $q, Orders) {
             }
         }
         return false;
-    }
-
-    var seperate_ended = function () {
-
-        data.ended_investments = [];
-        for (var i = 0; i < data.investments.length; i++) {
-            if (data.investments[i].status == "ENDED") {
-                data.ended_investments.push(data.investments[i]);
-            }
-        }
-
     }
 
     var find_my_investments = this.find_my_investments;

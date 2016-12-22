@@ -4,13 +4,13 @@
     <form name="login_form" ng-submit="login_form.$valid && login()" novalidate>
         <flex>
             <inputContainer>
-                <input type="text" ng-model="login_info.email" required>
+                <input type="text" ng-model="login_info.email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}" required>
                 <label>Email</label>
             </inputContainer>
             <inputContainer>
-                <input type="password" ng-model="login_info.password" ng-required="!show_password" ng-show="!show_password">
+                <input type="password" ng-model="login_info.password" minlength="5" ng-required="!show_password" ng-show="!show_password">
                 <label ng-show="!show_password">Password</label>
-                <input type="text" ng-model="login_info.password" ng-required="show_password" ng-show="show_password">
+                <input type="text" ng-model="login_info.password" minlength="5" ng-required="show_password" ng-show="show_password">
                 <label ng-show="show_password">Password</label>
             </inputContainer>
         </flex>
@@ -66,6 +66,12 @@
         <input type="submit" value="Continue">
     </form>
 </prompt>
+
+<notifications>
+	<notification ng-repeat="notification in notifications.notifications track by $index" class="{{notification.type}}">
+		{{notification.text}}
+	</notification>
+</notifications>
 
 <prompt-bg ng-show="prompt_info.count > 0 || confirmData.text"></prompt-bg>
 

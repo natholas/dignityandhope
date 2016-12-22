@@ -1,15 +1,27 @@
 <space-limiter>
-
     <h1 class="floatleft headless bottomless">Hello {{customerinfo.personal_info.first_name}}</h1>
-
     <button ng-click="change_personal_details = true" ng-show="!change_personal_details">Change personal details</button>
     <clearfix></clearfix>
-    <hr>
+	<hr>
+	<!-- <div ng-show="customerinfo.personal_info.membership_type && customerinfo.personal_info.membership_expiry * 1000 > new_date().getTime()">
+		<h2>Your Membership: {{membership_types[customerinfo.personal_info.membership_type].name}}</h2>
+		<p>Expires: {{customerinfo.personal_info.membership_expiry * 1000 | date}}</p>
+	</div>
+
+	<div ng-show="customerinfo.personal_info.membership_type && customerinfo.personal_info.membership_expiry * 1000 < new_date().getTime()">
+		<h2>Your Membership expired on {{customerinfo.personal_info.membership_expiry * 1000 | date}}</h2>
+	</div>
+
+	<div ng-show="!customerinfo.personal_info.membership_type || customerinfo.personal_info.membership_expiry * 1000 < new_date().getTime()">
+		<a href="#/memberships" class="button floatnone">Buy a dignity and hope membership</a>
+	</div>
+	-->
     <form name="personal_details_form" ng-submit="personal_details_form.$valid && update_personal_details()" ng-show="change_personal_details">
         <div ng-include="'/assets/html/elements/personal_details.html'"></div>
         <button>Save</button>
         <button type="button" class="secondary floatleft" ng-click="cancel_change_details(); change_personal_details = false">Cancel</button>
         <clearfix></clearfix>
+		<hr>
     </form>
 
     <h2>You have invested in:</h2>
@@ -21,7 +33,7 @@
                 <div ng-if="!investment.images.length" class="image"></div>
                 <investment-content>
                     <h2 class="headless center bottomless">{{investment.name}} ({{investment.dob | dobToAge}})</h2>
-                    <h4 class="headless center bottomless">({{investment.amount_paid | currency : currency.sign}})</h4>
+                    <h4 class="headless center bottomless">({{investment.amount_paid | currency : "CHF "}})</h4>
                 </investment-content>
             </a>
         </investment>
@@ -42,7 +54,7 @@
 	</div>
     <order ng-repeat="order in orders.orders | orderBy: '-order_time' track by $index" ng-if="order.order_status == 'COMPLETED'">
         <order-head ng-click="order.toggled = !order.toggled">
-            <p><b>#{{order.order_id}}</b> - {{order.order_time * 1000 | date}} ({{order.order_total | currency : curr.currencies[order.currency_code].sign}})</p>
+            <p><b>#{{order.order_id}}</b> - {{order.order_time * 1000 | date}} ({{order.order_total | currency : "CHF "}})</p>
         </order-head>
         <order-content ng-show="order.toggled">
             <order-item ng-repeat="item in order.order_items track by $index">
@@ -50,7 +62,7 @@
                     <a ng-href="#/investment/{{item.investment_id}}">
                         <div ng-if="item.images.length" class="image" ng-style="{'background-image': 'url(/assets/images/investments/inv_' + item.investment_id + '/img_' + item.images[0].name + '.jpg)', 'transform': 'rotate(' +  item.images[0].settings.rotation + 'deg)', 'background-position': item.images[0].settings.position}"></div>
                         <div ng-if="!item.images.length" class="image"></div>
-                        <p>{{item.name}} ({{item.amount_paid | currency : curr.currencies[order.currency_code].sign}})</p>
+                        <p>{{item.name}} ({{item.amount_paid | currency : "CHF "}})</p>
                         <clearfix></clearfix>
                     </a>
                 </div>

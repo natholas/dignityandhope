@@ -13,7 +13,7 @@
         <h2 class="bottomless">or create a new account</h2>
         <flex>
             <inputContainer>
-                <input type="text" ng-model="customerinfo.personal_info.email" ng-required="!customerinfo.user_id">
+                <input type="text" ng-model="customerinfo.personal_info.email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}" ng-required="!customerinfo.user_id">
                 <label>Email</label>
             </inputContainer>
             <inputContainer>
@@ -34,7 +34,7 @@
 
         </div>
         <div>
-            <button ng-show="cart.data.items.length">Confirm order<span ng-show="!customerinfo.user_id"> and create account</span></button>
+            <button ng-show="cart.data.items.length"><span ng-show="!customerinfo.user_id">Create account and </span>continue</button>
         </div>
     </flex>
 

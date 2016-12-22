@@ -1,4 +1,4 @@
-dah.service("Checkout", function($http, AccountData, Storage, Cart, Orders, Investments, Currency) {
+dah.service("Checkout", function($http, AccountData, Storage, Cart, Orders, Investments, Currency, Notifications) {
 
 
     this.data = {
@@ -12,7 +12,7 @@ dah.service("Checkout", function($http, AccountData, Storage, Cart, Orders, Inve
         // Preparing the checkout parameters
         var params = JSON.parse(JSON.stringify(AccountData.personal_info));
         params.cart = Cart.data.items;
-        params.dob = dobToTimestamp(params.dob);
+        params.dob = dobToTimestamp(params.dob.string);
         params.currency = Currency.data.currentCurrency.currency_code;
 
         // Doing the call to complete the order
@@ -21,7 +21,7 @@ dah.service("Checkout", function($http, AccountData, Storage, Cart, Orders, Inve
             if (response.data.status == "success") {
                 window.location.href = response.data.RedirectUrl;
             } else {
-                // Error notice
+                Notifications.add("Technical error. Please try again later", "bad");
             }
         });
 

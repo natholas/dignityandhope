@@ -4,6 +4,7 @@ dah.service("Currency", function($http, Storage) {
         "currencies": {},
         "currentCurrency": {}
     }
+	var $this = this;
     var data = this.data;
 
     this.get_currency_data = function () {
@@ -18,7 +19,6 @@ dah.service("Currency", function($http, Storage) {
                     data.currencies[response.data.currencies[i].currency_code] = response.data.currencies[i];
                 }
                 load_currency_prefs();
-                Storage.save("currencies", data.currencies, "24");
             });
         }
     }
@@ -35,7 +35,7 @@ dah.service("Currency", function($http, Storage) {
     var load_currency_prefs = function () {
         var old_currency = Storage.load("currency");
         if (old_currency) changeCurrency(old_currency);
-        else changeCurrency("chf");
+        else changeCurrency("CHF");
     }
 
     var changeCurrency = this.changeCurrency;

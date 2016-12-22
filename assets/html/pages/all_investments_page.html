@@ -3,6 +3,6 @@
     <clearfix></clearfix>
     <br>
     <investments>
-        <investment ng-repeat="investment in investments.investments track by $index" ng-if="investment.status == 'LIVE'" class="clickable" ng-include="'/assets/html/elements/investment.html'"></investment>
+        <investment ng-repeat="investment in investments.investments | limit:0 :'status' :'LIVE' track by $index" class="clickable" ng-include="'/assets/html/elements/investment.html'"></investment>
     </investments>
 </space-limiter>

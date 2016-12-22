@@ -4,17 +4,17 @@
     <clearfix></clearfix>
     <br>
     <investments>
-        <investment ng-repeat="investment in investments.investments | limitTo: 3 track by $index" ng-if="investment.status == 'LIVE'" class="clickable" ng-include="'/assets/html/elements/investment.html'"></investment>
+        <investment ng-repeat="investment in investments.investments | limit:3 :'status' :'LIVE' track by $index" class="clickable" ng-include="'/assets/html/elements/investment.html'"></investment>
     </investments>
     <clearfix></clearfix>
-	<div ng-show="investments.ended_investments.length">
+	<div>
 	    <hr>
 	    <h1 class="floatleft">Success stories</h1>
 	    <a href="#/success_stories" class="button">All success stories</a>
 	    <clearfix></clearfix>
 	    <br>
 	    <investments>
-	        <investment ng-repeat="investment in investments.ended_investments | limitTo: 3 track by $index" class="clickable" ng-include="'/assets/html/elements/ended_investment.html'"></investment>
+	        <investment ng-repeat="investment in investments.investments | limit:3 :'status' :'ENDED' track by $index" class="clickable" ng-include="'/assets/html/elements/ended_investment.html'"></investment>
 	    </investments>
 	</div>
 </space-limiter>

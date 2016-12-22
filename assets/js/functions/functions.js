@@ -32,7 +32,7 @@ dah.filter("dobToAge", function() {
 
 dah.filter("convert", function(Currency) {
     return function(amount){
-        return amount / Currency.data.currentCurrency.value;
+        return amount * Currency.data.currentCurrency.value;
     }
 });
 
@@ -60,4 +60,32 @@ function pad_length(input, length) {
         }
     }
     return input;
+}
+
+function find_in_array(array, term, key) {
+	if (term.constructor === Array) {
+		for (var i in array) {
+			var found = true;
+			for (var ii in term) {
+				if (array[i][key[ii]] != term[ii]) found = false;
+			}
+			if (found) return i;
+		}
+	}
+	else if (key) {
+		for (var i in array) {
+			if (array[i][key] == term) return i;
+		}
+	}
+	else {
+		for (var i in array) {
+			if (i == term) return i;
+		}
+	}
+
+	return -1;
+}
+
+function is_numeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
 }

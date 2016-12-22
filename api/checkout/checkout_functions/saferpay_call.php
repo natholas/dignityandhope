@@ -5,8 +5,8 @@
 
 function do_post($url, $JSONObj) {
 
-	$username = "API_406798_69320839";
-	$password = "JsonApiPwd1_3S5E6uL5";
+	$username = "API_404298_28639317";
+	$password = "ashsdf445thggnbgFGHFG";
 
     //Set Options for CURL
     $curl = curl_init($url);

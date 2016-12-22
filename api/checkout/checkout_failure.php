@@ -1,3 +1,2 @@
 <?php
-
-header("Location: http://dignityandhope/#/confirmation/failed");
+header("Location: http://".$_SERVER['HTTP_HOST']."/#/checkout/failed");

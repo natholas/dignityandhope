@@ -5,6 +5,41 @@
 </hero-banner>
 
 <space-limiter>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    <a href="#/investments" class="button centerbutton">Entrepreneurs</a>
+	<flex>
+		<div>
+		    <h2>Start investing today, and see lives transformed</h2>
+
+			<p>We know you care about struggling families across the developing world. But, like us, you want to do more than give handouts. You want to invest in motivated, passionate people who already have a solid plan to set up a business and provide for their families.</p>
+
+			<p>We believe that people in the developing world have the passion and potential to transform their own lives. All they need from you is a small investment to get started. We’ve trained, empowered and selected entrepreneurs who have developed business plans that you can seed fund, and see them grow into flourishing enterprises.</p>
+
+
+			<iframe class="videoFullWidth" width="700" height="400" src="https://www.youtube.com/embed/gWwNNP1RoHE?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen=""></iframe>
+
+			<h2>Ready to start your journey? Invest and see lives transformed today!</h2>
+
+			<p>We’re not a charity, we’re a movement! And we’d love to welcome passionate and inspirational people like you to join us. We’re not asking you to give and leave it to us! We want to take you on a journey alongside our amazing entrepreneurs as they grow their businesses and transform the lives of people around them. You can share in their difficulties and triumphs, every step of the way. If you have been inspired by what you have read and want to give the gift of dignity and hope we’d love to hear from you. If you want to get involved, if you have ideas or inspiration please contact us at <a href="mailto:hello@dignity-hope.com">hello@dignity-hope.com</a>. We promise it will be a life-changing experience for you and your entrepreneur!</p>
+
+			<h2>Here’s how it works</h2>
+			<ol>
+				<li>Meet all the amazing people we’ve trained <a href="#/investments">here</a>.</li>
+				<li>Choose a person and business plan you want to invest in.</li>
+				<li>Start your investment and be regularly informed about your entrepreneur.</li>
+			</ol>
+			<iframe class="videoFullWidth" width="700" height="400" src="https://www.youtube.com/embed/gWwNNP1RoHE?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen=""></iframe>
+			<br><br>
+			<a href="#/investments" class="button centerbutton">Start investing now</a>
+		</div>
+		<div class="small">
+			<h1 class="counter">205</h1>
+			<h3>people have benefited from dignity and hope so far</h3>
+			<hr>
+			<h2>Featured entrepreneurs</h2>
+	        <investment ng-repeat="investment in investments.investments | limit:2 :'status' :'LIVE' track by $index" class="clickable" ng-include="'/assets/html/elements/investment.html'"></investment>
+			<br><br>
+			<a href="#/investments" class="button centerbutton">View all entrepreneurs</a>
+		</div>
+	</flex>
+
+
 </space-limiter>

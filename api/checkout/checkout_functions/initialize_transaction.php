@@ -5,13 +5,13 @@ function initialize_transaction($request_id, $order_total, $conversion_rate, $cu
     $object = array();
     $object['RequestHeader'] = array();
     $object['RequestHeader']['SpecVersion'] = "1.3";
-    $object['RequestHeader']['CustomerId'] = "406798";
+    $object['RequestHeader']['CustomerId'] = "404298";
     $object['RequestHeader']['RequestId'] = $request_id;
     $object['RequestHeader']['RetryIndicator'] = 0;
-    $object['TerminalId'] = "17829283";
+    $object['TerminalId'] = "17809541";
     $object['Payment'] = array();
     $object['Payment']['Amount'] = array();
-    $object['Payment']['Amount']['Value'] = floatval(number_format($order_total * 100));
+    $object['Payment']['Amount']['Value'] = intval(floatval($order_total * 100));
     $object['Payment']['Amount']['CurrencyCode'] = "CHF";
     $object['Payment']['OrderId'] = $order_id;
     $object['Payment']['Description'] = "Payment to dignity and hope";
