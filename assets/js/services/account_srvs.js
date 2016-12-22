@@ -52,6 +52,7 @@ dah.factory('Account', function($http, Storage, AccountData, Prompts, $q, Notifi
 	            });
 			} else {
 				var timer = $interval(function() {
+					console.log("tasd");
 					$interval.cancel(timer);
 					if (user.checking) return;
 					deferred.resolve(true);
