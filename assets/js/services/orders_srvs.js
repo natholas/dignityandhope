@@ -11,6 +11,7 @@ dah.service("Orders", function($http, $q, Storage, Account) {
     this.get_order_history = function () {
         var deferred = $q.defer();
 		Account.info().then(function(response) {
+			console.log(response);
 			if (response) {
 				// First lets see if we still have the order history
 		        var old_order_history;

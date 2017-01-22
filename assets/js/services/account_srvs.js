@@ -7,6 +7,7 @@ dah.factory('Account', function($http, Storage, AccountData, Prompts, $q, Notifi
 
     return {
         info: function(ignore) {
+
 			var deferred = $q.defer();
 
 			if (user.checked && user.user_id) deferred.resolve(true);
@@ -15,6 +16,7 @@ dah.factory('Account', function($http, Storage, AccountData, Prompts, $q, Notifi
 				user.checking = true;
 	            // This little function gets our login status
 	            $http.post("/api/account/check_login.php").then(function(response) {
+					console.log(response);
 
 					user.checking = false;
 	                if (response.data && response.data.status == "success") {
@@ -48,13 +50,16 @@ dah.factory('Account', function($http, Storage, AccountData, Prompts, $q, Notifi
 
 						user.checked = true;
 						deferred.resolve(true);
-	                } else deferred.resolve(false);
+	                } else {
+						console.log("failed");
+						deferred.resolve(false);
+					}
 	            });
 			} else {
 				var timer = $interval(function() {
 					console.log("tasd");
 					$interval.cancel(timer);
-					if (user.checking) return;
+					// if (user.checking) return;
 					deferred.resolve(true);
 				},50)
 			}
